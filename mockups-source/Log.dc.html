@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Log a movement</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Pixelify+Sans:wght@400;500;600;700&display=swap">
+<style>
+body { margin: 0; font-family: "Pixelify Sans", "Trebuchet MS", sans-serif; }
+a { color: #7A4A21; } a:hover { color: #5A3415; }
+</style>
+</helmet>
+
+<div style="width: 390px; height: 844px; box-sizing: border-box; background-color: #EFE3D2; background-image: linear-gradient(45deg, #E7D6BF 25%, transparent 25%, transparent 75%, #E7D6BF 75%), linear-gradient(45deg, #E7D6BF 25%, transparent 25%, transparent 75%, #E7D6BF 75%); background-size: 32px 32px; background-position: 0 0, 16px 16px; color: #2B1A10; display: flex; flex-direction: column; padding: 52px 20px 0; overflow: hidden">
+
+  <div style="display: flex; align-items: center; justify-content: space-between">
+    <h1 style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 17px">LOG IT</h1>
+    <a href="Today.dc.html" aria-label="Close without saving" style="width: 40px; height: 40px; margin-right: -6px; display: grid; place-items: center; color: #2B1A10; text-decoration: none; border: 3px solid #2B1A10; background: #FFF8EC; box-sizing: border-box">
+      <svg width="14" height="14" viewBox="0 0 7 7" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><rect x="0" y="0" width="1" height="1"></rect><rect x="1" y="1" width="1" height="1"></rect><rect x="2" y="2" width="1" height="1"></rect><rect x="3" y="3" width="1" height="1"></rect><rect x="4" y="4" width="1" height="1"></rect><rect x="5" y="5" width="1" height="1"></rect><rect x="6" y="6" width="1" height="1"></rect><rect x="6" y="0" width="1" height="1"></rect><rect x="5" y="1" width="1" height="1"></rect><rect x="4" y="2" width="1" height="1"></rect><rect x="2" y="4" width="1" height="1"></rect><rect x="1" y="5" width="1" height="1"></rect><rect x="0" y="6" width="1" height="1"></rect></svg>
+    </a>
+  </div>
+
+  <div style="margin-top: 14px; border: 3px solid #2B1A10; box-shadow: 5px 5px 0 #2B1A10; line-height: 0">
+    <dc-import name="Buddy" w="344" h="150" px="5" embed="yes" mood="{{b}}" bubble="{{tbubble}}" hint-size="344px,150px"></dc-import>
+  </div>
+
+  <p style="margin: 16px 0 10px; font-family: 'Press Start 2P', monospace; font-size: 9px; line-height: 1.6; color: #6E5542">PICK YOUR TYPE · PLOP REACTS</p>
+
+  <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 5px" role="group" aria-label="Bristol stool scale, 1 hardest to 7 loosest">
+    <button type="button" aria-label="Type 1, separate hard lumps" onClick="{{pick1}}" style="height: 70px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; border: 3px solid #2B1A10; cursor: pointer; font-family: 'Press Start 2P', monospace; font-size: 10px; padding: 0; {{s1}}">
+      <svg width="30" height="15" viewBox="0 0 12 6" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><rect x="1" y="2" width="2" height="2"></rect><rect x="5" y="2" width="2" height="2"></rect><rect x="9" y="2" width="2" height="2"></rect></svg>
+      1
+    </button>
+    <button type="button" aria-label="Type 2, lumpy sausage" onClick="{{pick2}}" style="height: 70px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; border: 3px solid #2B1A10; cursor: pointer; font-family: 'Press Start 2P', monospace; font-size: 10px; padding: 0; {{s2}}">
+      <svg width="30" height="15" viewBox="0 0 12 6" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><rect x="1" y="2" width="10" height="3"></rect><rect x="3" y="1" width="2" height="1"></rect><rect x="7" y="1" width="2" height="1"></rect></svg>
+      2
+    </button>
+    <button type="button" aria-label="Type 3, sausage with cracks" onClick="{{pick3}}" style="height: 70px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; border: 3px solid #2B1A10; cursor: pointer; font-family: 'Press Start 2P', monospace; font-size: 10px; padding: 0; {{s3}}">
+      <svg width="30" height="15" viewBox="0 0 12 6" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><rect x="1" y="2" width="3" height="2"></rect><rect x="5" y="2" width="3" height="2"></rect><rect x="9" y="2" width="2" height="2"></rect></svg>
+      3
+    </button>
+    <button type="button" aria-label="Type 4, smooth soft sausage" onClick="{{pick4}}" style="height: 70px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; border: 3px solid #2B1A10; cursor: pointer; font-family: 'Press Start 2P', monospace; font-size: 10px; padding: 0; {{s4}}">
+      <svg width="30" height="15" viewBox="0 0 12 6" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><rect x="1" y="2" width="10" height="2"></rect></svg>
+      4
+    </button>
+    <button type="button" aria-label="Type 5, soft blobs with clear edges" onClick="{{pick5}}" style="height: 70px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; border: 3px solid #2B1A10; cursor: pointer; font-family: 'Press Start 2P', monospace; font-size: 10px; padding: 0; {{s5}}">
+      <svg width="30" height="15" viewBox="0 0 12 6" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><rect x="1" y="1" width="3" height="3"></rect><rect x="5" y="2" width="3" height="2"></rect><rect x="9" y="1" width="2" height="3"></rect></svg>
+      5
+    </button>
+    <button type="button" aria-label="Type 6, mushy with ragged edges" onClick="{{pick6}}" style="height: 70px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; border: 3px solid #2B1A10; cursor: pointer; font-family: 'Press Start 2P', monospace; font-size: 10px; padding: 0; {{s6}}">
+      <svg width="30" height="15" viewBox="0 0 12 6" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><rect x="1" y="2" width="10" height="2"></rect><rect x="2" y="1" width="1" height="1"></rect><rect x="6" y="1" width="1" height="1"></rect><rect x="9" y="1" width="1" height="1"></rect><rect x="3" y="4" width="1" height="1"></rect><rect x="7" y="4" width="1" height="1"></rect></svg>
+      6
+    </button>
+    <button type="button" aria-label="Type 7, entirely liquid" onClick="{{pick7}}" style="height: 70px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; border: 3px solid #2B1A10; cursor: pointer; font-family: 'Press Start 2P', monospace; font-size: 10px; padding: 0; {{s7}}">
+      <svg width="30" height="15" viewBox="0 0 12 6" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><rect x="0" y="3" width="3" height="1"></rect><rect x="4" y="2" width="2" height="1"></rect><rect x="7" y="4" width="3" height="1"></rect><rect x="2" y="1" width="1" height="1"></rect><rect x="9" y="2" width="2" height="1"></rect><rect x="5" y="4" width="1" height="1"></rect></svg>
+      7
+    </button>
+  </div>
+
+  <div style="margin-top: 14px; background: #FFF8EC; border: 3px solid #2B1A10; box-shadow: 5px 5px 0 #2B1A10; padding: 12px 14px; box-sizing: border-box">
+    <p style="margin: 0 0 9px; font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.5">{{tname}}</p>
+    <p style="margin: 0 0 7px; font-size: 15px; color: #6E5542; line-height: 1.4">{{tclin}}</p>
+    <p style="margin: 0; font-size: 15px; color: #2B1A10; line-height: 1.4">{{tquip}}</p>
+  </div>
+
+  <p style="margin: 24px 0 10px; font-family: 'Press Start 2P', monospace; font-size: 9px; color: #6E5542">TIME SPENT</p>
+
+  <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px" role="group" aria-label="Time spent">
+    <button type="button" onClick="{{d1}}" style="height: 48px; border: 3px solid #2B1A10; cursor: pointer; font-family: 'Press Start 2P', monospace; font-size: 9px; padding: 0; {{ds1}}">&lt;1M</button>
+    <button type="button" onClick="{{d2}}" style="height: 48px; border: 3px solid #2B1A10; cursor: pointer; font-family: 'Press Start 2P', monospace; font-size: 9px; padding: 0; {{ds2}}">1-5</button>
+    <button type="button" onClick="{{d3}}" style="height: 48px; border: 3px solid #2B1A10; cursor: pointer; font-family: 'Press Start 2P', monospace; font-size: 9px; padding: 0; {{ds3}}">5-15</button>
+    <button type="button" onClick="{{d4}}" style="height: 48px; border: 3px solid #2B1A10; cursor: pointer; font-family: 'Press Start 2P', monospace; font-size: 9px; padding: 0; {{ds4}}">15+</button>
+  </div>
+
+  <label for="note" style="margin: 24px 0 9px; font-family: 'Press Start 2P', monospace; font-size: 9px; color: #6E5542">NOTE (OPTIONAL)</label>
+  <input id="note" type="text" placeholder="what did you do" style="height: 52px; box-sizing: border-box; padding: 0 13px; background: #FFF8EC; border: 3px solid #2B1A10; font-family: 'Pixelify Sans', sans-serif; font-size: 16px; color: #2B1A10">
+
+  <a href="Reward.dc.html" style="margin-top: auto; margin-bottom: 34px; display: flex; align-items: center; justify-content: center; height: 62px; background: #7A4A21; color: #FFF8EC; border: 3px solid #2B1A10; box-shadow: 5px 5px 0 #2B1A10; text-decoration: none; font-family: 'Press Start 2P', monospace; font-size: 14px">SAVE ENTRY</a>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#7A4A21","options":["#7A4A21","#2E7D72","#E0A32E","#2B1A10"]},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const TYPES = [
+      null,
+      ['TYPE 1', 'Separate hard lumps, passed with difficulty.', 'Rabbit-adjacent. Drink some water.'],
+      ['TYPE 2', 'Lumpy sausage. Mildly constipated.', 'A committee that never reached consensus.'],
+      ['TYPE 3', 'Sausage with cracks. Normal range.', 'Perfectly respectable. Nobody is complaining.'],
+      ['TYPE 4', 'Smooth soft sausage. The clinical ideal.', 'TEXTBOOK. Genuinely, well done.'],
+      ['TYPE 5', 'Soft blobs with clear edges. Often low fibre.', 'A bit casual about the whole thing.'],
+      ['TYPE 6', 'Mushy, ragged edges. Mild diarrhoea.', 'Something you ate has opinions.'],
+      ['TYPE 7', 'Entirely liquid. See someone if it persists.', 'We are sorry. Hydrate.']
+    ];
+    const COLOR = ['', '#6B3B18', '#8A5C14', '#4F6A24', '#2E6F3C', '#1F6F6A', '#2A5F86', '#3D4E95'];
+    const accent = this.props.accent ?? '#7A4A21';
+    const b = (this.state && this.state.b) || 4;
+    const d = (this.state && this.state.d) || 2;
+    const v = {};
+
+    for (let i = 1; i <= 7; i++) {
+      v['s' + i] = i === b
+        ? 'background: ' + COLOR[i] + '; color: #FFF8EC; box-shadow: 4px 4px 0 #2B1A10;'
+        : 'background: #FFF8EC; color: ' + COLOR[i] + ';';
+      v['pick' + i] = () => this.setState({ b: i });
+    }
+    for (let j = 1; j <= 4; j++) {
+      v['ds' + j] = j === d
+        ? 'background: ' + accent + '; color: #FFF8EC; box-shadow: 4px 4px 0 #2B1A10;'
+        : 'background: #FFF8EC; color: #6E5542;';
+      v['d' + j] = () => this.setState({ d: j });
+    }
+
+    const BUBBLE = ['', 'nnngh...', 'hrmph.', 'not bad!', 'TEXTBOOK!', 'eh. close.', 'uh oh', 'AAAAAA'];
+    v.b = b;
+    v.tbubble = BUBBLE[b];
+    v.tname = TYPES[b][0];
+    v.tclin = TYPES[b][1];
+    v.tquip = TYPES[b][2];
+    return v;
+  }
+}
+</script>
+</body>
+</html>

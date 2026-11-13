@@ -1,0 +1,39 @@
+{
+  "v": 3,
+  "createdOnFiles": { "v": 1, "at": "2026-10-14T00:00:00Z" },
+  "title": "Regular App Mockups",
+  "launch": { "view": "canvas" },
+  "pages": [],
+  "boards": {
+    "Main.dc.html":      { "x": 0,    "y": 0,    "w": 390,  "h": 844, "radius": 40, "title": "01 Welcome",  "is_interactive": true },
+    "Today.dc.html":     { "x": 470,  "y": 0,    "w": 390,  "h": 844, "radius": 40, "title": "02 Today",    "is_interactive": true },
+    "Log.dc.html":       { "x": 940,  "y": 0,    "w": 390,  "h": 844, "radius": 40, "title": "03 Log it",   "is_interactive": true },
+    "Reward.dc.html":    { "x": 1410, "y": 0,    "w": 390,  "h": 844, "radius": 40, "title": "04 Points earned", "is_interactive": true },
+    "Closet.dc.html":    { "x": 1880, "y": 0,    "w": 390,  "h": 844, "radius": 40, "title": "05 Closet — spend points", "is_interactive": true },
+    "Insights.dc.html":  { "x": 2350, "y": 0,    "w": 390,  "h": 844, "radius": 40, "title": "06 Insights", "is_interactive": true },
+    "History.dc.html":   { "x": 2820, "y": 0,    "w": 390,  "h": 844, "radius": 40, "title": "07 History",  "is_interactive": true },
+    "Streak.dc.html":    { "x": 3290, "y": 0,    "w": 390,  "h": 844, "radius": 40, "title": "08 Streak",   "is_interactive": true },
+    "Buddy.dc.html":     { "x": 3760, "y": 0,    "w": 390,  "h": 844, "radius": 40, "title": "09 Plop — play with me", "is_interactive": true },
+    "StyleTile.dc.html": { "x": 0,    "y": 1320, "w": 880,  "h": 560, "title": "Style tile" },
+    "Wireframes.dc.html":{ "x": 0,    "y": 2300, "w": 2100, "h": 800, "title": "Wireframes — Figma-ready SVG" }
+  },
+  "order": [
+    "Main.dc.html",
+    "Today.dc.html",
+    "Log.dc.html",
+    "Reward.dc.html",
+    "Closet.dc.html",
+    "Insights.dc.html",
+    "History.dc.html",
+    "Streak.dc.html",
+    "Buddy.dc.html",
+    "StyleTile.dc.html",
+    "Wireframes.dc.html"
+  ],
+  "notes": {
+    "t1": { "x": 0, "y": -300, "text": "Regular — app screens", "kind": "title1", "maxW": 4150 },
+    "t2": { "x": 0, "y": 1020, "text": "Design system", "kind": "title1", "maxW": 880 },
+    "t3": { "x": 0, "y": 2000, "text": "Wireframes — for Figma", "kind": "title1", "maxW": 2100 }
+  },
+  "designSystems": []
+}

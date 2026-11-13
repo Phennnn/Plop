@@ -1,0 +1,213 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2100" height="800" viewBox="0 0 2100 800" font-family="Helvetica, Arial, sans-serif">
+<rect width="2100" height="800" fill="#FAFAFA"/>
+<text x="25" y="26" font-size="15" font-weight="bold" fill="#2B2B2B">REGULAR — WIREFRAMES · 390 × 844 @ 0.77 · all blocks live on a 20px side gutter</text>
+
+<!-- ============ 01 WELCOME ============ -->
+<g transform="translate(25,0)">
+  <text x="0" y="58" font-size="14" font-weight="bold" fill="#2B2B2B">01 · WELCOME</text>
+  <rect x="0" y="70" width="300" height="650" rx="14" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="2"/>
+  <rect x="110" y="128" width="80" height="80" fill="#D6D6D6" stroke="#8A8A8A" stroke-width="1.5"/>
+  <text x="150" y="173" font-size="10" fill="#4A4A4A" text-anchor="middle">SPRITE 80</text>
+  <rect x="75" y="228" width="150" height="34" fill="#E8E8E8" stroke="#B5B5B5" stroke-width="1.5"/>
+  <text x="150" y="250" font-size="11" fill="#4A4A4A" text-anchor="middle">WORDMARK 32px</text>
+  <rect x="60" y="274" width="180" height="12" fill="#ECECEC"/>
+  <rect x="85" y="292" width="130" height="12" fill="#ECECEC"/>
+  <text x="150" y="322" font-size="10" fill="#777777" text-anchor="middle">tagline · body 15px</text>
+  <rect x="18" y="400" width="264" height="14" fill="#E0E0E0" stroke="#B5B5B5" stroke-width="1"/>
+  <text x="18" y="392" font-size="10" fill="#4A4A4A">BRISTOL RAMP · 7 swatches</text>
+  <rect x="18" y="428" width="264" height="10" fill="#ECECEC"/>
+  <rect x="18" y="444" width="230" height="10" fill="#ECECEC"/>
+  <rect x="18" y="460" width="250" height="10" fill="#ECECEC"/>
+  <rect x="18" y="580" width="264" height="56" fill="#CFCFCF" stroke="#7A7A7A" stroke-width="2"/>
+  <text x="150" y="613" font-size="11" font-weight="bold" fill="#333333" text-anchor="middle">PRIMARY CTA · 56h</text>
+  <rect x="95" y="652" width="110" height="12" fill="#ECECEC"/>
+  <text x="150" y="690" font-size="9" fill="#888888" text-anchor="middle">fine print · 2 lines</text>
+</g>
+
+<!-- ============ 02 TODAY ============ -->
+<g transform="translate(375,0)">
+  <text x="0" y="58" font-size="14" font-weight="bold" fill="#2B2B2B">02 · TODAY  (home)</text>
+  <rect x="0" y="70" width="300" height="650" rx="14" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="2"/>
+  <rect x="18" y="104" width="86" height="14" fill="#E0E0E0"/>
+  <text x="18" y="98" font-size="9" fill="#777777">date · mono 12</text>
+  <rect x="258" y="100" width="24" height="24" fill="#D6D6D6" stroke="#8A8A8A" stroke-width="1.5"/>
+  <rect x="18" y="142" width="200" height="30" fill="#E8E8E8" stroke="#B5B5B5" stroke-width="1.5"/>
+  <rect x="18" y="176" width="150" height="30" fill="#E8E8E8" stroke="#B5B5B5" stroke-width="1.5"/>
+  <text x="18" y="136" font-size="9" fill="#777777">H1 · 2 lines · display</text>
+  <rect x="18" y="220" width="128" height="26" rx="4" fill="#DDDDDD" stroke="#A5A5A5" stroke-width="1.5"/>
+  <text x="82" y="237" font-size="10" fill="#4A4A4A" text-anchor="middle">STREAK CHIP</text>
+  <rect x="18" y="262" width="82" height="62" fill="#E8E8E8" stroke="#B5B5B5" stroke-width="1.5"/>
+  <rect x="109" y="262" width="82" height="62" fill="#E8E8E8" stroke="#B5B5B5" stroke-width="1.5"/>
+  <rect x="200" y="262" width="82" height="62" fill="#E8E8E8" stroke="#B5B5B5" stroke-width="1.5"/>
+  <text x="59" y="290" font-size="13" fill="#4A4A4A" text-anchor="middle">00</text>
+  <text x="150" y="290" font-size="13" fill="#4A4A4A" text-anchor="middle">00</text>
+  <text x="241" y="290" font-size="13" fill="#4A4A4A" text-anchor="middle">0.0</text>
+  <text x="59" y="310" font-size="8" fill="#888888" text-anchor="middle">TODAY</text>
+  <text x="150" y="310" font-size="8" fill="#888888" text-anchor="middle">7 DAYS</text>
+  <text x="241" y="310" font-size="8" fill="#888888" text-anchor="middle">PER DAY</text>
+  <rect x="18" y="340" width="264" height="58" fill="#CFCFCF" stroke="#7A7A7A" stroke-width="2"/>
+  <text x="150" y="374" font-size="11" font-weight="bold" fill="#333333" text-anchor="middle">+ LOG A MOVEMENT</text>
+  <text x="18" y="424" font-size="9" fill="#777777">RECENT</text>
+  <rect x="18" y="432" width="264" height="44" fill="#F0F0F0" stroke="#C5C5C5" stroke-width="1.5"/>
+  <rect x="18" y="482" width="264" height="44" fill="#F0F0F0" stroke="#C5C5C5" stroke-width="1.5"/>
+  <rect x="18" y="532" width="264" height="44" fill="#F0F0F0" stroke="#C5C5C5" stroke-width="1.5"/>
+  <rect x="28" y="443" width="22" height="22" fill="#CCCCCC"/>
+  <rect x="28" y="493" width="22" height="22" fill="#CCCCCC"/>
+  <rect x="28" y="543" width="22" height="22" fill="#CCCCCC"/>
+  <text x="60" y="459" font-size="9" fill="#777777">type · time · note</text>
+  <text x="60" y="509" font-size="9" fill="#777777">type · time · note</text>
+  <text x="60" y="559" font-size="9" fill="#777777">type · time · note</text>
+  <rect x="2" y="660" width="296" height="58" fill="#EDEDED" stroke="#B5B5B5" stroke-width="1.5"/>
+  <line x1="100" y1="660" x2="100" y2="718" stroke="#D0D0D0" stroke-width="1"/>
+  <line x1="199" y1="660" x2="199" y2="718" stroke="#D0D0D0" stroke-width="1"/>
+  <text x="51" y="694" font-size="9" fill="#4A4A4A" text-anchor="middle">TODAY</text>
+  <text x="150" y="694" font-size="9" fill="#888888" text-anchor="middle">INSIGHTS</text>
+  <text x="248" y="694" font-size="9" fill="#888888" text-anchor="middle">HISTORY</text>
+</g>
+
+<!-- ============ 03 LOG IT ============ -->
+<g transform="translate(725,0)">
+  <text x="0" y="58" font-size="14" font-weight="bold" fill="#2B2B2B">03 · LOG IT</text>
+  <rect x="0" y="70" width="300" height="650" rx="14" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="2"/>
+  <rect x="18" y="104" width="150" height="24" fill="#E8E8E8" stroke="#B5B5B5" stroke-width="1.5"/>
+  <text x="93" y="120" font-size="10" fill="#4A4A4A" text-anchor="middle">SCREEN TITLE</text>
+  <rect x="258" y="102" width="24" height="24" fill="#D6D6D6" stroke="#8A8A8A" stroke-width="1.5"/>
+  <text x="18" y="158" font-size="9" fill="#777777">CONSISTENCY · BRISTOL TYPE 1—7</text>
+  <rect x="18" y="166" width="34" height="58" fill="#E8E8E8" stroke="#B5B5B5" stroke-width="1.5"/>
+  <rect x="56" y="166" width="34" height="58" fill="#E8E8E8" stroke="#B5B5B5" stroke-width="1.5"/>
+  <rect x="94" y="166" width="34" height="58" fill="#E8E8E8" stroke="#B5B5B5" stroke-width="1.5"/>
+  <rect x="132" y="166" width="34" height="58" fill="#BDBDBD" stroke="#5A5A5A" stroke-width="2.5"/>
+  <rect x="170" y="166" width="34" height="58" fill="#E8E8E8" stroke="#B5B5B5" stroke-width="1.5"/>
+  <rect x="208" y="166" width="34" height="58" fill="#E8E8E8" stroke="#B5B5B5" stroke-width="1.5"/>
+  <rect x="246" y="166" width="36" height="58" fill="#E8E8E8" stroke="#B5B5B5" stroke-width="1.5"/>
+  <text x="149" y="240" font-size="9" fill="#555555" text-anchor="middle">↑ selected state · fill + heavy border</text>
+  <rect x="18" y="254" width="264" height="92" fill="#F0F0F0" stroke="#C5C5C5" stroke-width="1.5"/>
+  <rect x="30" y="268" width="150" height="14" fill="#DDDDDD"/>
+  <rect x="30" y="292" width="200" height="10" fill="#ECECEC"/>
+  <rect x="30" y="310" width="170" height="10" fill="#ECECEC"/>
+  <text x="30" y="337" font-size="9" fill="#888888">name / clinical / quip</text>
+  <text x="18" y="378" font-size="9" fill="#777777">TIME SPENT</text>
+  <rect x="18" y="386" width="62" height="44" fill="#E8E8E8" stroke="#B5B5B5" stroke-width="1.5"/>
+  <rect x="85" y="386" width="62" height="44" fill="#BDBDBD" stroke="#5A5A5A" stroke-width="2.5"/>
+  <rect x="152" y="386" width="62" height="44" fill="#E8E8E8" stroke="#B5B5B5" stroke-width="1.5"/>
+  <rect x="219" y="386" width="63" height="44" fill="#E8E8E8" stroke="#B5B5B5" stroke-width="1.5"/>
+  <text x="18" y="470" font-size="9" fill="#777777">NOTE — OPTIONAL</text>
+  <rect x="18" y="478" width="264" height="48" fill="#FFFFFF" stroke="#B5B5B5" stroke-width="1.5"/>
+  <text x="30" y="507" font-size="10" fill="#AAAAAA">placeholder text…</text>
+  <rect x="18" y="620" width="264" height="56" fill="#CFCFCF" stroke="#7A7A7A" stroke-width="2"/>
+  <text x="150" y="653" font-size="11" font-weight="bold" fill="#333333" text-anchor="middle">SAVE ENTRY</text>
+</g>
+
+<!-- ============ 04 INSIGHTS ============ -->
+<g transform="translate(1075,0)">
+  <text x="0" y="58" font-size="14" font-weight="bold" fill="#2B2B2B">04 · INSIGHTS</text>
+  <rect x="0" y="70" width="300" height="650" rx="14" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="2"/>
+  <rect x="18" y="104" width="110" height="26" fill="#E8E8E8" stroke="#B5B5B5" stroke-width="1.5"/>
+  <rect x="200" y="110" width="82" height="12" fill="#ECECEC"/>
+  <rect x="18" y="148" width="264" height="172" fill="#F0F0F0" stroke="#C5C5C5" stroke-width="1.5"/>
+  <text x="30" y="168" font-size="9" fill="#777777">MOVEMENTS PER WEEKDAY</text>
+  <rect x="32" y="232" width="26" height="44" fill="#D2D2D2"/>
+  <rect x="67" y="188" width="26" height="88" fill="#A8A8A8"/>
+  <rect x="102" y="232" width="26" height="44" fill="#D2D2D2"/>
+  <rect x="137" y="232" width="26" height="44" fill="#D2D2D2"/>
+  <rect x="172" y="188" width="26" height="88" fill="#A8A8A8"/>
+  <rect x="207" y="232" width="26" height="44" fill="#D2D2D2"/>
+  <rect x="242" y="232" width="26" height="44" fill="#D2D2D2"/>
+  <text x="150" y="292" font-size="9" fill="#888888" text-anchor="middle">M  T  W  T  F  S  S</text>
+  <text x="30" y="310" font-size="9" fill="#888888">caption line</text>
+  <rect x="18" y="332" width="264" height="96" fill="#F0F0F0" stroke="#C5C5C5" stroke-width="1.5"/>
+  <text x="30" y="352" font-size="9" fill="#777777">CONSISTENCY MIX</text>
+  <rect x="30" y="362" width="240" height="16" rx="8" fill="#D2D2D2" stroke="#B0B0B0" stroke-width="1"/>
+  <line x1="60" y1="362" x2="60" y2="378" stroke="#FFFFFF" stroke-width="2"/>
+  <line x1="130" y1="362" x2="130" y2="378" stroke="#FFFFFF" stroke-width="2"/>
+  <line x1="240" y1="362" x2="240" y2="378" stroke="#FFFFFF" stroke-width="2"/>
+  <text x="30" y="404" font-size="9" fill="#888888">legend · 5 keys inline</text>
+  <rect x="18" y="440" width="128" height="62" fill="#F0F0F0" stroke="#C5C5C5" stroke-width="1.5"/>
+  <rect x="154" y="440" width="128" height="62" fill="#F0F0F0" stroke="#C5C5C5" stroke-width="1.5"/>
+  <text x="82" y="470" font-size="13" fill="#4A4A4A" text-anchor="middle">00:00</text>
+  <text x="218" y="470" font-size="13" fill="#4A4A4A" text-anchor="middle">0:00</text>
+  <text x="82" y="488" font-size="8" fill="#888888" text-anchor="middle">USUAL HOUR</text>
+  <text x="218" y="488" font-size="8" fill="#888888" text-anchor="middle">AVG SITTING</text>
+  <rect x="18" y="514" width="264" height="86" fill="#DDDDDD" stroke="#A5A5A5" stroke-width="1.5"/>
+  <rect x="30" y="530" width="140" height="16" fill="#C8C8C8"/>
+  <rect x="30" y="556" width="230" height="9" fill="#D8D8D8"/>
+  <rect x="30" y="570" width="210" height="9" fill="#D8D8D8"/>
+  <text x="30" y="594" font-size="9" fill="#777777">CALLOUT · accent fill</text>
+  <rect x="2" y="660" width="296" height="58" fill="#EDEDED" stroke="#B5B5B5" stroke-width="1.5"/>
+  <line x1="100" y1="660" x2="100" y2="718" stroke="#D0D0D0" stroke-width="1"/>
+  <line x1="199" y1="660" x2="199" y2="718" stroke="#D0D0D0" stroke-width="1"/>
+  <text x="51" y="694" font-size="9" fill="#888888" text-anchor="middle">TODAY</text>
+  <text x="150" y="694" font-size="9" fill="#4A4A4A" text-anchor="middle">INSIGHTS</text>
+  <text x="248" y="694" font-size="9" fill="#888888" text-anchor="middle">HISTORY</text>
+</g>
+
+<!-- ============ 05 HISTORY ============ -->
+<g transform="translate(1425,0)">
+  <text x="0" y="58" font-size="14" font-weight="bold" fill="#2B2B2B">05 · HISTORY</text>
+  <rect x="0" y="70" width="300" height="650" rx="14" fill="#FFFFFF" stroke="#8A8A8A" stroke-width="2"/>
+  <rect x="18" y="104" width="100" height="26" fill="#E8E8E8" stroke="#B5B5B5" stroke-width="1.5"/>
+  <rect x="202" y="110" width="80" height="12" fill="#ECECEC"/>
+  <rect x="18" y="148" width="264" height="264" fill="#F0F0F0" stroke="#C5C5C5" stroke-width="1.5"/>
+  <text x="30" y="168" font-size="9" fill="#777777">M   T   W   T   F   S   S</text>
+  <g fill="#D8D8D8" stroke="#C0C0C0" stroke-width="1">
+    <rect x="30" y="178" width="32" height="30"/><rect x="66" y="178" width="32" height="30"/><rect x="102" y="178" width="32" height="30"/>
+    <rect x="138" y="178" width="32" height="30"/><rect x="174" y="178" width="32" height="30"/><rect x="210" y="178" width="32" height="30"/><rect x="246" y="178" width="24" height="30"/>
+    <rect x="30" y="212" width="32" height="30"/><rect x="66" y="212" width="32" height="30"/><rect x="102" y="212" width="32" height="30"/>
+    <rect x="138" y="212" width="32" height="30"/><rect x="174" y="212" width="32" height="30"/><rect x="210" y="212" width="32" height="30"/><rect x="246" y="212" width="24" height="30"/>
+    <rect x="30" y="246" width="32" height="30"/><rect x="66" y="246" width="32" height="30"/><rect x="102" y="246" width="32" height="30"/>
+    <rect x="138" y="246" width="32" height="30"/><rect x="174" y="246" width="32" height="30"/><rect x="210" y="246" width="32" height="30"/><rect x="246" y="246" width="24" height="30"/>
+    <rect x="30" y="280" width="32" height="30"/><rect x="66" y="280" width="32" height="30"/><rect x="102" y="280" width="32" height="30"/>
+    <rect x="138" y="280" width="32" height="30"/><rect x="174" y="280" width="32" height="30"/><rect x="210" y="280" width="32" height="30"/><rect x="246" y="280" width="24" height="30"/>
+    <rect x="30" y="314" width="32" height="30"/><rect x="66" y="314" width="32" height="30"/><rect x="102" y="314" width="32" height="30"/>
+    <rect x="138" y="314" width="32" height="30"/><rect x="174" y="314" width="32" height="30"/><rect x="210" y="314" width="32" height="30"/><rect x="246" y="314" width="24" height="30"/>
+  </g>
+  <rect x="102" y="280" width="32" height="30" fill="#FFFFFF" stroke="#4A4A4A" stroke-width="2.5"/>
+  <text x="30" y="364" font-size="9" fill="#888888">↑ today = outlined cell · fill = count</text>
+  <text x="30" y="396" font-size="9" fill="#777777">LEGEND · one / two / today</text>
+  <rect x="18" y="426" width="128" height="58" fill="#F0F0F0" stroke="#C5C5C5" stroke-width="1.5"/>
+  <rect x="154" y="426" width="128" height="58" fill="#F0F0F0" stroke="#C5C5C5" stroke-width="1.5"/>
+  <text x="82" y="454" font-size="13" fill="#4A4A4A" text-anchor="middle">00</text>
+  <text x="218" y="454" font-size="13" fill="#4A4A4A" text-anchor="middle">00</text>
+  <text x="82" y="472" font-size="8" fill="#888888" text-anchor="middle">THIS MONTH</text>
+  <text x="218" y="472" font-size="8" fill="#888888" text-anchor="middle">DAYS LOGGED</text>
+  <text x="18" y="512" font-size="9" fill="#777777">SELECTED DAY</text>
+  <rect x="18" y="520" width="264" height="44" fill="#F0F0F0" stroke="#C5C5C5" stroke-width="1.5"/>
+  <rect x="18" y="570" width="264" height="44" fill="#F0F0F0" stroke="#C5C5C5" stroke-width="1.5"/>
+  <rect x="28" y="531" width="22" height="22" fill="#CCCCCC"/>
+  <rect x="28" y="581" width="22" height="22" fill="#CCCCCC"/>
+  <rect x="2" y="660" width="296" height="58" fill="#EDEDED" stroke="#B5B5B5" stroke-width="1.5"/>
+  <line x1="100" y1="660" x2="100" y2="718" stroke="#D0D0D0" stroke-width="1"/>
+  <line x1="199" y1="660" x2="199" y2="718" stroke="#D0D0D0" stroke-width="1"/>
+  <text x="51" y="694" font-size="9" fill="#888888" text-anchor="middle">TODAY</text>
+  <text x="150" y="694" font-size="9" fill="#888888" text-anchor="middle">INSIGHTS</text>
+  <text x="248" y="694" font-size="9" fill="#4A4A4A" text-anchor="middle">HISTORY</text>
+</g>
+
+<!-- ============ 06 STREAK ============ -->
+<g transform="translate(1775,0)">
+  <text x="0" y="58" font-size="14" font-weight="bold" fill="#2B2B2B">06 · STREAK (full bleed)</text>
+  <rect x="0" y="70" width="300" height="650" rx="14" fill="#E4E4E4" stroke="#8A8A8A" stroke-width="2"/>
+  <text x="150" y="94" font-size="9" fill="#777777" text-anchor="middle">inverted — brand fill behind everything</text>
+  <rect x="258" y="104" width="24" height="24" fill="#CFCFCF" stroke="#8A8A8A" stroke-width="1.5"/>
+  <rect x="90" y="156" width="120" height="120" fill="#D0D0D0" stroke="#7A7A7A" stroke-width="2"/>
+  <text x="150" y="220" font-size="10" fill="#444444" text-anchor="middle">SEAL / BADGE</text>
+  <text x="150" y="236" font-size="9" fill="#777777" text-anchor="middle">120 × 120</text>
+  <rect x="88" y="300" width="124" height="12" fill="#D8D8D8"/>
+  <text x="150" y="310" font-size="8" fill="#666666" text-anchor="middle">EYEBROW · MONO CAPS</text>
+  <rect x="40" y="330" width="220" height="32" fill="#CFCFCF" stroke="#8A8A8A" stroke-width="1.5"/>
+  <rect x="68" y="368" width="164" height="32" fill="#CFCFCF" stroke="#8A8A8A" stroke-width="1.5"/>
+  <text x="150" y="352" font-size="10" fill="#444444" text-anchor="middle">DISPLAY · 2 LINES</text>
+  <rect x="45" y="420" width="210" height="10" fill="#DADADA"/>
+  <rect x="55" y="436" width="190" height="10" fill="#DADADA"/>
+  <rect x="70" y="452" width="160" height="10" fill="#DADADA"/>
+  <rect x="26" y="492" width="80" height="58" fill="#D4D4D4" stroke="#8A8A8A" stroke-width="1.5"/>
+  <rect x="110" y="492" width="80" height="58" fill="#D4D4D4" stroke="#8A8A8A" stroke-width="1.5"/>
+  <rect x="194" y="492" width="80" height="58" fill="#D4D4D4" stroke="#8A8A8A" stroke-width="1.5"/>
+  <text x="150" y="568" font-size="9" fill="#777777" text-anchor="middle">3 stat chips</text>
+  <rect x="18" y="600" width="264" height="56" fill="#F4F4F4" stroke="#7A7A7A" stroke-width="2"/>
+  <text x="150" y="633" font-size="11" font-weight="bold" fill="#333333" text-anchor="middle">INVERTED CTA</text>
+  <rect x="105" y="676" width="90" height="12" fill="#D8D8D8"/>
+</g>
+
+<text x="25" y="776" font-size="11" fill="#777777">Grey = container · darker grey = emphasis or selected · white = input. Swap fills for the brown palette; every block is a real vector layer with live text.</text>
+</svg>

@@ -1,0 +1,386 @@
+<title>Poop Log</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;700&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one narrow phone-first column — log card on top, stats, 30-day strip, history. */
+:root {
+  --bg: #f7f6f4;
+  --surface: #ffffff;
+  --line: #e4e0da;
+  --fg: #1e1b18;
+  --muted: #6e6659;
+  --accent: #0e6f68;
+  --accent-ink: #ffffff;
+  --accent-soft: #e2f0ee;
+  /* Bristol scale 1-7: dry/hard through ideal to liquid */
+  --b1: #8c4a2f; --b2: #b0712f; --b3: #6f8a3a; --b4: #3f8549;
+  --b5: #2f8a84; --b6: #3a76a0; --b7: #4a5fab;
+
+  --display: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
+  --body: "Instrument Sans", system-ui, -apple-system, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Courier New", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15171a; --surface: #1d2024; --line: #2e3238; --fg: #ecebe8; --muted: #9ba19f;
+    --accent: #4fd0c3; --accent-ink: #0d1a19; --accent-soft: #1d3331;
+    --b1: #c47a53; --b2: #d9a254; --b3: #a3c05e; --b4: #6cc47a;
+    --b5: #5ac4bd; --b6: #6aa9d6; --b7: #8c9ae8;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15171a; --surface: #1d2024; --line: #2e3238; --fg: #ecebe8; --muted: #9ba19f;
+  --accent: #4fd0c3; --accent-ink: #0d1a19; --accent-soft: #1d3331;
+  --b1: #c47a53; --b2: #d9a254; --b3: #a3c05e; --b4: #6cc47a;
+  --b5: #5ac4bd; --b6: #6aa9d6; --b7: #8c9ae8;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); line-height: 1.45; }
+.wrap { max-width: 540px; margin: 0 auto; padding: 0 16px; padding-block: 0 48px; }
+
+header.bar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+  display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+  padding: 14px 0 12px;
+}
+h1 { font-family: var(--display); font-size: 1.5rem; font-weight: 700; margin: 0; letter-spacing: -0.015em; }
+.chip {
+  font-family: var(--mono); font-size: .78rem; font-variant-numeric: tabular-nums;
+  background: var(--accent-soft); color: var(--accent); border-radius: 999px;
+  padding: 4px 10px; white-space: nowrap; font-weight: 500;
+}
+
+section { margin-top: 24px; }
+h2 {
+  font-size: .72rem; font-weight: 600; text-transform: uppercase; letter-spacing: .09em;
+  color: var(--muted); margin: 0 0 10px;
+}
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
+
+/* Bristol picker */
+.scale { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+.scale button {
+  font-family: var(--mono); font-size: 1rem; font-weight: 500;
+  padding: 10px 0; border-radius: 9px; cursor: pointer;
+  border: 1px solid var(--line); background: transparent; color: var(--muted);
+}
+.scale button:hover { border-color: var(--muted); }
+.scale button[aria-pressed="true"] { color: var(--accent-ink); border-color: transparent; }
+.scale button[data-b="1"][aria-pressed="true"] { background: var(--b1); }
+.scale button[data-b="2"][aria-pressed="true"] { background: var(--b2); }
+.scale button[data-b="3"][aria-pressed="true"] { background: var(--b3); }
+.scale button[data-b="4"][aria-pressed="true"] { background: var(--b4); }
+.scale button[data-b="5"][aria-pressed="true"] { background: var(--b5); }
+.scale button[data-b="6"][aria-pressed="true"] { background: var(--b6); }
+.scale button[data-b="7"][aria-pressed="true"] { background: var(--b7); }
+.scale-desc { font-size: .85rem; color: var(--muted); margin: 10px 0 0; min-height: 2.6em; }
+.scale-desc b { color: var(--fg); font-weight: 600; }
+
+input[type="text"] {
+  width: 100%; margin-top: 12px; padding: 10px 12px; font-family: var(--body); font-size: .92rem;
+  background: var(--bg); color: var(--fg); border: 1px solid var(--line); border-radius: 9px;
+}
+.go {
+  width: 100%; margin-top: 12px; padding: 14px; cursor: pointer;
+  font-family: var(--display); font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em;
+  background: var(--accent); color: var(--accent-ink); border: none; border-radius: 10px;
+}
+.go:active { transform: translateY(1px); }
+
+/* Stats */
+.tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.tile { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 10px; min-width: 0; }
+.tile .n { font-family: var(--mono); font-size: 1.45rem; font-weight: 500; font-variant-numeric: tabular-nums; display: block; }
+.tile .l { font-size: .68rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+
+/* 30-day strip */
+.strip { display: flex; align-items: flex-end; gap: 3px; height: 72px; }
+.strip > div { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; }
+.strip i { display: block; background: var(--accent); border-radius: 2px; }
+.strip i.zero { background: var(--line); height: 3px; }
+.strip-ax { display: flex; justify-content: space-between; font-family: var(--mono); font-size: .68rem; color: var(--muted); margin-top: 6px; }
+
+/* Mix bar */
+.mix { display: flex; height: 10px; border-radius: 999px; overflow: hidden; background: var(--line); }
+.mix span { display: block; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 10px; font-size: .76rem; color: var(--muted); }
+.legend span { display: flex; align-items: center; gap: 5px; }
+.legend em { width: 9px; height: 9px; border-radius: 3px; }
+
+/* History */
+ul.log { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1px; }
+ul.log li {
+  display: flex; align-items: center; gap: 12px; padding: 11px 14px;
+  background: var(--surface); border: 1px solid var(--line);
+}
+ul.log li:first-child { border-radius: 12px 12px 0 0; }
+ul.log li:last-child { border-radius: 0 0 12px 12px; }
+ul.log li:only-child { border-radius: 12px; }
+ul.log li + li { border-top: none; }
+.dot { width: 26px; height: 26px; border-radius: 8px; flex: none; font-family: var(--mono); font-size: .8rem; color: #fff; display: grid; place-items: center; }
+.when { font-family: var(--mono); font-size: .82rem; font-variant-numeric: tabular-nums; }
+.note { flex: 1; min-width: 0; font-size: .85rem; color: var(--muted); overflow-wrap: anywhere; }
+.del { border: none; background: transparent; color: var(--muted); cursor: pointer; font-size: 1.1rem; line-height: 1; padding: 4px 2px; flex: none; }
+.del:hover { color: var(--fg); }
+
+.empty { color: var(--muted); font-size: .9rem; text-align: center; padding: 22px 8px; }
+.banner {
+  font-size: .8rem; color: var(--muted); background: var(--surface);
+  border: 1px dashed var(--line); border-radius: 10px; padding: 9px 12px; margin-bottom: 10px;
+}
+footer { margin-top: 28px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+footer button { font-family: var(--body); font-size: .8rem; color: var(--muted); background: transparent; border: 1px solid var(--line); border-radius: 8px; padding: 7px 11px; cursor: pointer; }
+footer button:hover { color: var(--fg); }
+footer p { font-size: .75rem; color: var(--muted); margin: 0; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+@media (max-width: 420px) {
+  .tiles { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+
+<div class="wrap">
+  <header class="bar">
+    <h1>Poop Log</h1>
+    <span class="chip" id="chip">—</span>
+  </header>
+
+  <section>
+    <h2>Log one</h2>
+    <div class="card">
+      <div class="scale" id="scale" role="group" aria-label="Bristol stool scale, 1 hardest to 7 loosest"></div>
+      <p class="scale-desc" id="desc"></p>
+      <label for="note" style="position:absolute;left:-9999px">Note</label>
+      <input type="text" id="note" placeholder="Note (optional) — coffee, spicy food, 3am panic…" maxlength="120">
+      <button class="go" id="go">Log it</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>Counts</h2>
+    <div class="tiles">
+      <div class="tile"><span class="n" id="s-today">0</span><span class="l">Today</span></div>
+      <div class="tile"><span class="n" id="s-week">0</span><span class="l">7 days</span></div>
+      <div class="tile"><span class="n" id="s-month">0</span><span class="l">30 days</span></div>
+      <div class="tile"><span class="n" id="s-avg">0</span><span class="l">Per day</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Last 30 days</h2>
+    <div class="card">
+      <div class="strip" id="strip"></div>
+      <div class="strip-ax"><span>30d ago</span><span id="ax-max"></span><span>today</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Consistency mix</h2>
+    <div class="card">
+      <div class="mix" id="mix"></div>
+      <div class="legend" id="legend"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>History</h2>
+    <div id="banner"></div>
+    <ul class="log" id="list"></ul>
+  </section>
+
+  <footer>
+    <button id="copy">Copy log as JSON</button>
+    <button id="wipe">Erase everything</button>
+    <p id="status">Saved in this browser only.</p>
+  </footer>
+</div>
+
+<script>
+const BRISTOL = [
+  null,
+  ["Separate hard lumps", "constipated"],
+  ["Lumpy sausage", "slightly constipated"],
+  ["Sausage with cracks", "ideal"],
+  ["Smooth soft sausage", "ideal"],
+  ["Soft blobs, clear edges", "lacking fibre"],
+  ["Mushy, ragged edges", "mild diarrhoea"],
+  ["Liquid, no solid pieces", "diarrhoea"]
+];
+const DAY = 864e5;
+const KEY = "poop-log-v1";
+
+/* ---- storage ---- */
+function load() {
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw) return JSON.parse(raw);
+  } catch (e) {}
+  return { demo: true, entries: sample() };
+}
+function save() {
+  try { localStorage.setItem(KEY, JSON.stringify(state)); }
+  catch (e) { document.getElementById("status").textContent = "Can't save in this browser — the log resets on reload."; }
+}
+function sample() {
+  const now = Date.now(), out = [];
+  const plan = [[0, 8, 4], [0, 19, 5], [1, 7, 3], [2, 8, 4], [2, 22, 6], [3, 9, 4], [4, 8, 3], [5, 7, 4], [6, 10, 2], [8, 8, 4], [9, 20, 5], [11, 8, 4]];
+  for (const [ago, hour, b] of plan) {
+    const d = new Date(now); d.setDate(d.getDate() - ago); d.setHours(hour, (ago * 17) % 60, 0, 0);
+    out.push({ t: d.getTime(), b, n: "" });
+  }
+  out[1].n = "that whole bag of dried mango";
+  out[4].n = "late curry, regret";
+  return out.sort((a, b) => b.t - a.t);
+}
+
+/* ---- date helpers ---- */
+function dkey(t) {
+  const d = new Date(t);
+  return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+}
+function dayStart(offset) {           // offset days before today, local midnight
+  const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - offset);
+  return d.getTime();
+}
+function midnight(t) {               // local midnight of any timestamp
+  const d = new Date(t); d.setHours(0, 0, 0, 0);
+  return d.getTime();
+}
+
+/* ---- stats (pure) ---- */
+function stats(entries, now = Date.now()) {
+  const today = dkey(now);
+  const w = dayStart(6), m = dayStart(29);
+  const s = { today: 0, week: 0, month: 0, avg: 0, perDay: {}, mix: Array(8).fill(0) };
+  for (const e of entries) {
+    const k = dkey(e.t);
+    s.perDay[k] = (s.perDay[k] || 0) + 1;
+    if (k === today) s.today++;
+    if (e.t >= w) s.week++;
+    if (e.t >= m) { s.month++; s.mix[e.b]++; }
+  }
+  if (entries.length) {
+    const oldest = Math.min(...entries.map(e => e.t));
+    const span = Math.min(30, Math.round((dayStart(0) - midnight(oldest)) / DAY) + 1);
+    s.avg = s.month / Math.max(1, span);
+  }
+  return s;
+}
+
+/* ---- render ---- */
+let state = load();
+let pick = 4;
+
+const el = id => document.getElementById(id);
+
+function drawScale() {
+  el("scale").innerHTML = [1, 2, 3, 4, 5, 6, 7].map(b =>
+    `<button data-b="${b}" aria-pressed="${b === pick}" title="Type ${b}: ${BRISTOL[b][0]}">${b}</button>`
+  ).join("");
+  el("desc").innerHTML = `<b>Type ${pick} — ${BRISTOL[pick][0]}.</b> ${BRISTOL[pick][1]}.`;
+}
+
+function render() {
+  const s = stats(state.entries);
+  el("chip").textContent = s.today === 1 ? "1 today" : s.today + " today";
+  el("s-today").textContent = s.today;
+  el("s-week").textContent = s.week;
+  el("s-month").textContent = s.month;
+  el("s-avg").textContent = s.avg ? s.avg.toFixed(1) : "0";
+
+  // 30-day strip
+  let max = 1;
+  const days = [];
+  for (let i = 29; i >= 0; i--) {
+    const k = dkey(dayStart(i));
+    const c = s.perDay[k] || 0;
+    if (c > max) max = c;
+    days.push([k, c]);
+  }
+  el("strip").innerHTML = days.map(([k, c]) =>
+    `<div title="${k}: ${c}">` +
+    (c ? `<i style="height:${Math.round((c / max) * 100)}%"></i>` : `<i class="zero"></i>`) +
+    `</div>`
+  ).join("");
+  el("ax-max").textContent = "busiest day: " + max;
+
+  // mix
+  const total = s.mix.reduce((a, b) => a + b, 0);
+  el("mix").innerHTML = total
+    ? s.mix.map((c, b) => c ? `<span style="width:${(c / total) * 100}%;background:var(--b${b})" title="Type ${b}: ${c}"></span>` : "").join("")
+    : "";
+  el("legend").innerHTML = [1, 2, 3, 4, 5, 6, 7].map(b =>
+    `<span><em style="background:var(--b${b})"></em>${b}</span>`
+  ).join("") + `<span style="margin-left:auto">1 hard &rarr; 7 liquid, 3&ndash;4 ideal</span>`;
+
+  // history
+  el("banner").innerHTML = state.demo
+    ? `<div class="banner">Showing sample entries so the charts aren't empty. Your first real log clears them.</div>` : "";
+  el("list").innerHTML = state.entries.length
+    ? state.entries.map((e, i) => `<li>
+        <span class="dot" style="background:var(--b${e.b})">${e.b}</span>
+        <span class="when">${fmt(e.t)}</span>
+        <span class="note">${esc(e.n)}</span>
+        <button class="del" data-i="${i}" aria-label="Delete entry">&times;</button>
+      </li>`).join("")
+    : `<li class="empty">Nothing logged yet. The button is right up there.</li>`;
+}
+
+function fmt(t) {
+  const d = new Date(t), today = dkey(Date.now());
+  const time = String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0");
+  if (dkey(t) === today) return time;
+  if (dkey(t) === dkey(dayStart(1))) return "yest " + time;
+  return (d.getMonth() + 1) + "/" + d.getDate() + " " + time;
+}
+function esc(s) { return String(s || "").replace(/[<>&"]/g, c => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", '"': "&quot;" }[c])); }
+
+/* ---- events ---- */
+el("scale").addEventListener("click", e => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  pick = +b.dataset.b;
+  drawScale();
+});
+el("go").addEventListener("click", () => {
+  if (state.demo) { state.entries = []; state.demo = false; }
+  state.entries.unshift({ t: Date.now(), b: pick, n: el("note").value.trim() });
+  state.entries.sort((a, b) => b.t - a.t);
+  el("note").value = "";
+  save(); render();
+});
+el("list").addEventListener("click", e => {
+  const b = e.target.closest(".del");
+  if (!b) return;
+  state.entries.splice(+b.dataset.i, 1);
+  state.demo = false;
+  save(); render();
+});
+el("copy").addEventListener("click", async () => {
+  const txt = JSON.stringify(state.entries, null, 2);
+  try {
+    await navigator.clipboard.writeText(txt);
+    el("status").textContent = "Copied " + state.entries.length + " entries to the clipboard.";
+  } catch (e) {
+    el("status").textContent = "Clipboard blocked — paste target below instead.";
+    const ta = document.createElement("textarea");
+    ta.value = txt; ta.style.cssText = "width:100%;height:120px;margin-top:8px;font-family:var(--mono);font-size:.75rem";
+    document.querySelector("footer").appendChild(ta); ta.select();
+  }
+});
+el("wipe").addEventListener("click", e => {
+  const b = e.currentTarget;
+  if (b.dataset.sure !== "1") { b.dataset.sure = "1"; b.textContent = "Really erase? Click again"; return; }
+  state = { demo: false, entries: [] };
+  b.dataset.sure = ""; b.textContent = "Erase everything";
+  save(); render();
+});
+
+drawScale();
+render();
+</script>

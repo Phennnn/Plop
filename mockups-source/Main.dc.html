@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Welcome to Regular</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Pixelify+Sans:wght@400;500;600;700&display=swap">
+<style>
+body { margin: 0; font-family: "Pixelify Sans", "Trebuchet MS", sans-serif; }
+a { color: #7A4A21; } a:hover { color: #5A3415; }
+</style>
+</helmet>
+
+<div style="width: 390px; height: 844px; box-sizing: border-box; background-color: #EFE3D2; background-image: linear-gradient(45deg, #E7D6BF 25%, transparent 25%, transparent 75%, #E7D6BF 75%), linear-gradient(45deg, #E7D6BF 25%, transparent 25%, transparent 75%, #E7D6BF 75%); background-size: 32px 32px; background-position: 0 0, 16px 16px; color: #2B1A10; display: flex; flex-direction: column; justify-content: space-between; align-items: center; padding: 52px 20px 36px; overflow: hidden">
+
+  <div style="display: flex; flex-direction: column; align-items: center; gap: 22px">
+
+    <div style="width: 350px; box-sizing: border-box; border: 3px solid #2B1A10; box-shadow: 5px 5px 0 #2B1A10; line-height: 0">
+      <dc-import name="Buddy" w="344" h="270" px="6" embed="yes" bubble="hi! i'm plop." hint-size="344px,270px"></dc-import>
+    </div>
+
+    <h1 style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 34px; line-height: 1; color: #2B1A10">REGULAR</h1>
+    <p style="margin: -6px 0 0; font-size: 18px; line-height: 1.4; color: #6E5542; text-align: center; max-width: 290px">Bowel movement tracking,<br>taken seriously.</p>
+
+  </div>
+
+  <div style="width: 100%; display: flex; flex-direction: column; gap: 12px">
+    <p style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 9px; line-height: 1.6; color: #6E5542">BRISTOL SCALE 1-7</p>
+    <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px" aria-hidden="true">
+      <span style="height: 26px; background: #6B3B18; border: 3px solid #2B1A10"></span>
+      <span style="height: 26px; background: #8A5C14; border: 3px solid #2B1A10"></span>
+      <span style="height: 26px; background: #4F6A24; border: 3px solid #2B1A10"></span>
+      <span style="height: 26px; background: #2E6F3C; border: 3px solid #2B1A10"></span>
+      <span style="height: 26px; background: #1F6F6A; border: 3px solid #2B1A10"></span>
+      <span style="height: 26px; background: #2A5F86; border: 3px solid #2B1A10"></span>
+      <span style="height: 26px; background: #3D4E95; border: 3px solid #2B1A10"></span>
+    </div>
+    <p style="margin: 0; font-size: 16px; line-height: 1.45; color: #2B1A10">The same seven-point scale your doctor uses. We did not invent it. We just gave it better graphics.</p>
+  </div>
+
+  <div style="width: 100%; display: flex; flex-direction: column; gap: 18px; align-items: center">
+    <a href="Today.dc.html" style="width: 100%; box-sizing: border-box; height: 62px; display: flex; align-items: center; justify-content: center; background: #7A4A21; color: #FFF8EC; border: 3px solid #2B1A10; box-shadow: 5px 5px 0 #2B1A10; text-decoration: none; font-family: 'Press Start 2P', monospace; font-size: 15px">PRESS START</a>
+    <a href="History.dc.html" style="font-size: 16px; font-weight: 600">I already have a log</a>
+    <p style="margin: 0; font-size: 14px; color: #6E5542; text-align: center; line-height: 1.5">Stays on this device. We are not<br>interested in your data. Truly.</p>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>
