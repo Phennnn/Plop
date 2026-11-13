@@ -153,3 +153,15 @@ All sounds are synthesised in the browser with Web Audio, so there are no sound 
 - **Plop notices gaps:** "it's been 3 days..." when the last log is 2+ days old; he says when he's hungry.
 - **Coming back to an open tab** (after midnight) refreshes his health and Dr. Ploopy's check too.
 - **Backups:** restored logs always get real numbers for time and type.
+
+## Version 28: 22 new poses
+- `sprites/gemini-anim-v3.jpg` sliced at 6.71 and appended to Plop's sheet as frames 24-47 (cells widened from 48 to 56 px so arms fit). Built by `tools/build-sheet-v3.py` (one-off: it expects the old 24-frame sheet).
+- `strike(name, ms)` holds a pose (`POSES` in the engine): wave, point, up, thumbs, hug, love, shy, think, proud, scared, cheeky, back, hungry, clap, flex, cold.
+- He sits on his seat, lies down with the lights off, turns his back to watch the TV and fish. Frames 40-41 (side walk) are unused: Gemini drew front views.
+
+## Version 29: the tracker itself
+- **Needs have a minus button** for mis-taps (the points go with it).
+- **LAST: 14H AGO** chip on Today; red from 3 days.
+- **Your own tags** on the log screen (up to 6, 12 characters, letters and numbers). Saved on logs as `c:name`, shown in History and the doctor report, and counted in Food patterns.
+- **Stats:** logs per day and best streak tiles.
+- **Backup reminder:** once a month, if there are 10+ real logs and no backup in 30 days.

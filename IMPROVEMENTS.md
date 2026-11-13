@@ -1,19 +1,19 @@
 # Plop: what to improve (13 Nov 2026, after Version 28)
 
-Ranked inside each group by value for the effort. Nothing here is built yet.
+Ranked inside each group by value for the effort. Ticked items are done (groups 1 and 2 in Version 29).
 
 ## 1. Check first (Version 28 loose ends)
-- [ ] Look at the four poses that were wired but not seen live: sitting on the sofa, hungry on Play, clapping on the reward screen, Dr. Ploopy thinking.
-- [ ] README: add a Version 28 section (22 new poses, `strike(name, ms)`).
+- [x] Look at the four poses that were wired but not seen live: sitting on the sofa, hungry on Play, clapping on the reward screen, Dr. Ploopy thinking.
+- [x] README: add a Version 28 section (22 new poses, `strike(name, ms)`).
 - [ ] Side walk: two frames still needed from Gemini (sprites, set aside for now).
 
 ## 2. The tracker itself
-- [ ] **Needs have no minus button.** A mis-tap on water or fibre can only be undone in the 4.5-second toast.
-- [ ] **No "last went" anywhere.** Time since the last log is the most useful number in a bowel tracker. Show it on Today.
-- [ ] **Logs per day is missing from Stats.** The app already works it out and never shows it.
-- [ ] **Custom tags.** Only 8 fixed tags; people will want their own foods (gluten, beans, a medicine).
-- [ ] **Doctor report on a phone.** It opens a print page, which is awkward on mobile. Offer "save as image" like the weekly card.
-- [ ] **Backup reminder.** Logs live only in the browser. Nudge once a month if there is no recent backup.
+- [x] **Needs have no minus button.** A mis-tap on water or fibre can only be undone in the 4.5-second toast.
+- [x] **No "last went" anywhere.** Time since the last log is the most useful number in a bowel tracker. Show it on Today.
+- [x] **Logs per day is missing from Stats.** The app already works it out and never shows it.
+- [x] **Custom tags.** Only 8 fixed tags; people will want their own foods (gluten, beans, a medicine).
+- [x] ~~Doctor report on a phone~~: not needed. It already saves as a file, which works on phones.
+- [x] **Backup reminder.** Logs live only in the browser. Nudge once a month if there is no recent backup.
 
 ## 3. Plop as the mascot
 - [ ] **Stats and History have no Plop.** A small Plop reacting to your week (thinking, proud, hungry) on both screens.
@@ -39,4 +39,7 @@ Ranked inside each group by value for the effort. Nothing here is built yet.
 ## 6. Code health
 - [ ] `index.html` is about 550 KB in one file; half is embedded sprites. Fine for the artifact, split for the public version.
 - [ ] Two old test files (`buddy-check.js`, `closet-check.js`) are not part of the routine. Run or delete them.
-- [ ] The project is not in git. One `git init` gives undo for every future change.
+- [x] The project is not in git. One `git init` gives undo for every future change.
+
+## Found while testing
+- [ ] A toast can sit on top of the pinned SAVE ENTRY button for a few seconds. Move toasts above it on the log screen.

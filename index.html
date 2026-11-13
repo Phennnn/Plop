@@ -176,11 +176,13 @@ body[data-mood="hard"] .fly:first-child, body[data-mood="loose"] .fly:first-chil
 .tummy .meter span { transition: width 0.3s steps(4); }
 /* Plop's needs, the cleaning game, the weekly card */
 .needs { margin-top: 14px; display: flex; flex-direction: column; gap: 9px; }
-.need { display: grid; grid-template-columns: 58px 1fr 34px 44px; align-items: center; gap: 8px; font: 10px var(--pix); }
+.need { display: grid; grid-template-columns: 58px 1fr 34px 44px 44px; align-items: center; gap: 8px; font: 10px var(--pix); }
 .need .meter { height: 14px; }
 .need .meter span { background: var(--c); }
 .need .plus { width: 44px; height: 44px; border: 3px solid var(--ink); background: var(--gold); font: 14px var(--pix); cursor: pointer; padding: 0; }
 .need .plus:active { transform: translate(2px, 2px); }
+.need .minus { background: var(--panel); }
+.need .minus:disabled { opacity: 0.35; cursor: default; }
 .flush { position: fixed; left: 50%; bottom: 92px; transform: translateX(-50%); width: auto; max-width: calc(100% - 32px); min-height: 50px; padding: 0 16px; font-size: 10px; z-index: 40; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .seg.tq { grid-template-columns: 1fr 1fr; margin-top: 16px; }
@@ -196,6 +198,10 @@ body[data-mood="hard"] .fly:first-child, body[data-mood="loose"] .fly:first-chil
 .tags { display: flex; flex-wrap: wrap; gap: 8px; }
 .tags button { min-height: 40px; padding: 7px 10px; border: 3px solid var(--ink); background: var(--panel); font: 10px/1.4 var(--pix); color: var(--ink); cursor: pointer; }
 .tags button[aria-pressed="true"] { background: var(--gold); box-shadow: 3px 3px 0 var(--ink); }
+.mytag { display: inline-flex; }
+.tags .untag { min-width: 40px; margin-left: -3px; background: var(--tile); }
+.tagadd { display: flex; gap: 8px; margin-top: 8px; }
+.tagadd input { flex: 1; min-width: 0; min-height: 44px; padding: 6px 10px; border: 3px solid var(--ink); background: var(--panel); font: 16px var(--body); color: var(--ink); }
 .tags button[data-tag="blood"][aria-pressed="true"] { background: var(--red); color: #FFF8EC; }
 .badges { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
 .badge { border: 3px solid var(--ink); background: var(--gold); box-shadow: 3px 3px 0 var(--ink); padding: 9px; min-width: 0; }
@@ -311,6 +317,7 @@ nav.tabs button[aria-current="page"] { background: var(--brown); color: var(--pa
     <span class="chip gold"><svg width="11" height="11" viewBox="0 0 7 7" shape-rendering="crispEdges" aria-hidden="true" fill="#2B1A10"><rect x="3" y="0" width="1" height="7"/><rect x="0" y="3" width="7" height="1"/><rect x="1" y="1" width="1" height="1"/><rect x="5" y="1" width="1" height="1"/><rect x="1" y="5" width="1" height="1"/><rect x="5" y="5" width="1" height="1"/></svg><span id="streak"></span></span>
     <button class="chip" type="button" data-go="closet"><svg width="12" height="12" viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true"><rect x="2" y="0" width="4" height="8" fill="#B07A18"/><rect x="0" y="2" width="8" height="4" fill="#B07A18"/><rect x="1" y="1" width="6" height="6" fill="#B07A18"/><rect x="2" y="1" width="4" height="6" fill="#E0A32E"/><rect x="1" y="2" width="6" height="4" fill="#E0A32E"/></svg><span id="pts"></span></button>
     <span class="chip" id="stage"></span>
+    <span class="chip" id="last" hidden></span>
   </div>
   <button class="hearts" type="button" data-health><span>PLOP<br>HEALTH</span><span class="hh" id="hearts"></span><span class="st" id="h-state"></span></button>
   <div class="seg tq" id="tq" role="tablist" aria-label="Today's goals"><button type="button" role="tab" data-tq="quests">QUESTS</button><button type="button" role="tab" data-tq="needs">NEEDS</button></div>
@@ -346,6 +353,7 @@ nav.tabs button[aria-current="page"] { background: var(--brown); color: var(--pa
   </div>
   <p class="label">TAGS (OPTIONAL) · HOW IT FELT, WHAT YOU HAD</p>
   <div class="tags" id="tags" role="group" aria-label="Tags"></div>
+  <div class="tagadd" id="tag-add-row"><input id="tag-new" type="text" maxlength="12" placeholder="your own tag" aria-label="Add your own tag" autocomplete="off"><button type="button" class="chip" id="tag-add">ADD</button></div>
   <label class="label" for="when" style="display: block">WHEN</label>
   <input type="datetime-local" id="when">
   <label class="label" for="note" style="display: block">NOTE (+5 PTS)</label>
@@ -656,10 +664,12 @@ const seasonOf = (t) => { const d = new Date(t), m = d.getMonth(), day = d.getDa
 const TAGS = { bloat: 'BLOATING', pain: 'PAIN', urgent: 'URGENCY', blood: 'BLOOD', coffee: 'COFFEE', spicy: 'SPICY', dairy: 'DAIRY', alcohol: 'ALCOHOL' };
 const FOOD_TAGS = ['coffee', 'spicy', 'dairy', 'alcohol'];
 const tagged = (e, k) => (e.tags || []).includes(k);
+const tagName = (k) => TAGS[k] || (typeof k === 'string' && k.slice(0, 2) === 'c:' ? k.slice(2).toUpperCase() : '');   // your own tags are saved as "c:name"
+const cleanTag = (t) => String(t || '').toLowerCase().replace(/[^a-z0-9 -]/g, '').trim().slice(0, 12);
 // Food patterns (30 days): a food tag on 3+ logs whose logs land outside type 3-4 at least 25 points more often than the rest.
-function tagPatterns(logs, now) {
+function tagPatterns(logs, now, extra) {
   const L = logs.filter((e) => e.t >= midnight(now, 29) && e.t <= now), off = (a) => a.filter((e) => !isIdeal(e.b)).length / a.length;
-  return FOOD_TAGS.map((k) => {
+  return FOOD_TAGS.concat(extra || []).map((k) => {
     const w = L.filter((e) => tagged(e, k)), wo = L.filter((e) => !tagged(e, k));
     return w.length >= 3 && wo.length >= 3 ? { k, n: w.length, with: off(w), without: off(wo) } : null;
   }).filter((x) => x && x.with - x.without >= 0.25);
@@ -851,7 +861,7 @@ function fmtWhen(t) {
   return new Date(t).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }).toUpperCase() + ' ' + hhmm(t);
 }
 const localInput = (t) => { const d = new Date(t); return dkey(t) + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes()); };
-const rowHtml = (e, del) => '<li class="row"><span class="dot" style="background:' + COLOR[e.b] + '">' + e.b + '</span><span class="when">' + fmtWhen(e.t) + '</span><span class="note">' + ([esc(e.n), (e.tags || []).filter((k) => TAGS[k]).map((k) => TAGS[k].toLowerCase()).join(', ')].filter(Boolean).join(' · ') || 'no notes') + '</span>' +
+const rowHtml = (e, del) => '<li class="row"><span class="dot" style="background:' + COLOR[e.b] + '">' + e.b + '</span><span class="when">' + fmtWhen(e.t) + '</span><span class="note">' + ([esc(e.n), (e.tags || []).filter(tagName).map((k) => esc(tagName(k).toLowerCase())).join(', ')].filter(Boolean).join(' · ') || 'no notes') + '</span>' +
   (del ? '<button class="del" type="button" data-edit="' + esc(e.id) + '" aria-label="Edit this entry"><svg width="14" height="14" viewBox="0 0 7 7" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><rect x="5" y="0" width="2" height="2"/><rect x="4" y="1" width="2" height="2"/><rect x="3" y="2" width="2" height="2"/><rect x="2" y="3" width="2" height="2"/><rect x="1" y="4" width="2" height="2"/><rect x="0" y="6" width="2" height="1"/></svg></button><button class="del" type="button" data-del="' + esc(e.id) + '" aria-label="Delete this entry">X</button>' : '') + '</li>';
 function toast(msg, actLabel, act) {
   const t = $('#toast'), b = t.querySelector('button');
@@ -1961,10 +1971,13 @@ function renderToday() {
   $('#h-state').textContent = STATE_NAME[health.state];
   const best = bestStreak(S.logs, S.shielded), stage = stageOf(best);
   $('#stage').textContent = stage === 'king' ? 'KING PLOP' : stage === 'adult' ? 'GROWN UP · KING AT 30' : 'BABY PLOP · GROWS AT 7 (' + best + '/7)';
+  const hrs = S.logs.length ? (now - S.logs[0].t) / 36e5 : -1;
+  $('#last').hidden = hrs < 0; $('#last').style.color = hrs >= 72 ? 'var(--red)' : '';
+  $('#last').textContent = 'LAST: ' + (hrs < 1 ? 'JUST NOW' : hrs < 48 ? Math.floor(hrs) + 'H AGO' : Math.floor(hrs / 24) + ' DAYS AGO');
   const day = S.care[dkey(now)] || {};
   $('#needs').innerHTML = NEEDS.map((n) => {
     const v = day[n.k] || 0, goal = CARE[n.k].goal;
-    return '<div class="need" style="--c: ' + n.col + '"><span>' + n.name + '</span><span class="meter"><span style="width: ' + Math.min(100, v / goal * 100) + '%"></span></span><span>' + v + '/' + goal + '</span><button type="button" class="plus" data-care="' + n.k + '" aria-label="' + n.aria + '">+</button></div>';
+    return '<div class="need" style="--c: ' + n.col + '"><span>' + n.name + '</span><span class="meter"><span style="width: ' + Math.min(100, v / goal * 100) + '%"></span></span><span>' + v + '/' + goal + '</span><button type="button" class="plus minus" data-care="' + n.k + '" data-minus="1" aria-label="Take one off ' + n.name.toLowerCase() + '"' + (v ? '' : ' disabled') + '>−</button><button type="button" class="plus" data-care="' + n.k + '" aria-label="' + n.aria + '">+</button></div>';
   }).join('') + '<p class="muted" style="margin: 2px 0 0; font-size: 13px">A glass of water, a portion of fruit, veg or wholegrains, 30 minutes of moving.</p>';
   $('#clean-cta').hidden = !['hard', 'loose', 'sick'].includes(health.state) || S.cleaned.includes(dkey(now));
   $('#event-banner').hidden = !seasonOf(now);
@@ -1979,7 +1992,10 @@ function renderToday() {
   const nd = NEEDS.filter((n) => (day[n.k] || 0) >= CARE[n.k].goal).length;
   $('#tq [data-tq="quests"]').textContent = 'QUESTS ' + qn + '/3'; $('#tq [data-tq="needs"]').textContent = 'NEEDS ' + nd + '/3';
   showTQ(tqTab || (qn === 3 ? 'needs' : 'quests'));
-  nudge(now, c);
+  const mk = dkey(now).slice(0, 7);                        // logs live only in this browser: ask once a month if there's no recent backup
+  if (S.logs.filter((e) => !e.sample).length >= 10 && S.backupAsk !== mk && now - (S.backedUp || S.since || now) > 30 * DAY) {
+    S.backupAsk = mk; save(); toast('No backup in over a month. Your logs live only in this browser.', 'BACK UP', () => go('history'));
+  } else nudge(now, c);
 }
 const DUR = ['under 1 min', '1–5 min', '5–15 min', '15+ min'];
 // Quests and needs share one card on Today: tabs, opening on quests until they're done
@@ -2052,6 +2068,7 @@ const NEEDS = [
 $('#needs').addEventListener('click', (e) => {
   const b = e.target.closest('[data-care]'); if (!b) return;
   const k = b.dataset.care, day = dkey(Date.now()), d = S.care[day] = S.care[day] || {}, n = NEEDS.find((x) => x.k === k);
+  if (b.dataset.minus) { if (d[k] > 0) { d[k]--; save(); sfx('pop'); renderToday(); } return; }   // a mis-tap: take one off (its points go too)
   d[k] = (d[k] || 0) + 1;
   const earnedIt = d[k] <= CARE[k].goal, done = d[k] === CARE[k].goal;
   save(); sfx(done ? 'fanfare' : earnedIt ? 'coin' : 'pop');
@@ -2111,8 +2128,22 @@ const TYPES = [null,
   ['TYPE 7', 'Entirely liquid. See someone if it persists.', 'We are sorry. Hydrate.']];
 const BUBBLE = ['', 'nnngh...', 'hrmph.', 'not bad!', 'TEXTBOOK!', 'eh. close.', 'uh oh', 'AAAAAA'];
 const form = { b: 4, d: 1, tags: [] };
-$('#tags').innerHTML = Object.keys(TAGS).map((k) => '<button type="button" data-tag="' + k + '">' + TAGS[k] + '</button>').join('');
-$('#tags').onclick = (e) => { const b = e.target.closest('button'); if (!b) return; const k = b.dataset.tag; form.tags = form.tags.includes(k) ? form.tags.filter((x) => x !== k) : form.tags.concat(k); paintLog(); };
+function paintTags() {
+  $('#tags').innerHTML = Object.keys(TAGS).map((k) => '<button type="button" data-tag="' + k + '">' + TAGS[k] + '</button>').join('') +
+    (S.myTags || []).map((t) => '<span class="mytag"><button type="button" data-tag="c:' + esc(t) + '">' + esc(t.toUpperCase()) + '</button><button type="button" class="untag" data-untag="' + esc(t) + '" aria-label="Remove the tag ' + esc(t) + '">×</button></span>').join('');
+  $('#tag-add-row').hidden = (S.myTags || []).length >= 6;
+}
+paintTags();
+$('#tag-add').onclick = () => {
+  const t = cleanTag($('#tag-new').value); $('#tag-new').value = '';
+  if (!t) { toast('Type a short tag first, like gluten or beans.'); return; }
+  if (TAGS[t] || (S.myTags || []).includes(t)) { toast('You already have that tag.'); return; }
+  S.myTags = (S.myTags || []).concat(t); save(); form.tags = form.tags.concat('c:' + t); paintTags(); paintLog(); sfx('pop');
+};
+$('#tag-new').onkeydown = (e) => { if (e.key === 'Enter') { e.preventDefault(); $('#tag-add').click(); } };
+$('#tags').onclick = (e) => { const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.untag) { const t = b.dataset.untag; S.myTags = (S.myTags || []).filter((x) => x !== t); save(); form.tags = form.tags.filter((x) => x !== 'c:' + t); paintTags(); paintLog(); toast('Tag removed. Old logs keep it.'); return; }
+  const k = b.dataset.tag; form.tags = form.tags.includes(k) ? form.tags.filter((x) => x !== k) : form.tags.concat(k); paintLog(); };
 function paintLog() {
   for (const b of $$('#picker button')) b.setAttribute('aria-pressed', String(+b.dataset.b === form.b));
   for (const b of $$('#dur button')) b.setAttribute('aria-pressed', String(+b.dataset.d === form.d));
@@ -2260,9 +2291,9 @@ function renderStats() {
   const tr = weekTrend(S.logs, now), pc = (x) => (x === null ? '-' : Math.round(x * 100) + '%'), d = tr.now.ideal !== null && tr.last.ideal !== null ? tr.now.ideal - tr.last.ideal : null;
   const trendHtml = PANEL + '<p class="label" style="margin-top:0">THIS WEEK (LAST WEEK)</p><div class="tiles two" style="margin-top:0"><div class="tile"><b>' + tr.now.n + ' <small>(' + tr.last.n + ')</small></b><span>LOGS</span></div><div class="tile"><b>' + pc(tr.now.ideal) + ' <small>(' + pc(tr.last.ideal) + ')</small></b><span>TYPE 3-4</span></div></div>' +
     '<p class="muted" style="margin:12px 0 0;font-size:15px">' + (!tr.last.n ? 'Nothing logged last week to compare with yet.' : d === null ? 'No logs yet this week.' : d >= 0.1 ? 'More type 3–4 than last week. Nice work.' : d <= -0.1 ? 'Fewer type 3–4 than last week. Water, fibre and a walk are the usual fixes.' : 'About the same as last week. Steady.') + '</p></div>';
-  const pats = tagPatterns(S.logs, now), anyFood = S.logs.some((e) => e.t >= midnight(now, 29) && FOOD_TAGS.some((f) => tagged(e, f)));
+  const pats = tagPatterns(S.logs, now, (S.myTags || []).map((t) => 'c:' + t)), anyFood = S.logs.some((e) => e.t >= midnight(now, 29) && FOOD_TAGS.some((f) => tagged(e, f)));
   const patHtml = PANEL + '<p class="label" style="margin-top:0">FOOD PATTERNS</p>' + (pats.length
-    ? pats.map((x) => '<p style="margin:0 0 8px;font-size:15px"><b>' + TAGS[x.k] + '</b>: ' + pc(x.with) + ' of those logs were outside type 3–4, against ' + pc(x.without) + ' of the rest.</p>').join('') + '<p class="muted" style="margin:0;font-size:13px">A pattern, not proof. Try a week without it and see.</p>'
+    ? pats.map((x) => '<p style="margin:0 0 8px;font-size:15px"><b>' + esc(tagName(x.k)) + '</b>: ' + pc(x.with) + ' of those logs were outside type 3–4, against ' + pc(x.without) + ' of the rest.</p>').join('') + '<p class="muted" style="margin:0;font-size:13px">A pattern, not proof. Try a week without it and see.</p>'
     : '<p class="muted" style="margin:0;font-size:15px">' + (anyFood ? 'No food stands out yet. Keep tagging.' : 'Tag what you ate when you log (coffee, spicy, dairy, alcohol) and Plop looks for patterns.') + '</p>') + '</div>';
   const max = Math.max.apply(null, s.wd), DAYS = ['Mondays', 'Tuesdays', 'Wednesdays', 'Thursdays', 'Fridays', 'Saturdays', 'Sundays'];
   const busy = s.wd.map((c, i) => c === max ? DAYS[i] : null).filter(Boolean);
@@ -2280,7 +2311,7 @@ function renderStats() {
     '<div class="panel" style="margin-top:14px;box-shadow:5px 5px 0 var(--ink)"><p class="label" style="margin-top:0">TYPE MIX</p>' +
       '<div class="mix">' + segs.map((b) => '<span style="width:' + (s.mix[b] / s.n * 100) + '%;background:' + COLOR[b] + '"></span>').join('') + '</div>' +
       '<div class="legend">' + segs.map((b) => '<span><i style="background:' + COLOR[b] + '"></i>' + b + ':' + Math.round(s.mix[b] / s.n * 100) + '%</span>').join('') + '</div></div>' +
-    '<div class="tiles two"><div class="tile"><b>' + pad(Math.floor(s.usual / 60)) + ':' + pad(s.usual % 60) + '</b><span>USUAL HOUR</span></div><div class="tile"><b>' + sitM + ':' + pad(sitS) + '</b><span>AVG SITTING</span></div></div>' +
+    '<div class="tiles two"><div class="tile"><b>' + pad(Math.floor(s.usual / 60)) + ':' + pad(s.usual % 60) + '</b><span>USUAL HOUR</span></div><div class="tile"><b>' + sitM + ':' + pad(sitS) + '</b><span>AVG SITTING</span></div><div class="tile"><b>' + counts(S.logs, now).perDay.toFixed(1) + '</b><span>PER DAY</span></div><div class="tile"><b>' + bestStreak(S.logs, S.shielded) + 'd</b><span>BEST STREAK</span></div></div>' +
     '<div class="panel gold" style="margin-top:14px;box-shadow:5px 5px 0 var(--ink)"><p class="pix" style="margin:0 0 9px;font-size:13px;line-height:1.4">' + pct + '% TYPE 3-4</p><p style="margin:0;font-size:15px">' + verdict + '</p></div>' +
     trendHtml + patHtml + badgeHtml +
     '<p class="muted" style="margin:14px 0 0;font-size:14px">' + s.n + ' logs in the last 30 days. Not medical advice.</p>';
@@ -2288,15 +2319,15 @@ function renderStats() {
 // Doctor report: the last 30 days as a printable page (open it, then Print, Save as PDF), to bring to an appointment.
 function reportHtml(now) {
   const L = S.logs.filter((e) => e.t >= midnight(now, 29) && e.t <= now).sort((a, b) => a.t - b.t), s = stats30(S.logs, now), c = doctorCheck(S.logs, now), tg = {};
-  for (const e of L) for (const k of e.tags || []) if (TAGS[k]) tg[k] = (tg[k] || 0) + 1;
+  for (const e of L) for (const k of e.tags || []) if (tagName(k)) tg[k] = (tg[k] || 0) + 1;
   const day = (t) => new Date(t).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
   const flag = c.level !== 'doctor' ? '' : '<p class="flag"><b>Flagged by the app:</b> ' + (c.kind === 'blood' ? 'blood noted in the last 7 days.' : c.days ? 'loose stools (type 6–7) on ' + c.days + ' days in a row.' : Math.round(c.off * 100) + '% of logs outside types 3–4 over the last 3 weeks.') + '</p>';
   return '<!doctype html><html lang="en"><meta charset="utf-8"><title>Bowel diary, last 30 days</title><style>body{font:14px/1.45 system-ui,sans-serif;color:#222;max-width:760px;margin:24px auto;padding:0 16px}h1{font-size:22px;margin:0 0 4px}h2{font-size:16px;margin:22px 0 6px}table{border-collapse:collapse;width:100%}th,td{border:1px solid #bbb;padding:5px 7px;text-align:left;font-size:13px;vertical-align:top}th{background:#f1ece4}.flag{border:2px solid #A63F2A;padding:8px 10px}.muted{color:#666;font-size:12px}</style>' +
     '<h1>Bowel diary: last 30 days</h1><p class="muted">Self-recorded in the Plop app' + (S.sample ? ' (includes sample data)' : '') + '. Made ' + day(now) + '. Types are the Bristol Stool Form Scale: 1–2 hard, 3–4 the usual range, 5–7 loose.</p>' + flag +
     '<h2>Summary</h2><ul><li>' + s.n + ' bowel movements in 30 days</li><li>' + Math.round(s.ideal * 100) + '% type 3–4</li><li>Type mix: ' + [1, 2, 3, 4, 5, 6, 7].filter((b) => s.mix[b]).map((b) => 'type ' + b + ' × ' + s.mix[b]).join(', ') + '</li>' +
-    (s.n ? '<li>Usual time: ' + pad(Math.floor(s.usual / 60)) + ':' + pad(s.usual % 60) + '</li>' : '') + '<li>Symptoms and foods tagged: ' + (Object.keys(tg).length ? Object.keys(tg).map((k) => TAGS[k].toLowerCase() + ' × ' + tg[k]).join(', ') : 'none') + '</li></ul>' +
+    (s.n ? '<li>Usual time: ' + pad(Math.floor(s.usual / 60)) + ':' + pad(s.usual % 60) + '</li>' : '') + '<li>Symptoms and foods tagged: ' + (Object.keys(tg).length ? Object.keys(tg).map((k) => esc(tagName(k).toLowerCase()) + ' × ' + tg[k]).join(', ') : 'none') + '</li></ul>' +
     '<h2>Every entry</h2><table><tr><th>Date</th><th>Time</th><th>Type</th><th>Time spent</th><th>Tags</th><th>Note</th></tr>' +
-    L.map((e) => '<tr><td>' + day(e.t) + '</td><td>' + hhmm(e.t) + '</td><td>' + e.b + '</td><td>' + DUR[e.d === undefined ? 1 : e.d] + '</td><td>' + (e.tags || []).filter((k) => TAGS[k]).map((k) => TAGS[k].toLowerCase()).join(', ') + '</td><td>' + esc(e.n) + '</td></tr>').join('') + '</table>' +
+    L.map((e) => '<tr><td>' + day(e.t) + '</td><td>' + hhmm(e.t) + '</td><td>' + e.b + '</td><td>' + DUR[e.d === undefined ? 1 : e.d] + '</td><td>' + (e.tags || []).filter(tagName).map((k) => esc(tagName(k).toLowerCase())).join(', ') + '</td><td>' + esc(e.n) + '</td></tr>').join('') + '</table>' +
     '<p class="muted">A diary kept by the patient, not a diagnosis.</p></html>';
 }
 $('#report-btn').onclick = () => {
@@ -2911,12 +2942,12 @@ const PLOOPY_RULES = (summary) => [
 function gutSummary() {
   const now = Date.now(), week = S.logs.filter((e) => e.t >= midnight(now, 6) && e.t <= now), mix = [0, 0, 0, 0, 0, 0, 0, 0], day = S.care[dkey(now)] || {};
   const tg = {};
-  for (const e of week) { mix[e.b]++; for (const k of e.tags || []) if (TAGS[k]) tg[k] = (tg[k] || 0) + 1; }
+  for (const e of week) { mix[e.b]++; for (const k of e.tags || []) if (tagName(k)) tg[k] = (tg[k] || 0) + 1; }
   const types = [1, 2, 3, 4, 5, 6, 7].filter((b) => mix[b]).map((b) => 'type ' + b + ' x' + mix[b]).join(', ');
   return (S.sample ? '(demo data) ' : '') + (week.length ? week.length + ' logs in the last 7 days (' + types + ').' : 'No logs in the last 7 days.') +
     ' Plop health: ' + STATE_NAME[health.state] + ', ' + health.hearts + '/5 hearts.' + (docCheck.level !== 'ok' ? ' App flag: ' + docCheck.level + ' (' + docCheck.kind + ').' : '') +
     ' Today: water ' + (day.water || 0) + '/8, fibre ' + (day.fibre || 0) + '/5, moving ' + (day.move || 0) + '/1.' +
-    (Object.keys(tg).length ? ' Tags this week: ' + Object.keys(tg).map((k) => TAGS[k].toLowerCase() + ' x' + tg[k]).join(', ') + '.' : '');
+    (Object.keys(tg).length ? ' Tags this week: ' + Object.keys(tg).map((k) => tagName(k).toLowerCase() + ' x' + tg[k]).join(', ') + '.' : '');
 }
 const CHAT_CHIPS = ['What does a healthy poop look like?', 'Why is my poop green?', 'How much fibre do I need?', 'Does coffee make you poop?', 'How is my week looking?'];
 let sampler = null, chatTurns = [], chatCtl = null;

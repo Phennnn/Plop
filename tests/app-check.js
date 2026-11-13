@@ -3,7 +3,7 @@
 const fs = require('fs'), path = require('path'), assert = require('assert');
 const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
 const src = html.split('// ==LOGIC==')[1].split('// ==UI==')[0].split('\n').slice(1).join('\n');
-const L = new Function(src + '; return { dkey, dayDiff, midnight, logPoints, streakBonus, earned, spent, balanceOf, currentStreak, counts, stats30, nextUnlock, sampleLogs, STARTER, doctorCheck, plopHealth, careEarned, bestStreak, stageOf, tummyAt, parseBackup, seasonOf, tagPatterns, weekTrend, questsFor, QUESTS, badges, chestEarned, gameEarned, TRICKS };')();
+const L = new Function(src + '; return { tagName, cleanTag, dkey, dayDiff, midnight, logPoints, streakBonus, earned, spent, balanceOf, currentStreak, counts, stats30, nextUnlock, sampleLogs, STARTER, doctorCheck, plopHealth, careEarned, bestStreak, stageOf, tummyAt, parseBackup, seasonOf, tagPatterns, weekTrend, questsFor, QUESTS, badges, chestEarned, gameEarned, TRICKS };')();
 
 const at = (y, m, d, h = 8) => new Date(y, m - 1, d, h).getTime();
 const log = (t, b = 4, n = '') => ({ t, b, n, d: 1 });
@@ -166,5 +166,13 @@ assert(got({ logs: [], tricks: Object.fromEntries(L.TRICKS.map((t) => [t.id, 1])
 assert(!got({ logs: [], tricks: { tickle: 1 } }).includes('tricks'));
 
 { const r = L.parseBackup(JSON.stringify({ app: 'plop', state: { logs: [{ t: '1790000000000', b: '4' }] } })).state.logs[0]; assert(r.b === 4 && r.t === 1790000000000, 'restored logs get real numbers'); }
+
+// your own tags: named from their key, cleaned on the way in, and counted in the food patterns
+assert.strictEqual(L.tagName('c:gluten'), 'GLUTEN'); assert.strictEqual(L.tagName('coffee'), 'COFFEE'); assert.strictEqual(L.tagName('nope'), '');
+assert.strictEqual(L.cleanTag('  <b>Glu-Ten!</b>  '), 'bglu-tenb');
+{ const now = at(2026, 10, 20, 12), mk = (d, b, tags) => ({ id: 'g' + d + b, t: now - d * 864e5, b, d: 1, n: '', tags });
+  const logs = [1, 2, 3].map((d) => mk(d, 6, ['c:gluten'])).concat([4, 5, 6].map((d) => mk(d, 4, [])));
+  assert.deepStrictEqual(L.tagPatterns(logs, now, ['c:gluten']).map((x) => x.k), ['c:gluten'], 'a custom tag shows up as a pattern');
+  assert.strictEqual(L.tagPatterns(logs, now).length, 0, 'and only when asked for'); }
 
 console.log('app OK: points, streaks (incl. DST), balance, stats, unlocks, sample data, tags, quests, badges, Halloween, point caps, shields, chests | sample: ' + a.length + ' logs, ' + L.earned(a) + ' pts');
