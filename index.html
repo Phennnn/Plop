@@ -194,6 +194,9 @@ body[data-mood="hard"] .fly:first-child, body[data-mood="loose"] .fly:first-chil
 .quest.ok .box { background: var(--teal); color: #FFF8EC; }
 .fold summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; }
 #save { position: sticky; bottom: 12px; z-index: 5; }
+@keyframes log-pulse { 50% { box-shadow: 5px 5px 0 var(--ink), 0 0 0 5px var(--gold); } }
+.btn.pulse { animation: log-pulse 1.4s steps(2) infinite; }
+@media (prefers-reduced-motion: reduce) { .btn.pulse { animation: none; } }
 .quests .btn { min-height: 48px; font-size: 10px; margin-top: 4px; }
 .tags { display: flex; flex-wrap: wrap; gap: 8px; }
 .tags button { min-height: 40px; padding: 7px 10px; border: 3px solid var(--ink); background: var(--panel); font: 10px/1.4 var(--pix); color: var(--ink); cursor: pointer; }
@@ -246,7 +249,7 @@ body[data-clean="1"] .fly { display: none !important; }
 .plop-hit { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; padding: 0; border: 0; background: transparent; cursor: pointer; touch-action: none; -webkit-tap-highlight-color: transparent; }
 .plop canvas { display: block; width: 100%; height: 100%; image-rendering: pixelated; image-rendering: crisp-edges; }
 .bubble { position: absolute; left: 50%; transform: translateX(-50%); width: max-content; max-width: calc(100% - 24px); background: var(--panel); border: 3px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); padding: 7px 9px; font-family: var(--pix); line-height: 1.6; text-align: center; pointer-events: none; }
-.bubble::after { content: ""; position: absolute; left: 50%; bottom: -12px; margin-left: -6px; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 9px solid var(--ink); }
+.bubble::after { content: ""; position: absolute; left: clamp(12px, calc(50% - var(--shift, 0px)), 100%); bottom: -12px; margin-left: -6px; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 9px solid var(--ink); }
 
 .bars { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; align-items: end; height: 112px; }
 .bars div { border: 3px solid var(--ink); min-height: 6px; }
@@ -393,6 +396,7 @@ nav.tabs button[aria-current="page"] { background: var(--brown); color: var(--pa
 <!-- ================= STATS ================= -->
 <section class="screen" id="s-stats" hidden>
   <div class="top"><h1>STATS</h1><span class="pix muted" style="font-size: 10px">LAST 30 DAYS</span></div>
+  <div class="frame" id="p-stats"></div>
   <div id="stats-body"></div>
   <button class="btn gold" type="button" data-doc style="margin-top: 18px">ASK DR. PLOOPY</button>
   <button class="btn" type="button" id="card-btn" style="margin-top: 14px">WEEKLY CARD</button>
@@ -410,6 +414,7 @@ nav.tabs button[aria-current="page"] { background: var(--brown); color: var(--pa
       <button class="square" type="button" id="m-next" aria-label="Next month" style="width: 44px; height: 44px">›</button>
     </div>
   </div>
+  <div class="frame" id="p-history"></div>
   <div class="panel" style="margin-top: 18px; box-shadow: 5px 5px 0 var(--ink); padding: 14px">
     <div class="cal" id="cal"></div>
     <div class="legend" style="border-top: 3px solid var(--ink); padding-top: 12px; margin-top: 14px">
@@ -944,6 +949,10 @@ const SFX = {
   buy: () => { SFX.coin(); tone(2093, 2637, 0.15, 'triangle', 0.04, 0.3); },
   broke: () => notes([392, 330], 0.12, 'square', 0.04),
   pop: () => tone(380, 760, 0.05, 'square', 0.04),
+  hi: () => notes([784, 1047], 0.09, 'square', 0.04),                  // pose cues: hello, aww, clap clap, hmm
+  aww: () => tone(880, 1320, 0.22, 'sine', 0.07),
+  clap: () => { for (let i = 0; i < 3; i++) noise(0.04, 0.12, 2400, 1200, i * 0.16); },
+  hmm: () => tone(300, 240, 0.25, 'triangle', 0.09),
   page: () => tone(300, 620, 0.07, 'triangle', 0.1),
   doc: () => notes([880, 698], 0.22, 'triangle', 0.12),               // hospital ding-dong
   docAlert: () => notes([880, 698, 880, 698], 0.18, 'triangle', 0.12)
@@ -1041,6 +1050,7 @@ const ACT_MS = { look: 2400, yawn: 1700, stretch: 1400, whistle: 2600, wiggle: 1
 const IDLE = ['look', 'look', 'yawn', 'stretch', 'whistle', 'wiggle', 'sneeze', 'fart'];
 // Poses from the v3 sheet (sprites/gemini-anim-v3.jpg): [frame] or [frame A, frame B, ms per frame]. strike(name, ms) holds one for a moment.
 const POSES = { wave: [24, 25, 220], point: [26], up: [27], thumbs: [28], hug: [29], love: [30], shy: [31], think: [32], proud: [33], scared: [34], cheeky: [35], back: [39], hungry: [42], clap: [43, 44, 180], flex: [45], cold: [47] };
+const POSE_SFX = { wave: 'hi', hug: 'aww', love: 'aww', shy: 'aww', clap: 'clap', think: 'hmm', hungry: 'hmm', scared: 'surprise', cheeky: 'pop' };
 const IDLE_POSES = ['think', 'cheeky', 'shy', 'proud', 'wave', 'up', 'point'];
 const DISCO = ['#E5576B', '#2E7D72', '#E0A32E', '#3D4E95'];
 
@@ -1090,17 +1100,18 @@ class Plop {
   }
   paint() { const text = this.line || this.rest; this.bub.textContent = text; this.bub.hidden = !text; }
   placeBubble(g) {
-    const s = this.s, left = Math.max(18, Math.min(82, s.x / g.W * 100));
+    const s = this.s, sh = this.decor && this.decor.wall && !this.big ? 12 : 0, left = Math.max(18, Math.min(82, s.x / g.W * 100 + sh));   // sh: shifted right, off the wall picture
     const bottom = Math.round((g.H - g.head + 4 + (this.lift || 0)) * (this.ch / g.H));
     const key = left.toFixed(1) + '|' + bottom + '|' + g.ms;
     if (key === s.bubKey) return;
     s.bubKey = key;
     this.bub.style.left = left + '%';
+    if (this.bub.style.setProperty) this.bub.style.setProperty('--shift', Math.round(sh / 100 * this.cw) + 'px');   // its tail stays over his head
     this.bub.style.bottom = bottom + 'px';
     this.bub.style.fontSize = (g.ms / g.d > 1 ? 12 : 10) + 'px';
   }
   setRest(t) { this.rest = t; this.paint(); }
-  strike(n, ms) { this.posed = { n, until: performance.now() + ms }; }
+  strike(n, ms, quiet) { this.posed = { n, until: performance.now() + ms }; if (!quiet && POSE_SFX[n]) sfx(POSE_SFX[n]); }   // quiet: idle fidgets make no sound
   say(text, dur) {
     this.line = text; this.paint();
     clearTimeout(this.lineT);
@@ -1349,7 +1360,7 @@ class Plop {
       let type = pick(this.ill ? ['look', 'yawn', 'sneeze'] : IDLE);
       if (type === 'look' && now - s.lookAt < 2500) type = 'whistle';       // you're moving around: he's watching you instead
       if (type === 'wiggle' && this.rm) type = 'yawn';
-      if (!this.ill && Math.random() < 0.25) { this.strike(new Date().getMonth() === 11 && Math.random() < 0.3 ? 'cold' : pick(IDLE_POSES), 1700); type = 'look'; }
+      if (!this.ill && Math.random() < 0.25) { this.strike(new Date().getMonth() === 11 && Math.random() < 0.3 ? 'cold' : pick(IDLE_POSES), 1700, true); type = 'look'; }
       this.startAct(type, now);
       this.act.idle = true;
       s.nextIdle = now + 6000 + Math.random() * 6000;
@@ -1923,6 +1934,8 @@ const P = {
   log: new Plop($('#p-log'), 150, 5),
   reward: new Plop($('#p-reward'), 170, 5),
   closet: new Plop($('#p-closet'), 200, 5, 'dress me up'),
+  stats: new Plop($('#p-stats'), 130, 4, ''),
+  history: new Plop($('#p-history'), 130, 4, ''),
   play: new Plop($('#p-play'), 0, 4, '', true),
   doc: new Plop($('#p-doc'), 104, 3, ''),
   docBig: new Plop($('#p-docbig'), 170, 5, ''),
@@ -1992,6 +2005,8 @@ function renderToday() {
   const nd = NEEDS.filter((n) => (day[n.k] || 0) >= CARE[n.k].goal).length;
   $('#tq [data-tq="quests"]').textContent = 'QUESTS ' + qn + '/3'; $('#tq [data-tq="needs"]').textContent = 'NEEDS ' + nd + '/3';
   showTQ(tqTab || (qn === 3 ? 'needs' : 'quests'));
+  $('#s-today .btn[data-go="log"]').classList.toggle('pulse', !c.today && hr >= 11 && !P.today.night);
+  if (qn === 3 && !opened && chestSaid !== qk) { chestSaid = qk; setTimeout(() => { if (current === 'today') { P.today.say('the chest is ready!!', 2600); P.today.strike('clap', 2200); showTQ('quests'); } }, 1700); }
   const mk = dkey(now).slice(0, 7);                        // logs live only in this browser: ask once a month if there's no recent backup
   if (S.logs.filter((e) => !e.sample).length >= 10 && S.backupAsk !== mk && now - (S.backedUp || S.since || now) > 30 * DAY) {
     S.backupAsk = mk; save(); toast('No backup in over a month. Your logs live only in this browser.', 'BACK UP', () => go('history'));
@@ -1999,7 +2014,7 @@ function renderToday() {
 }
 const DUR = ['under 1 min', '1–5 min', '5–15 min', '15+ min'];
 // Quests and needs share one card on Today: tabs, opening on quests until they're done
-let tqTab = null, nightFor = '';
+let tqTab = null, nightFor = '', chestSaid = '';
 function showTQ(t) { tqTab = t; for (const id of ['quests', 'needs']) $('#' + id).hidden = id !== t; for (const b of $$('#tq button')) b.setAttribute('aria-selected', String(b.dataset.tq === t)); }
 $('#tq').onclick = (e) => { const b = e.target.closest('button'); if (b) showTQ(b.dataset.tq); };
 // Plop feels alive: hello once per part of the day (by name if you gave one), notices when you've been away, celebrates each month together,
@@ -2287,10 +2302,14 @@ function renderStats() {
   const now = Date.now(), s = stats30(S.logs, now), body = $('#stats-body');
   const bs = badges(S), PANEL = '<div class="panel" style="margin-top:14px;box-shadow:5px 5px 0 var(--ink)">';
   const badgeHtml = '<p class="label">BADGES ' + bs.filter((b) => b.got).length + '/' + bs.length + '</p><div class="badges">' + bs.map((b) => '<div class="badge' + (b.got ? '' : ' locked') + '"><b>' + b.name + '</b><span>' + (b.got ? 'Earned! ' : '') + b.how + '</span></div>').join('') + '</div>';
-  if (!s.n) { body.innerHTML = '<div class="panel empty" style="margin-top:18px">Log a few and your patterns show up here.</div>' + badgeHtml; return; }
+  if (!s.n) { P.stats.setRest('log a few first!'); P.stats.strike('think', 2500);
+    body.innerHTML = '<div class="panel empty" style="margin-top:18px">Log a few and your patterns show up here.</div>' + badgeHtml; return; }
   const tr = weekTrend(S.logs, now), pc = (x) => (x === null ? '-' : Math.round(x * 100) + '%'), d = tr.now.ideal !== null && tr.last.ideal !== null ? tr.now.ideal - tr.last.ideal : null;
   const trendHtml = PANEL + '<p class="label" style="margin-top:0">THIS WEEK (LAST WEEK)</p><div class="tiles two" style="margin-top:0"><div class="tile"><b>' + tr.now.n + ' <small>(' + tr.last.n + ')</small></b><span>LOGS</span></div><div class="tile"><b>' + pc(tr.now.ideal) + ' <small>(' + pc(tr.last.ideal) + ')</small></b><span>TYPE 3-4</span></div></div>' +
     '<p class="muted" style="margin:12px 0 0;font-size:15px">' + (!tr.last.n ? 'Nothing logged last week to compare with yet.' : d === null ? 'No logs yet this week.' : d >= 0.1 ? 'More type 3–4 than last week. Nice work.' : d <= -0.1 ? 'Fewer type 3–4 than last week. Water, fibre and a walk are the usual fixes.' : 'About the same as last week. Steady.') + '</p></div>';
+  // Plop reads your month out: his line and pose follow the same numbers as the panels below
+  const [sLine, sPose] = d !== null && d >= 0.1 ? ['up on last week!!', 'clap'] : s.ideal >= 0.7 ? ['mostly textbook!', 'proud'] : s.ideal >= 0.4 ? ['decent! more water?', 'thumbs'] : ['rough month. hugs.', 'hug'];
+  P.stats.setRest(sLine); P.stats.strike(sPose, 2500);
   const pats = tagPatterns(S.logs, now, (S.myTags || []).map((t) => 'c:' + t)), anyFood = S.logs.some((e) => e.t >= midnight(now, 29) && FOOD_TAGS.some((f) => tagged(e, f)));
   const patHtml = PANEL + '<p class="label" style="margin-top:0">FOOD PATTERNS</p>' + (pats.length
     ? pats.map((x) => '<p style="margin:0 0 8px;font-size:15px"><b>' + esc(tagName(x.k)) + '</b>: ' + pc(x.with) + ' of those logs were outside type 3–4, against ' + pc(x.without) + ' of the rest.</p>').join('') + '<p class="muted" style="margin:0;font-size:13px">A pattern, not proof. Try a week without it and see.</p>'
@@ -2344,6 +2363,9 @@ function renderHistory() {
   const now = Date.now(), today = dkey(now), first = new Date(hist.y, hist.m, 1), days = new Date(hist.y, hist.m + 1, 0).getDate();
   const per = {};
   for (const e of S.logs) { const k = dkey(e.t); per[k] = (per[k] || 0) + 1; }
+  const dn = per[hist.sel] || 0;                              // Plop comments on the day you picked
+  P.history.setRest(hist.sel === today ? (dn ? dn + ' so far today!' : 'nothing yet today.') : dn ? (dn === 1 ? 'one that day.' : dn + ' that day. busy!') : 'nothing that day.');
+  if (current === 'history') P.history.strike(dn ? 'thumbs' : 'think', 1600, true);
   $('#m-label').textContent = first.toLocaleDateString('en-GB', { month: 'short', year: 'numeric' }).toUpperCase();
   $('#m-next').disabled = hist.y > new Date().getFullYear() || (hist.y === new Date().getFullYear() && hist.m >= new Date().getMonth());
   let html = ['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((d) => '<span class="wd">' + d + '</span>').join('');
@@ -2475,9 +2497,9 @@ $('#act-dance').onclick = () => { P.play.perform('dance'); TRICK.on('dance'); };
 $('#act-bath').onclick = () => { P.play.perform('bath'); TRICK.on('bath'); };
 $('#act-potty').onclick = () => { P.play.perform('potty'); TRICK.on('potty'); };
 function paintTricks() {
-  const got = S.tricks || {}, n = TRICKS.filter((t) => got[t.id]).length;
+  const got = S.tricks || {}, n = TRICKS.filter((t) => got[t.id]).length, hints = S.since && Date.now() - S.since > 3 * DAY;   // hints unlock after 3 days
   $('#tricks-n').textContent = n + '/' + TRICKS.length;
-  $('#tricks').innerHTML = TRICKS.map((t) => '<div class="badge' + (got[t.id] ? '' : ' locked') + '"><b>' + (got[t.id] ? t.name : '???') + '</b><span>' + t.how + '</span></div>').join('');
+  $('#tricks').innerHTML = TRICKS.map((t) => '<div class="badge' + (got[t.id] ? '' : ' locked') + '"><b>' + (got[t.id] ? t.name : '???') + '</b><span>' + (got[t.id] || hints ? t.how : 'A secret. Experiment!') + '</span></div>').join('');
   const best = (S.games || {})[dkey(Date.now())] || 0;
   $('#catch-btn').textContent = 'FIBRE CATCH · ' + (best ? "TODAY'S BEST " + best : 'UP TO +20 A DAY');
 }

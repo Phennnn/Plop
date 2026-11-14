@@ -169,3 +169,10 @@ All sounds are synthesised in the browser with Web Audio, so there are no sound 
 ## Version 30: he looks where he walks
 - Frames 40-41 are now his walk steps with the eyes of the looking-right frame (`tools/build-walk-frames.py`); the engine mirrors them when he heads left. Before, he always glanced left.
 - A true side view was dropped: three image-model tries (`sprites/gemini-sidewalk-v1.jpg`, `-v2.jpg`) drew a different character or the wrong size.
+
+## Version 31: Plop as the mascot
+- **Plop on Stats and History** (`P.stats`, `P.history`, 130 px frames): a short line and a pose that follow your numbers and the day you picked. Keep his lines under about 20 characters or they wrap out of the small frame.
+- **A sound per pose** (`POSE_SFX`): hi, aww, clap, hmm. Idle fidgets stay silent (`strike(name, ms, true)`).
+- **The speech bubble steps right** when a picture hangs on the wall, with its tail still over his head (`--shift`).
+- **LOG IT pulses** when nothing is logged by 11:00, and Plop announces a ready chest.
+- **Tricks stay secret** ("A secret. Experiment!") for the first 3 days, then the hints appear.

@@ -16,11 +16,11 @@ Ranked inside each group by value for the effort. Ticked items are done (groups 
 - [x] **Backup reminder.** Logs live only in the browser. Nudge once a month if there is no recent backup.
 
 ## 3. Plop as the mascot
-- [ ] **Stats and History have no Plop.** A small Plop reacting to your week (thinking, proud, hungry) on both screens.
-- [ ] **Pointing is unused where it matters.** He should point at LOG IT when nothing is logged, and at the chest when it is ready.
-- [ ] **The speech bubble covers the wall picture.** Move the wall slot or shift the bubble.
-- [ ] **A sound per pose.** New poses are silent; a tiny cue each makes them read as character.
-- [ ] **Tricks list spoils the secrets.** Hints show for tricks not found yet. Show "???" only, with a hint after a few days.
+- [x] **Stats and History have no Plop.** A small Plop reacting to your week (thinking, proud, hungry) on both screens.
+- [x] **Drawing attention to LOG IT and the chest.** Done differently: LOG IT pulses and Plop announces the chest. His sheet has no pointing-down pose, and both buttons sit below him.
+- [x] **The speech bubble covers the wall picture.** Move the wall slot or shift the bubble.
+- [x] **A sound per pose.** New poses are silent; a tiny cue each makes them read as character.
+- [x] **Tricks list spoils the secrets.** Hints show for tricks not found yet. Show "???" only, with a hint after a few days.
 
 ## 4. Mobile and polish
 - [ ] **Closet is the longest screen** (about 1,680 px). Fold the streak-shield box or make the grid scroll inside its panel.
