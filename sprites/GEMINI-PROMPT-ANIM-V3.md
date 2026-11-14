@@ -83,3 +83,30 @@ Ask for **one row at a time**: keep everything above the frame list, change the 
 - **Measure the pixel size** (v2 came back at 6.72, not 10). The slicer takes fractions.
 - **Feet on one row**, or he jumps when the frame changes.
 - No baked-in text, sparkles or props.
+
+## Side walk, try 2 (after `gemini-sidewalk-v1.jpg`)
+
+Try 1 read well as a side view, but at Plop's pixel scale it came out about 40% taller than him with long legs
+(see `sidewalk-compare.png`), so he would grow every time he walked. Attach `plop-sheet-preview.png` and use Gemini chat:
+
+```
+Pixel-art sprite sheet: 4 frames of the attached mascot, Plop, walking in SIDE VIEW.
+
+Copy the attached character exactly: same squat body, same browns, same 1-pixel dark
+outline, same chunky pixel size as the attached frames. He is as WIDE as he is TALL
+(a squat blob, not a tall cone). His legs are tiny stubs: only 2 pixels tall, barely
+visible under the body, exactly like the attached frames. Do not make him taller,
+do not give him long legs, do not add arms.
+
+FORMAT (follow exactly):
+- One image, 1280 x 320 pixels: 4 cells in a single row, each 320 x 320.
+- True pixel art: each frame drawn at 32 x 32 pixels, scaled up 10x nearest-neighbour.
+  Crisp squares, no blur, no anti-aliasing, no gradients.
+- Background: flat pure magenta #FF00FF. No floor, no shadows, no text.
+- Same size in every frame, feet on the same row, 3 pixels above the bottom of the cell.
+
+FRAMES, all facing RIGHT (one eye visible, small mouth on the right edge):
+1 standing, both stub legs together | 2 walking, front stub leg forward |
+3 standing, both stub legs together (same as 1, body 1 pixel lower) |
+4 walking, back stub leg forward
+```

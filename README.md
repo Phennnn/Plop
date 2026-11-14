@@ -165,3 +165,7 @@ All sounds are synthesised in the browser with Web Audio, so there are no sound 
 - **Your own tags** on the log screen (up to 6, 12 characters, letters and numbers). Saved on logs as `c:name`, shown in History and the doctor report, and counted in Food patterns.
 - **Stats:** logs per day and best streak tiles.
 - **Backup reminder:** once a month, if there are 10+ real logs and no backup in 30 days.
+
+## Version 30: he looks where he walks
+- Frames 40-41 are now his walk steps with the eyes of the looking-right frame (`tools/build-walk-frames.py`); the engine mirrors them when he heads left. Before, he always glanced left.
+- A true side view was dropped: three image-model tries (`sprites/gemini-sidewalk-v1.jpg`, `-v2.jpg`) drew a different character or the wrong size.

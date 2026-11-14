@@ -205,4 +205,8 @@ assert(['tickle', 'shake', 'rainbow'].every((t) => found.includes(t)), 'tricks r
 // asleep at night (Today sets dark + night): one tap wakes him, after that taps are normal
 p.dark = p.night = true; p.wake(T); assert(!p.dark && !p.night, 'a tap wakes him from his night sleep');
 
+// walking: he looks where he's going (frames 40/41 look right, mirrored when he heads left)
+{ const q = make(300, 200, 5).p; q.s.walkHop = true; q.s.vx = -1; assert([40, 41].includes(q.frameFor({}, T)) && q.flip, 'walking left: mirrored');
+  q.s.vx = 1; q.frameFor({}, T); assert(!q.flip, 'walking right: as drawn'); }
+
 console.log('plop OK: rainbow puke, decor, eyes track left/right/reset, 5 snacks, coffee trip, throw + walk home, tickle, shake, lights, embeds, unwell looks | ' + draws + ' draw calls');

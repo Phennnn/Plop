@@ -5,7 +5,7 @@ Ranked inside each group by value for the effort. Ticked items are done (groups 
 ## 1. Check first (Version 28 loose ends)
 - [x] Look at the four poses that were wired but not seen live: sitting on the sofa, hungry on Play, clapping on the reward screen, Dr. Ploopy thinking.
 - [x] README: add a Version 28 section (22 new poses, `strike(name, ms)`).
-- [ ] Side walk: two frames still needed from Gemini (sprites, set aside for now).
+- [x] Side walk: built from his own frames in Version 30 (he looks where he walks). No sprites needed from Gemini.
 
 ## 2. The tracker itself
 - [x] **Needs have no minus button.** A mis-tap on water or fibre can only be undone in the 4.5-second toast.
