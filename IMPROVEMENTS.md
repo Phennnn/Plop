@@ -23,11 +23,12 @@ Ranked inside each group by value for the effort. Ticked items are done (groups 
 - [x] **Tricks list spoils the secrets.** Hints show for tricks not found yet. Show "???" only, with a hint after a few days.
 
 ## 4. Mobile and polish
-- [ ] **Closet is the longest screen** (about 1,680 px). Fold the streak-shield box or make the grid scroll inside its panel.
-- [ ] **First-open splash is 10 seconds.** Skippable, but long for a first impression. Cut to about 4.
-- [ ] **The tour is 11 steps.** Trim to 5 and let the rest be discovered.
-- [ ] **Font: "5" reads as "S"** in body text ("5–15 min"). Use the pixel font for numbers.
-- [ ] **Three decor pieces crowd a phone-width room.** Plop stands in front of the side piece. Consider letting him stand left of centre when a side piece is placed.
+- [x] **Closet is the longest screen** (about 1,680 px). Fold the streak-shield box or make the grid scroll inside its panel.
+- [x] **First-open splash is 10 seconds.** Skippable, but long for a first impression. Cut to about 4.
+- [x] **The tour is 11 steps.** Trim to 5 and let the rest be discovered.
+- [x] **Font: "5" reads as "S"** in body text ("5–15 min"). Use the pixel font for numbers.
+- [x] ~~Three decor pieces crowd a phone-width room~~ (left as is: moving Plop off-centre would unbalance every other room).
+  Original note: **Three decor pieces crowd a phone-width room.** Plop stands in front of the side piece. Consider letting him stand left of centre when a side piece is placed.
 
 ## 5. Needs the public version (only on "yes, deploy")
 - [ ] Home-screen icon and full screen (installable app).
@@ -38,8 +39,9 @@ Ranked inside each group by value for the effort. Ticked items are done (groups 
 
 ## 6. Code health
 - [ ] `index.html` is about 550 KB in one file; half is embedded sprites. Fine for the artifact, split for the public version.
-- [ ] Two old test files (`buddy-check.js`, `closet-check.js`) are not part of the routine. Run or delete them.
+- [x] Two old test files (`buddy-check.js`, `closet-check.js`) are not part of the routine. Run or delete them.
 - [x] The project is not in git. One `git init` gives undo for every future change.
 
 ## Found while testing
-- [ ] A toast can sit on top of the pinned SAVE ENTRY button for a few seconds. Move toasts above it on the log screen.
+- [x] A toast can sit on top of the pinned SAVE ENTRY button for a few seconds. Move toasts above it on the log screen.
+- [ ] The engine test failed once in 108 runs and never again; cause not found. Watch for it.

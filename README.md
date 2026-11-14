@@ -176,3 +176,14 @@ All sounds are synthesised in the browser with Web Audio, so there are no sound 
 - **The speech bubble steps right** when a picture hangs on the wall, with its tail still over his head (`--shift`).
 - **LOG IT pulses** when nothing is logged by 11:00, and Plop announces a ready chest.
 - **Tricks stay secret** ("A secret. Experiment!") for the first 3 days, then the hints appear.
+
+## Version 32: mobile and polish
+- **Numbers are readable:** Pixelify Sans draws "5" like "S", so digits in body text come from a system font (`PlopDigits`, a `unicode-range` font face).
+- **Closet → Decor is browsed by spot** (rugs, seats, big pieces, wall, corner): 1,680 px down to about 1,030-1,280.
+- **Tour:** 6 steps instead of 11. **First-open splash:** about 7 s instead of 10 (the title tune is cut).
+- **Toasts sit above SAVE ENTRY** on the log screen.
+- Not changed: three floor pieces still crowd a phone-width room. That is the price of a full room; Plop keeps the middle.
+
+## Tests
+- `node tests/app-check.js` and `node tests/plop-check.js` test the app (`index.html`). Run both after every change.
+- `node tests/buddy-check.js mockups-source/Buddy.dc.html` and `node tests/closet-check.js mockups-source/Closet.dc.html` test the early design mockups, not the app. They still pass; run them only if the mockups change.

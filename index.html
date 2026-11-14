@@ -7,13 +7,15 @@
 <meta name="theme-color" content="#7A4A21">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Pixelify+Sans:wght@400;500;600;700&display=swap">
 <style>
+/* Pixelify Sans draws "5" like "S": digits in body text use a plain system font instead */
+@font-face { font-family: "PlopDigits"; src: local("Trebuchet MS"), local("Verdana"), local("Roboto"), local("Helvetica Neue"), local("Arial"); unicode-range: U+30-39; }
 /* Layout: one phone-width column; tabs live in a fixed pixel bar at the bottom. Single committed light look. */
 :root {
   --paper: #EFE3D2; --tile: #E7D6BF; --panel: #FFF8EC; --ink: #2B1A10;
   --brown: #7A4A21; --deep: #5A3415; --tan: #C79A6A; --gold: #E0A32E; --gold-d: #B07A18;
   --teal: #1F5C54; --muted: #6E5542; --off: #D9CDBB; --red: #A63F2A;
   --pix: "Press Start 2P", ui-monospace, "Courier New", monospace;
-  --body: "Pixelify Sans", "Trebuchet MS", sans-serif;
+  --body: "PlopDigits", "Pixelify Sans", "Trebuchet MS", sans-serif;
   color-scheme: light;
 }
 * { box-sizing: border-box; }
@@ -113,7 +115,7 @@ dialog.doc::backdrop { background: rgba(43, 26, 16, 0.6); }
 .sp-cv { width: min(78vw, 320px); height: auto; aspect-ratio: 1; image-rendering: pixelated; image-rendering: crisp-edges; }
 .sp-load { width: min(100%, 300px); }
 .sp-load .meter { height: 22px; }
-.sp-load .meter span { width: 0; background: var(--gold); animation: sp-fill 10s steps(20) forwards; }
+.sp-load .meter span { width: 0; background: var(--gold); animation: sp-fill 7.2s steps(20) forwards; }
 @keyframes sp-fill { to { width: 100%; } }
 .sp-msg { margin: 10px 0 0; font: 10px/1.6 var(--pix); text-align: center; min-height: 13px; }
 .sp-skip { margin: 0; font: 10px var(--pix); color: var(--muted); animation: sp-blink 1s steps(1) infinite; }
@@ -284,6 +286,7 @@ nav.tabs button { flex: 1; min-height: 64px; display: flex; flex-direction: colu
 nav.tabs button + button { border-left: 3px solid var(--ink); }
 nav.tabs button[aria-current="page"] { background: var(--brown); color: var(--panel); }
 .toast { position: fixed; left: 50%; bottom: calc(84px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); width: min(calc(100% - 40px), 390px); display: flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--ink); color: var(--panel); padding: 12px 14px; font-size: 15px; z-index: 20; }
+.toast.high { bottom: calc(215px + env(safe-area-inset-bottom, 0px)); }
 .toast button { border: 3px solid var(--panel); background: var(--gold); color: var(--ink); font: 10px var(--pix); padding: 7px 9px; cursor: pointer; }
 @media (prefers-reduced-motion: reduce) { .btn:active { transform: none; } }
 </style>
@@ -388,6 +391,7 @@ nav.tabs button[aria-current="page"] { background: var(--brown); color: var(--pa
   <div class="seg" role="tablist" aria-label="Item type" id="c-tabs" style="margin-top: 16px">
     <button type="button" role="tab" data-cat="hats">HATS</button><button type="button" role="tab" data-cat="skins">SKINS</button><button type="button" role="tab" data-cat="face">FACE</button><button type="button" role="tab" data-cat="decor">DECOR</button>
   </div>
+  <div class="tags" id="c-slots" role="group" aria-label="Where it goes" style="margin-top: 12px" hidden></div>
   <div class="grid3" id="c-grid"></div>
   <button class="btn" type="button" id="c-act" style="margin-top: 16px"></button>
   <p class="muted" style="margin: 14px 0 0; font-size: 15px">Earn: your first 3 logs a day (10, +15 for type 3–4, +5 for a note), +50 every 7-day streak, Plop's needs, scrubbing his house, quest chests and Fibre Catch. Spend: closet, decor, treats and streak shields. Deleting a log takes its points back.</p>
@@ -1956,6 +1960,7 @@ function go(name) {
   current = name;
   for (const s of $$('section.screen')) s.hidden = s.id !== 's-' + name;
   $('#nav').hidden = !MAIN.includes(name);
+  $('#toast').classList.toggle('high', name === 'log');
   for (const b of $$('#nav button')) {
     if (b.dataset.go === name) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
   }
@@ -2227,7 +2232,10 @@ function renderReward() {
 }
 
 /* closet */
-const closetUI = { cat: 'hats', prev: {}, bub: '' };
+const closetUI = { cat: 'hats', prev: {}, bub: '', slot: 'rug' };
+const SLOTS = { rug: 'RUGS', seat: 'SEATS', side: 'BIG PIECES', wall: 'WALL', corner: 'CORNER' };
+$('#c-slots').innerHTML = Object.keys(SLOTS).map((k) => '<button type="button" data-slot="' + k + '">' + SLOTS[k] + '</button>').join('');
+$('#c-slots').onclick = (e) => { const b = e.target.closest('button'); if (b) { closetUI.slot = b.dataset.slot; closetUI.prev = {}; closetUI.bub = ''; renderCloset(); } };
 const ICON_PAL = { k: '#2B1A10', w: '#FFF8EC', g: '#E0A32E', G: '#B07A18', t: '#2E7D72', T: '#1F5C54', p: '#E5576B', P: '#B83A4F', r: '#D9553B', R: '#A63F2A', c: '#6FB7D9', x: '#C9B79C', o: '#E07B24', O: '#A8541A', v: '#5E8C31' };
 const POOP = ['...bb...', '..blbb..', '.bbbbbb.', '.lbbbbd.', 'bbbbbbbd', '.dddddd.'];
 function iconHtml(it) {
@@ -2237,7 +2245,9 @@ function iconHtml(it) {
 }
 function renderCloset() {
   const cat = closetUI.cat, bal = balanceOf(S), prev = closetUI.prev;
-  const season = seasonOf(Date.now()), shown = ITEMS[cat].filter((it) => !it.season || it.season === season || S.owned[cat + ':' + it.id]);
+  const season = seasonOf(Date.now()), shown = ITEMS[cat].filter((it) => (!it.season || it.season === season || S.owned[cat + ':' + it.id]) && (cat !== 'decor' || it.slot === closetUI.slot));
+  $('#c-slots').hidden = cat !== 'decor';
+  for (const b of $$('#c-slots button')) b.setAttribute('aria-pressed', String(b.dataset.slot === closetUI.slot));
   const isOn = (it) => (cat === 'decor' ? (S.room || {})[it.slot] === it.id : S.worn[cat] === it.id);
   const focusId = prev[cat] || S.worn[cat];
   const focus = shown.find((i) => i.id === focusId) || shown[0];
@@ -2748,7 +2758,7 @@ document.documentElement.addEventListener('pointerleave', () => { const t = perf
    then splashes out at you. Drawn pixel by pixel on a 96x96 canvas. Tap to skip. (Silent: browsers block audio until your first tap.) */
 const SP_QUICK = !!S.splashSeen;                           // seen the full show before: a short version from the splash moment on
 if (SP_QUICK) $('#splash').classList.add('quick');
-const SPLASH_MS = SP_QUICK ? 2600 : 10000, SP_MSG = ['WARMING UP THE SEAT...', 'COUNTING FIBRE...', 'POLISHING THE BOWL...', 'WAKING UP DR. PLOOPY...', 'CALIBRATING THE BRISTOL SCALE...', 'HYDRATING...', 'READY!'];
+const SPLASH_MS = SP_QUICK ? 2600 : 7200, SP_MSG = ['WARMING UP THE SEAT...', 'COUNTING FIBRE...', 'POLISHING THE BOWL...', 'WAKING UP DR. PLOOPY...', 'CALIBRATING THE BRISTOL SCALE...', 'HYDRATING...', 'READY!'];
 let spStep = 0, spTick = 0, spEnd = 0, spBus = null;
 const SPN = 96, SPX = 48, SPY = 54, spCtx = $('#sp-cv').getContext('2d'), spImg = spCtx.createImageData(SPN, SPN), spDrops = [];
 let spT0 = null;
@@ -2851,9 +2861,7 @@ function spSound() {
   noise(0.5, 0.32, 4500, 700, 5.0); tone(180, 950, 0.32, 'square', 0.06, 5.0);                  // SPLASH + boing
   notes([523, 659, 784, 1047, 0, 784, 1047, 1319], 0.09, 'square', 0.05, 5.55);                // ta-da!
   notes([523, 659, 784, 1047], 0.1, 'triangle', 0.08, 6.3);                                    // P-L-O-P lands, letter by letter
-  const lead = [784, 988, 1175, 988, 784, 0, 659, 784, 880, 0, 784, 0], bass = [131, 0, 196, 0, 165, 0, 196, 0, 175, 0, 131, 0];
-  if (!S.mus) { notes(lead, 0.2, 'square', 0.03, 7.1); notes(bass, 0.2, 'triangle', 0.08, 7.1); }   // a short title tune (music on: the app's loop takes over)
-  tone(988, 988, 0.08, 'square', 0.05, 9.6); tone(1319, 1319, 0.3, 'square', 0.05, 9.68);     // READY! coin
+  tone(988, 988, 0.08, 'square', 0.05, 6.85); tone(1319, 1319, 0.3, 'square', 0.05, 6.93);     // READY! coin
   SND.bus = null;
 }
 function startSplash() {
@@ -2888,17 +2896,12 @@ else {
 
 /* Dr. Ploopy's tour: he flies to each part of the app and explains it. Runs once after the welcome screen; replay from Stats. */
 const TOUR = [
-  { page: 'today', el: '#p-today', text: "Hello! Dr. Ploopy, PhD. This is Plop, your gut's mascot. Tap to boop him, hold to make him jump." },
-  { page: 'today', el: '[data-health]', text: "These hearts are Plop's health. They come from your last 7 days of logs. Tap them to see all his moods." },
-  { page: 'today', el: '#quests', text: 'Daily quests! Do all 3 and open the mystery chest: points, and sometimes free furniture.' },
-  { page: 'today', el: '#needs', text: 'His needs: tap + for each glass of water, portion of fibre, and 30 minutes of moving. Points up to each goal.' },
-  { page: 'today', el: '#s-today .btn[data-go="log"]', text: 'Been to the loo? Tap LOG IT. Every log earns points, even the rough ones.' },
-  { page: 'log', el: '#picker', text: 'Pick what it looked like on the Bristol scale, 1 to 7. Types 3 and 4 are the textbook zone. Watch Plop react.' },
-  { page: 'log', el: '#save', text: "Add a note for +5, then save. (We're only looking: nothing gets saved on this tour.)" },
-  { page: 'closet', el: '#c-tabs', text: 'Points buy hats, skins, face items and DECOR for his room in the Closet. Plop has opinions about interior design.' },
-  { page: 'stats', el: '#s-stats [data-doc]', text: 'Your patterns live in Stats. If something looks off, I pop up with tips. And now I am an AI: ask me anything about your gut!' },
-  { page: 'play', el: '#p-play', text: 'Play time! Feed him snacks, play Fibre Catch, and find all 10 of his secret tricks. Some are... messy.' },
-  { page: 'today', el: '#nav', text: "Tabs live down here. Replay this tour from Stats any time. Now go be regular!" }
+  { page: 'today', el: '#p-today', text: "Hello! Dr. Ploopy, PhD. This is Plop, your gut's mascot. His hearts below follow your last 7 days. Tap him to boop him!" },
+  { page: 'today', el: '#s-today .btn[data-go="log"]', text: 'Been to the loo? Tap LOG IT and pick what it looked like, 1 to 7. Every log earns points, even the rough ones.' },
+  { page: 'today', el: '#tq', text: 'Daily quests and his needs live here: water, fibre, moving. Finish all 3 quests to open a mystery chest.' },
+  { page: 'closet', el: '#c-tabs', text: 'Points buy hats, skins, and furniture for his room. Plop has opinions about interior design.' },
+  { page: 'play', el: '#p-play', text: 'Play time! Feed him, play Fibre Catch, and find his secret tricks. Some are... messy.' },
+  { page: 'stats', el: '#s-stats [data-doc]', text: 'Your patterns live in Stats, and you can ask me anything about your gut. Replay this tour from here. Now go be regular!' }
 ];
 const TOUR_SAY = ['over here!', 'ahem.', 'look!', 'this bit.', 'see?', 'fascinating.'];
 let tourI = 0;
