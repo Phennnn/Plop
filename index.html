@@ -304,6 +304,8 @@ nav.tabs button[aria-current="page"] { background: var(--brown); color: var(--pa
     <span style="height: 24px; background: #6B3B18; border: 3px solid var(--ink)"></span><span style="height: 24px; background: #8A5C14; border: 3px solid var(--ink)"></span><span style="height: 24px; background: #4F6A24; border: 3px solid var(--ink)"></span><span style="height: 24px; background: #2E6F3C; border: 3px solid var(--ink)"></span><span style="height: 24px; background: #1F6F6A; border: 3px solid var(--ink)"></span><span style="height: 24px; background: #2A5F86; border: 3px solid var(--ink)"></span><span style="height: 24px; background: #3D4E95; border: 3px solid var(--ink)"></span>
   </div>
   <p style="margin: 12px 0 0">The same seven-point scale your doctor uses. Every log earns points to dress up Plop.</p>
+  <p class="label">WHAT BRINGS YOU HERE?</p>
+  <div class="tags goal" role="group" aria-label="What brings you here"><button type="button" data-goal="regular" aria-pressed="true">STAY REGULAR</button><button type="button" data-goal="problem" aria-pressed="false">TRACK A PROBLEM</button><button type="button" data-goal="curious" aria-pressed="false">JUST CURIOUS</button></div>
   <div class="stack" style="margin-top: 24px">
     <button class="btn" id="start-fresh" type="button">START FRESH</button>
     <button class="btn gold" id="start-sample" type="button">TRY WITH SAMPLE DATA</button>
@@ -319,16 +321,20 @@ nav.tabs button[aria-current="page"] { background: var(--brown); color: var(--pa
     <svg width="16" height="16" viewBox="0 0 7 7" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><rect x="3" y="0" width="1" height="7"/><rect x="0" y="3" width="7" height="1"/></svg>LOG IT
   </button>
   <button class="link" type="button" id="quick-log" hidden style="display: block; margin: 4px auto 0"></button>
+  <button class="link" type="button" id="rest-btn" hidden style="display: block; margin: 0 auto">Nothing today? Check in (+10 PTS)</button>
   <div class="chips">
     <span class="chip gold"><svg width="11" height="11" viewBox="0 0 7 7" shape-rendering="crispEdges" aria-hidden="true" fill="#2B1A10"><rect x="3" y="0" width="1" height="7"/><rect x="0" y="3" width="7" height="1"/><rect x="1" y="1" width="1" height="1"/><rect x="5" y="1" width="1" height="1"/><rect x="1" y="5" width="1" height="1"/><rect x="5" y="5" width="1" height="1"/></svg><span id="streak"></span></span>
     <button class="chip" type="button" data-go="closet"><svg width="12" height="12" viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true"><rect x="2" y="0" width="4" height="8" fill="#B07A18"/><rect x="0" y="2" width="8" height="4" fill="#B07A18"/><rect x="1" y="1" width="6" height="6" fill="#B07A18"/><rect x="2" y="1" width="4" height="6" fill="#E0A32E"/><rect x="1" y="2" width="6" height="4" fill="#E0A32E"/></svg><span id="pts"></span></button>
+    <button class="chip" type="button" id="bond"></button>
     <span class="chip" id="stage"></span>
     <span class="chip" id="last" hidden></span>
   </div>
+  <button class="banner" type="button" id="next" data-go="closet" style="width: 100%; cursor: pointer; text-align: left; color: var(--ink)"><span class="pix" style="font-size: 9px; flex: none">NEXT</span><span class="meter"><span id="next-bar"></span></span><span class="pix" style="font-size: 9px; flex: none" id="next-txt"></span></button>
   <button class="hearts" type="button" data-health><span>PLOP<br>HEALTH</span><span class="hh" id="hearts"></span><span class="st" id="h-state"></span></button>
   <div class="seg tq" id="tq" role="tablist" aria-label="Today's goals"><button type="button" role="tab" data-tq="quests">QUESTS</button><button type="button" role="tab" data-tq="needs">NEEDS</button></div>
   <div class="panel quests" id="quests" data-tq="quests"></div>
   <div class="panel needs" id="needs" data-tq="needs"></div>
+  <button class="banner" type="button" id="wish" data-go="play" hidden style="width: 100%; cursor: pointer; text-align: left; color: var(--ink)"><span id="wish-txt"></span><b class="pix" style="font-size: 10px; background: var(--gold); border: 3px solid var(--ink); padding: 7px 8px">+15 PTS</b></button>
   <button class="banner" type="button" id="event-banner" data-go="closet" hidden style="width: 100%; cursor: pointer; text-align: left; color: var(--ink)"><span id="event-txt"></span><b class="pix" style="font-size: 10px; background: #E07B24; border: 3px solid var(--ink); padding: 7px 8px">BOO</b></button>
   <button class="banner" type="button" id="clean-cta" hidden style="width: 100%; cursor: pointer; text-align: left; color: var(--ink)"><span>Plop's house is a mess. Scrub it clean?</span><b class="pix" style="font-size: 10px; background: var(--gold); border: 3px solid var(--ink); padding: 7px 8px">+10 PTS</b></button>
   <div class="banner" id="sample-banner" hidden><span>This is sample data.</span><button type="button" id="clear-sample">CLEAR IT</button></div>
@@ -388,13 +394,14 @@ nav.tabs button[aria-current="page"] { background: var(--brown); color: var(--pa
   <div class="top"><h1>CLOSET</h1><span class="chip gold" style="box-shadow: 4px 4px 0 var(--ink); font-size: 12px" id="c-bal"></span></div>
   <div class="frame" id="p-closet"></div>
   <div class="banner" id="shield-row"><span id="shield-txt"></span><button type="button" id="shield-buy">BUY 150</button></div>
+  <button class="banner" type="button" id="deal" hidden style="width: 100%; cursor: pointer; text-align: left; color: var(--ink)"><span id="deal-txt"></span><b class="pix" style="font-size: 10px; background: var(--gold); border: 3px solid var(--ink); padding: 7px 8px">-30%</b></button>
   <div class="seg" role="tablist" aria-label="Item type" id="c-tabs" style="margin-top: 16px">
     <button type="button" role="tab" data-cat="hats">HATS</button><button type="button" role="tab" data-cat="skins">SKINS</button><button type="button" role="tab" data-cat="face">FACE</button><button type="button" role="tab" data-cat="decor">DECOR</button>
   </div>
   <div class="tags" id="c-slots" role="group" aria-label="Where it goes" style="margin-top: 12px" hidden></div>
   <div class="grid3" id="c-grid"></div>
   <button class="btn" type="button" id="c-act" style="margin-top: 16px"></button>
-  <p class="muted" style="margin: 14px 0 0; font-size: 15px">Earn: your first 3 logs a day (10, +15 for type 3–4, +5 for a note), +50 every 7-day streak, Plop's needs, scrubbing his house, quest chests and Fibre Catch. Spend: closet, decor, treats and streak shields. Deleting a log takes its points back.</p>
+  <p class="muted" style="margin: 14px 0 0; font-size: 15px">Earn: your first 3 logs a day (25 each, whatever the type, +5 for a note), a streak bonus every day (up to +20), check-ins, Plop's needs and wishes, scrubbing his house, quest chests and the two games. Spend: closet, decor, treats and streak shields. Deleting a log takes its points back.</p>
 </section>
 
 <!-- ================= STATS ================= -->
@@ -445,6 +452,7 @@ nav.tabs button[aria-current="page"] { background: var(--brown); color: var(--pa
   <div class="top">
     <h1>PLAY</h1>
     <span class="snd"></span>
+    <button class="square" type="button" id="photo" aria-label="Save a photo of his room"><svg width="16" height="16" viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><rect x="2" y="1" width="3" height="1"/><rect x="0" y="2" width="8" height="1"/><rect x="0" y="3" width="3" height="3"/><rect x="5" y="3" width="3" height="3"/><rect x="3" y="3" width="2" height="1"/><rect x="3" y="5" width="2" height="1"/><rect x="0" y="6" width="8" height="1"/></svg></button>
     <button class="square" type="button" id="fs" aria-label="Full screen"><svg width="16" height="16" viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><rect x="0" y="0" width="3" height="1"/><rect x="0" y="0" width="1" height="3"/><rect x="5" y="0" width="3" height="1"/><rect x="7" y="0" width="1" height="3"/><rect x="0" y="7" width="3" height="1"/><rect x="0" y="5" width="1" height="3"/><rect x="5" y="7" width="3" height="1"/><rect x="7" y="5" width="1" height="3"/></svg></button>
   </div>
   <div class="frame" id="p-play"></div>
@@ -455,9 +463,10 @@ nav.tabs button[aria-current="page"] { background: var(--brown); color: var(--pa
     <button type="button" id="act-dance">DANCE</button><button type="button" id="act-bath">BATH</button><button type="button" id="act-potty">POTTY</button><button type="button" id="act-lights" aria-pressed="false">LIGHTS OFF</button>
   </div>
   <button class="btn gold" type="button" id="catch-btn" style="margin-top: 14px">FIBRE CATCH</button>
+  <button class="btn gold" type="button" id="swat-btn" style="margin-top: 10px">FLY SWAT</button>
   <details class="fold"><summary class="label">TRICKS <span id="tricks-n"></span> · TAP TO SHOW</summary>
   <div class="badges" id="tricks"></div></details>
-  <p class="muted" style="margin: 14px 0 0; font-size: 15px">Healthy snacks are free. Treats cost a few points and fill him up fast: too many and his tummy hurts. Tap his furniture, pick him up, and experiment: he has 10 secret tricks.</p>
+  <p class="muted" style="margin: 14px 0 0; font-size: 15px">Healthy snacks are free. Treats cost a few points and fill him up fast: too many and his tummy hurts. Tap his furniture, pick him up, and experiment: he has 12 secret tricks.</p>
 </section>
 
 </div>
@@ -484,6 +493,10 @@ nav.tabs button[aria-current="page"] { background: var(--brown); color: var(--pa
 <div class="clean" id="game" hidden>
   <div class="clean-top"><p style="margin: 0">CATCH THE FIBRE<br>DODGE THE TREATS</p><span id="game-info"></span><button type="button" class="square" id="game-x" aria-label="Stop the game">X</button></div>
   <div class="clean-area" id="game-area" role="application" aria-label="Fibre Catch: move Plop left and right with your finger, the mouse or the arrow keys"><canvas id="game-cv" style="position: absolute; inset: 0; width: 100%; height: 100%; image-rendering: pixelated"></canvas></div>
+</div>
+<div class="clean" id="swat" hidden>
+  <div class="clean-top"><p style="margin: 0">SWAT THE FLIES<br>20 SECONDS</p><span id="swat-info"></span><button type="button" class="square" id="swat-x" aria-label="Stop the game">X</button></div>
+  <div class="clean-area" id="swat-area" role="application" aria-label="Fly Swat: tap each fly before it gets away" style="cursor: pointer"></div>
 </div>
 <div class="clean" id="clean" hidden>
   <div class="clean-top"><p style="margin: 0">SCRUB THE STAINS<br>SWAT THE FLIES</p><span id="clean-left"></span><button type="button" class="square" id="clean-x" aria-label="Stop cleaning">X</button></div>
@@ -552,6 +565,8 @@ nav.tabs button[aria-current="page"] { background: var(--brown); color: var(--pa
     <button type="button" class="square" data-close aria-label="Close">X</button>
   </div>
   <div class="doc-body">
+    <p class="label" style="margin-top: 0">MY GOAL · PICKS YOUR DAILY QUESTS</p>
+    <div class="tags goal" role="group" aria-label="My goal"><button type="button" data-goal="regular">STAY REGULAR</button><button type="button" data-goal="problem">TRACK A PROBLEM</button><button type="button" data-goal="curious">JUST CURIOUS</button></div>
     <label class="label" for="vol" style="display: block">EFFECTS VOLUME</label><input type="range" id="vol" min="0" max="100" step="5">
     <label class="label" for="mvol" style="display: block">MUSIC VOLUME</label><input type="range" id="mvol" min="0" max="100" step="5">
     <p class="label">MUSIC TRACK</p><div class="seg three" id="tracks" role="group" aria-label="Music track"></div>
@@ -620,6 +635,8 @@ const ITEMS = {
     { id: 'shades', name: 'SHADES', price: 120, map: ['........', 'kkkkkkkk', 'kck..kck', 'kkk..kkk', '.k....k.', '........'] }
   ]
 };
+ITEMS.decor.push({ id: 'th-mint', name: 'MINT WALLS', price: 120, slot: 'theme', tint: '#CDEEDD' }, { id: 'th-rose', name: 'ROSE WALLS', price: 120, slot: 'theme', tint: '#FFD3DE' },
+  { id: 'th-sky', name: 'SKY WALLS', price: 120, slot: 'theme', tint: '#CFE4FF' }, { id: 'th-sun', name: 'SUNSET ROOM', price: 150, slot: 'theme', tint: '#FFD9A8' }, { id: 'th-night', name: 'MIDNIGHT ROOM', price: 180, slot: 'theme', tint: '#8E97CC' });
 const PRICE = {};
 for (const cat in ITEMS) for (const it of ITEMS[cat]) PRICE[cat + ':' + it.id] = it.price;
 const DECOR_BY = {}; for (const it of ITEMS.decor) DECOR_BY[it.id] = it;
@@ -627,14 +644,14 @@ const STARTER = { 'hats:none': 1, 'hats:party': 1, 'skins:classic': 1, 'face:non
 
 // Points are derived from the log every time, never stored: deleting a log takes its points with it.
 const isIdeal = (b) => b === 3 || b === 4;
-const logPoints = (e) => 10 + (isIdeal(e.b) ? 15 : 0) + (e.n && e.n.trim() ? 5 : 0);
+const logPoints = (e) => 25 + (e.n && e.n.trim() ? 5 : 0);     // the same for every type: points are for the habit, not for having a healthy gut
 // extra = day keys covered by a streak shield: they count as logged days for streaks
-function streakBonus(logs, extra) {
-  const days = Array.from(new Set(logs.map((e) => dkey(e.t)).concat(extra || []))).sort();
+function streakBonus(logs, extra) {                          // +2 per streak day, up to +20 a day; only days with a log pay
+  const logged = new Set(logs.map((e) => dkey(e.t))), days = Array.from(new Set(Array.from(logged).concat(extra || []))).sort();
   let run = 0, bonus = 0, prev = null;
   for (const k of days) {
     run = prev && dayDiff(prev, k) === 1 ? run + 1 : 1;
-    if (run % 7 === 0) bonus += 50;
+    if (logged.has(k)) bonus += Math.min(20, 2 * run);
     prev = k;
   }
   return bonus;
@@ -657,15 +674,58 @@ const cleanEarned = (days) => (days || []).length * 10;     // scrubbing his mes
 const chestEarned = (st) => (st.chests || []).reduce((t, d) => t + ((st.chestPts || {})[d] || 30), 0);   // mystery chests: 10-60 each (older ones were 30)
 const giftValue = (gifts) => (gifts || []).reduce((t, k) => t + (PRICE[k] || 0), 0);   // decor won from chests costs nothing
 const SHIELD = 150;                                          // a streak shield covers one missed day
-const gameEarned = (games) => Object.keys(games || {}).reduce((t, k) => t + Math.min(20, Math.max(0, games[k])), 0);   // Fibre Catch: each day's best score, up to 20
-const balanceOf = (st) => earned(st.logs, st.shielded) + careEarned(st.care) + cleanEarned(st.cleaned) + chestEarned(st) + gameEarned(st.games) + giftValue(st.gifts) - spent(st.owned) - (st.snackSpent || 0) - (st.shields || 0) * SHIELD;
+const gameEarned = (games, cap) => Object.keys(games || {}).reduce((t, k) => t + Math.min(cap || 20, Math.max(0, games[k])), 0);
+// "Nothing today" check-ins keep the streak alive like a shield does (a day without a poop is still a day tracked) and earn 10 if no log followed.
+const keptDays = (st) => (st.shielded || []).concat(st.rest || []);
+const restEarned = (st) => (st.rest || []).filter((k) => !st.logs.some((e) => dkey(e.t) === k)).length * 10;
+const hashOf = (k) => { let h = 7; for (const ch of k) h = (h * 31 + ch.charCodeAt(0)) % 100003; return h; };
+// Plop's wish of the day: one thing he asks for in Play, +15 when granted
+const WISHES = [{ id: 'eat:broccoli', text: 'some broccoli' }, { id: 'eat:apple', text: 'an apple' }, { id: 'eat:kiwi', text: 'a kiwi' }, { id: 'eat:banana', text: 'a banana' }, { id: 'eat:oats', text: 'a bowl of oats' },
+  { id: 'bath', text: 'a bubble bath' }, { id: 'dance', text: 'a dance party' }, { id: 'game', text: 'a round of Fibre Catch' }, { id: 'swat', text: 'a round of Fly Swat' }];
+const wishFor = (k) => WISHES[hashOf('wish' + k) % WISHES.length];
+// Today's deal: one item he doesn't own, 30% off. The UI fixes it once a day, so buying something else doesn't reshuffle it.
+function dealFor(k, owned) {
+  const left = [];
+  for (const cat in ITEMS) for (const it of ITEMS[cat]) if (it.price && !it.season && !owned[cat + ':' + it.id]) left.push(cat + ':' + it.id);
+  return left.length ? left[hashOf('deal' + k) % left.length] : null;
+}
+const dealPrice = (key) => Math.round(PRICE[key] * 0.7);
+// Bond: grows with everything you do for him and never drops. Levels unlock lines, poses and a trick.
+const BOND = [[0, 'STRANGERS'], [8, 'ACQUAINTED'], [25, 'PALS'], [55, 'BUDDIES'], [100, 'BEST BUDS'], [160, 'FAMILY'], [240, 'SOULMATES']];
+function bondOf(st) {
+  const days = new Set(st.logs.map((e) => dkey(e.t)).concat(st.rest || [])).size, care = Object.values(st.care || {}).filter((d) => Object.keys(CARE).some((k) => d[k] >= CARE[k].goal)).length;
+  const xp = 2 * days + care + 3 * (st.wishes || []).length + 2 * (st.chests || []).length + 2 * (st.cleaned || []).length + 2 * Object.keys(st.tricks || {}).length;
+  let lv = 1; while (lv < BOND.length && xp >= BOND[lv][0]) lv++;
+  const lo = BOND[lv - 1][0], next = BOND[lv] ? BOND[lv][0] : null;
+  return { lv, name: BOND[lv - 1][1], xp, next, ratio: next ? (xp - lo) / (next - lo) : 1 };
+}
+// Habits against the NEXT day's logs (food takes about a day to arrive): share of type 3-4 after a good day, against after the other days.
+// Needs 4 logs on each side and a 15-point gap, so two lucky days don't become a "pattern".
+const HABIT = { water: [6, '6+ glasses of water'], fibre: [3, '3+ portions of fibre'], move: [1, '30 minutes of moving'] };
+function habitInsights(logs, care, now) {
+  const from = midnight(now, 59), out = [];
+  for (const k in HABIT) {
+    const hit = [], miss = [];
+    for (const e of logs) {
+      if (e.t < from) continue;
+      const d = new Date(e.t); d.setDate(d.getDate() - 1);
+      (((care || {})[dkey(d)] || {})[k] >= HABIT[k][0] ? hit : miss).push(isIdeal(e.b) ? 1 : 0);
+    }
+    const share = (a) => a.reduce((t, v) => t + v, 0) / a.length;
+    if (hit.length >= 4 && miss.length >= 4 && Math.abs(share(hit) - share(miss)) >= 0.15) out.push({ k, label: HABIT[k][1], with: share(hit), without: share(miss) });
+  }
+  return out;
+}
+const weekBest = (obj, now) => { const from = dkey(midnight(now, (new Date(now).getDay() + 6) % 7)); return Math.max(0, ...Object.keys(obj || {}).filter((k) => k >= from).map((k) => obj[k])); };   // Monday to Sunday   // Fibre Catch: each day's best score, up to 20
+const balanceOf = (st) => earned(st.logs, keptDays(st)) + careEarned(st.care) + cleanEarned(st.cleaned) + chestEarned(st) + gameEarned(st.games) + gameEarned(st.swat, 10) + restEarned(st) + (st.wishes || []).length * 15 + (st.gift || 0) + (st.saved || 0) + giftValue(st.gifts) - spent(st.owned) - (st.snackSpent || 0) - (st.shields || 0) * SHIELD;
 // Play's secret tricks: found ones are ticked off in a list on Play; finding them all is a badge
 const TRICKS = [
   { id: 'tickle', name: 'TICKLE', how: 'Rub him fast' }, { id: 'dizzy', name: 'DIZZY', how: 'Boop him 5 times quickly' },
   { id: 'shake', name: 'SHAKE', how: 'Pick him up and shake' }, { id: 'bonk', name: 'BONK', how: 'Throw him at a wall' },
   { id: 'rainbow', name: 'RAINBOW', how: 'Keep shaking him...' }, { id: 'lights', name: 'NAP TIME', how: 'Turn the lights off' },
   { id: 'ache', name: 'TUMMY ACHE', how: 'Too many treats' }, { id: 'potty', name: 'POTTY', how: 'Take him to the toilet' },
-  { id: 'bath', name: 'BATH TIME', how: 'Give him a bath' }, { id: 'dance', name: 'DISCO', how: 'Make him dance' }
+  { id: 'bath', name: 'BATH TIME', how: 'Give him a bath' }, { id: 'dance', name: 'DISCO', how: 'Make him dance' },
+  { id: 'genie', name: 'GENIE', how: 'Grant 3 of his wishes' }, { id: 'bff', name: 'BEST FRIEND HUG', how: 'Reach bond level 4, then boop him' }
 ];
 // Seasonal events: Halloween runs 20 Oct - 2 Nov. Its closet items only show (or can be bought) while it's on.
 const seasonOf = (t) => { const d = new Date(t), m = d.getMonth(), day = d.getDate(); return (m === 9 && day >= 20) || (m === 10 && day <= 2) ? 'halloween' : m === 11 ? 'xmas' : ''; };
@@ -690,7 +750,7 @@ function weekTrend(logs, now) {
 }
 // Daily quests: "log today" plus 2 picked from the date, so they stay the same all day. All 3 done opens a chest.
 const QUESTS = [
-  { id: 'log', name: 'Log a poop today', done: (st, k) => st.logs.some((e) => dkey(e.t) === k) },
+  { id: 'log', name: 'Log a poop (or check in)', done: (st, k) => st.logs.some((e) => dkey(e.t) === k) || (st.rest || []).includes(k) },
   { id: 'note', name: 'Add a note to a log', done: (st, k) => st.logs.some((e) => dkey(e.t) === k && e.n && e.n.trim()) },
   { id: 'tag', name: 'Tag what you ate or drank', done: (st, k) => st.logs.some((e) => dkey(e.t) === k && FOOD_TAGS.some((f) => tagged(e, f))) },
   { id: 'water', name: 'Drink 8 glasses of water', done: (st, k) => ((st.care || {})[k] || {}).water >= 8 },
@@ -698,9 +758,11 @@ const QUESTS = [
   { id: 'move', name: 'Move for 30 minutes', done: (st, k) => ((st.care || {})[k] || {}).move >= 1 },
   { id: 'feed', name: 'Feed Plop a healthy snack (Play)', done: (st, k) => st.fed === k }
 ];
-function questsFor(k) {
-  let h = 7; for (const ch of k) h = (h * 31 + ch.charCodeAt(0)) % 100003;
-  const pool = QUESTS.slice(1), a = pool.splice(h % pool.length, 1)[0];
+const GOAL_QUESTS = { regular: ['water', 'fibre', 'move'], problem: ['tag', 'note'] };   // "what brings you here?" picks the second quest
+function questsFor(k, goal) {
+  const h = hashOf(k), pool = QUESTS.slice(1), pref = pool.filter((q) => (GOAL_QUESTS[goal] || []).includes(q.id));
+  const a = pref.length ? pref[h % pref.length] : pool[h % pool.length];
+  pool.splice(pool.indexOf(a), 1);
   return [QUESTS[0], a, pool[Math.floor(h / 7) % pool.length]];
 }
 // Badges: worked out from what's saved, so a bad week never takes one away.
@@ -724,8 +786,8 @@ function badges(st) {
     { id: 'back', name: 'COMEBACK KID', how: 'Log again after 3+ days away', got: back },
     { id: 'clean', name: 'CLEAN FREAK', how: "Scrub Plop's house 5 times", got: (st.cleaned || []).length >= 5 },
     { id: 'quest', name: 'QUEST HUNTER', how: 'Open 7 quest chests', got: (st.chests || []).length >= 7 },
-    { id: 'king', name: 'THRONE KING', how: 'A 30-day streak', got: bestStreak(st.logs, st.shielded) >= 30 },
-    { id: 'tricks', name: 'TRICKSTER', how: 'Find all 10 tricks in Play', got: TRICKS.every((t) => (st.tricks || {})[t.id]) }
+    { id: 'king', name: 'THRONE KING', how: 'A 30-day streak', got: bestStreak(st.logs, keptDays(st)) >= 30 },
+    { id: 'tricks', name: 'TRICKSTER', how: 'Find every trick in Play', got: TRICKS.every((t) => (st.tricks || {})[t.id]) }
   ];
 }
 // Backups: {app: 'plop', v, saved, state} from BACKUP, or the older COPY DATA list [{when, type, note}]. Throws on anything else.
@@ -846,7 +908,7 @@ function plopHealth(logs, now) {
 
 /* ---------------- storage ---------------- */
 const KEY = 'regular-v1';   // the app's old name; kept so saved logs survive the rename to Plop
-const fresh = () => ({ started: false, sample: false, logs: [], owned: Object.assign({}, STARTER), worn: { hats: 'none', skins: 'classic', face: 'none' }, snd: true, mus: false, vol: 1, mvol: 0.7, track: 0, care: {}, cleaned: [] });
+const fresh = () => ({ started: false, sample: false, logs: [], owned: Object.assign({}, STARTER), worn: { hats: 'none', skins: 'classic', face: 'none' }, snd: true, mus: false, vol: 1, mvol: 0.7, track: 0, care: {}, cleaned: [], gift: 100 });   // gift: 100 welcome points (older saves get them too)
 let S = (() => {
   try { const raw = localStorage.getItem(KEY); if (raw) return Object.assign(fresh(), JSON.parse(raw)); } catch (e) {}
   return fresh();
@@ -1239,6 +1301,7 @@ class Plop {
     s.taps.push(now);
     for (let i = 0; i < 4; i++) this.spawn('heart', s.x + (Math.random() - 0.5) * 10 * g.ms, g.head, (Math.random() - 0.5) * 0.5, -0.35 - Math.random() * 0.3, 1100);
     if (s.taps.length >= 5) { s.dizzyUntil = now + 2200; s.taps = []; this.say('@_@ too many boops', 2200); sfx('dizzy'); TRICK.on('dizzy'); return; }
+    if (this.bond >= 4 && !this.ill && Math.random() < 0.25) { this.strike('hug', 1400); this.say('best friends!!', 1400); TRICK.on('bff'); return; }   // bond level 4+
     if (!this.ill && Math.random() < 0.3) this.strike(pick(['love', 'shy', 'cheeky']), 1000);
     this.say(pick(this.ill ? ILL_BOOP[this.ill.kind] : this.glow ? GLOW_BOOP : ['PLOP!', 'hehe', 'again!', 'BOOP', 'whee!', 'that tickles', '10/10 type 4', 'so regular']), 1300);
     sfx('boop');
@@ -1503,6 +1566,8 @@ class Plop {
   paintBg() {                                                // his room picture as the box's background (only where a room is shown)
     const want = this.scene !== 'none' && SCENES.ok ? SCENES.roomURL : '';
     if (want !== this.bgURL && this.el.style) { this.bgURL = want; this.el.style.backgroundImage = want ? 'url(' + want + ')' : ''; }
+    const th = want && this.decor && DECOR_BY[this.decor.theme], tint = th ? th.tint : '';   // a wall theme: the room picture multiplied by a pastel
+    if (tint !== (this.bgTint || '') && this.el.style) { this.bgTint = tint; this.el.style.backgroundColor = tint; this.el.style.backgroundBlendMode = tint ? 'multiply' : ''; }
   }
   drawTiles(c, g, R, ft, band) {                            // the hand-drawn room, used until the picture room has loaded
     const W = g.W, H = g.H, rs = g.rs, d = g.d, T = (rs === d ? 6 : 5 * rs / d) * d;
@@ -1972,12 +2037,19 @@ function go(name) {
 document.addEventListener('click', (e) => { const b = e.target.closest('[data-go]'); if (b) go(b.dataset.go); });
 
 /* welcome */
-$('#start-fresh').onclick = () => { S.started = true; S.since = S.since || Date.now(); save(); go('today'); if (!S.toured) startTour(); };
-$('#start-sample').onclick = () => { S.started = true; S.since = S.since || Date.now(); S.sample = true; S.logs = sampleLogs(Date.now()).concat(S.logs); save(); go('today'); if (!S.toured) startTour(); };
+$('#start-fresh').onclick = () => { S.started = true; S.since = S.since || Date.now(); S.seen33 = 1; S.goal = $('.goal [aria-pressed="true"]').dataset.goal; save(); go('today'); if (!S.toured) startTour(); };
+$('#start-sample').onclick = () => { S.started = true; S.since = S.since || Date.now(); S.seen33 = 1; S.goal = $('.goal [aria-pressed="true"]').dataset.goal; S.sample = true; S.logs = sampleLogs(Date.now()).concat(S.logs); save(); go('today'); if (!S.toured) startTour(); };
+
+// "what brings you here?": asked on the welcome screen, changed in Settings
+for (const g of $$('.goal')) g.onclick = (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  for (const x of $$('.goal button')) x.setAttribute('aria-pressed', String(x.dataset.goal === b.dataset.goal));
+  if (S.started) { S.goal = b.dataset.goal; save(); if (current === 'today') renderToday(); }
+};
 
 /* today */
 function renderToday() {
-  const now = Date.now(), c = counts(S.logs, now), st = currentStreak(S.logs, now, S.shielded);
+  const now = Date.now(), c = counts(S.logs, now), st = currentStreak(S.logs, now, keptDays(S));
   $('#today-date').textContent = new Date(now).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }).toUpperCase();
   $('#streak').textContent = st ? st + ' DAY STREAK' : 'NO STREAK YET';
   const bal = balanceOf(S);
@@ -1987,7 +2059,15 @@ function renderToday() {
   if ((hr >= 23 || hr < 5) && nightFor !== dkey(now - 6 * 36e5)) { nightFor = dkey(now - 6 * 36e5); P.today.dark = P.today.night = true; }   // asleep once a night; a tap wakes him
   $('#hearts').innerHTML = heartsHtml(health.hearts);
   $('#h-state').textContent = STATE_NAME[health.state];
-  const best = bestStreak(S.logs, S.shielded), stage = stageOf(best);
+  const best = bestStreak(S.logs, keptDays(S)), stage = stageOf(best);
+  const bd = bondOf(S), tk = dkey(now), granted = (S.wishes || []).includes(tk), rested = (S.rest || []).includes(tk), u = nextUnlock(S.owned, bal);
+  P.today.bond = P.play.bond = bd.lv;
+  $('#bond').textContent = 'BOND LV ' + bd.lv;
+  $('#stage').hidden = !((best >= 3 && best < 7) || (best >= 20 && best < 30));   // only when he is about to grow
+  $('#next').hidden = !!u.done;
+  if (!u.done) { $('#next-bar').style.width = Math.round(u.ratio * 100) + '%'; $('#next-txt').textContent = u.afford ? 'BUY: ' + u.item.name : u.item.name + ' · ' + (u.item.price - Math.max(0, bal)) + ' TO GO'; }
+  $('#wish').hidden = granted; $('#wish-txt').textContent = "Plop's wish today: " + wishFor(tk).text + '. Grant it in Play.';
+  $('#rest-btn').hidden = !!c.today || rested || hr < 15;      // from mid-afternoon, when "nothing today" starts to be true
   $('#stage').textContent = stage === 'king' ? 'KING PLOP' : stage === 'adult' ? 'GROWN UP · KING AT 30' : 'BABY PLOP · GROWS AT 7 (' + best + '/7)';
   const hrs = S.logs.length ? (now - S.logs[0].t) / 36e5 : -1;
   $('#last').hidden = hrs < 0; $('#last').style.color = hrs >= 72 ? 'var(--red)' : '';
@@ -2000,10 +2080,10 @@ function renderToday() {
   $('#clean-cta').hidden = !['hard', 'loose', 'sick'].includes(health.state) || S.cleaned.includes(dkey(now));
   $('#event-banner').hidden = !seasonOf(now);
   $('#event-txt').textContent = seasonOf(now) === 'xmas' ? 'CHRISTMAS! A snowy mini tree for his room is in the Closet (Decor) all December.' : 'HALLOWEEN! A pumpkin hat, a ghost skin, a jack-o-lantern and a ghost lantern are in the Closet until 2 Nov.';
-  const qk = dkey(now), qs = questsFor(qk), qn = qs.filter((q) => q.done(S, qk)).length, opened = (S.chests || []).includes(qk);
+  const qk = dkey(now), qs = questsFor(qk, S.goal), qn = qs.filter((q) => q.done(S, qk)).length, opened = (S.chests || []).includes(qk);
   $('#quests').innerHTML = qs.map((q) => '<div class="quest' + (q.done(S, qk) ? ' ok' : '') + '"><span class="box" aria-hidden="true">' + (q.done(S, qk) ? TICK : '') + '</span><span>' + q.name + (q.done(S, qk) ? '<span class="sr"> (done)</span>' : '') + '</span></div>').join('') +
     '<button type="button" class="btn' + (qn === 3 && !opened ? ' gold' : ' off') + '" id="chest"' + (qn < 3 || opened ? ' disabled' : '') + '>' + (opened ? 'CHEST OPENED · NEW QUESTS TOMORROW' : qn === 3 ? 'OPEN THE MYSTERY CHEST' : 'DO ALL 3 FOR A MYSTERY CHEST') + '</button>';
-  P.today.setRest(P.today.night ? 'zzz...' : ill ? (ill.sick ? 'i think i need a doctor...' : ill.kind === 'loose' ? 'tummy is NOT ok.' : 'feeling... backed up.') : P.today.glow && c.today ? 'feeling AMAZING. thank you.' : gap >= 2 ? "it's been " + gap + ' days...' : c.today === 0 ? 'nothing yet today.' : c.today === 1 ? 'one down today!' : c.today + ' today. busy!');
+  P.today.setRest(P.today.night ? 'zzz...' : ill ? (ill.sick ? 'i think i need a doctor...' : ill.kind === 'loose' ? 'tummy is NOT ok.' : 'feeling... backed up.') : P.today.glow && c.today ? 'feeling AMAZING. thank you.' : rested && !c.today ? 'no poop today. noted!' : gap >= 2 ? "it's been " + gap + ' days...' : c.today === 0 ? 'nothing yet today.' : c.today === 1 ? 'one down today!' : c.today + ' today. busy!');
   const last = S.logs[0];
   $('#quick-log').hidden = !last;
   if (last) $('#quick-log').textContent = 'Quick log: type ' + last.b + ' again (' + DUR[last.d === undefined ? 1 : last.d] + ')';
@@ -2013,10 +2093,23 @@ function renderToday() {
   $('#s-today .btn[data-go="log"]').classList.toggle('pulse', !c.today && hr >= 11 && !P.today.night);
   if (qn === 3 && !opened && chestSaid !== qk) { chestSaid = qk; setTimeout(() => { if (current === 'today') { P.today.say('the chest is ready!!', 2600); P.today.strike('clap', 2200); showTQ('quests'); } }, 1700); }
   const mk = dkey(now).slice(0, 7);                        // logs live only in this browser: ask once a month if there's no recent backup
-  if (S.logs.filter((e) => !e.sample).length >= 10 && S.backupAsk !== mk && now - (S.backedUp || S.since || now) > 30 * DAY) {
+  if (S.toured && bd.lv > (S.bondSeen || 1)) { S.bondSeen = bd.lv; save(); toast('Bond level ' + bd.lv + ': ' + bd.name + '! Plop trusts you more.'); sfx('fanfare'); P.today.strike('love', 2600); }
+  else if (!S.seen33) { S.seen33 = 1; save(); toast('New: every log earns 25 now, streaks pay every day, and 100 PTS are on the house.'); }
+  else if (new Date(now).getDay() === 0 && hr >= 9 && S.recap !== tk && c.week >= 3) {   // Sunday: the week's card, offered once
+    S.recap = tk; save(); P.today.say('recap time!!', 2400);
+    toast('Your week with Plop is ready.', 'SEE IT', () => { go('stats'); $('#card-btn').click(); });
+  }
+  else if (S.logs.filter((e) => !e.sample).length >= 10 && S.backupAsk !== mk && now - (S.backedUp || S.since || now) > 30 * DAY) {
     S.backupAsk = mk; save(); toast('No backup in over a month. Your logs live only in this browser.', 'BACK UP', () => go('history'));
   } else nudge(now, c);
 }
+$('#bond').onclick = () => { const b = bondOf(S); toast(b.name + (b.next ? ': ' + (b.next - b.xp) + ' more to level ' + (b.lv + 1) : ': top level') + '. Logs, his needs, wishes and chests grow it.'); };
+$('#rest-btn').onclick = () => {                             // a day without a poop is still a day tracked: the streak survives
+  const k = dkey(Date.now()); if ((S.rest || []).includes(k)) return;
+  S.rest = (S.rest || []).concat(k); save(); sfx('coin'); renderToday();
+  P.today.say('thanks for telling me!', 2200); P.today.strike('thumbs', 1800);
+  toast('+10 PTS · checked in. Your streak is safe.', 'UNDO', () => { S.rest = S.rest.filter((x) => x !== k); save(); renderToday(); });
+};
 const DUR = ['under 1 min', '1–5 min', '5–15 min', '15+ min'];
 // Quests and needs share one card on Today: tabs, opening on quests until they're done
 let tqTab = null, nightFor = '', chestSaid = '';
@@ -2035,10 +2128,10 @@ function greet(now) {
   S.greeted = key; save();
   if (away >= 3) { P.today.say('you came back' + nm + '!! i missed you', 3200); sfx('fanfare'); P.today.strike('hug', 3000); return; }
   const L = { morning: ['good morning' + nm + '!', 'morning' + nm + '! water first?', 'rise and shine' + nm], afternoon: ['hey' + nm + '!', 'afternoon' + nm + '. hydrated?', 'hi hi' + nm + '!'], evening: ['evening' + nm + '!', 'how was today' + nm + '?', 'cosy evening' + nm], night: ['psst' + nm + "... it's late", 'shouldn\'t you be asleep' + nm + '?', '*yawn* hi' + nm] };
-  P.today.say(pick(L[part]), 2600); P.today.strike('wave', 2200);
+  P.today.say(pick(L[part]), 2600); P.today.strike(bondOf(S).lv >= 5 ? 'hug' : 'wave', 2200);
 }
 function chatter() {
-  const now = Date.now(), day = S.care[dkey(now)] || {}, st = currentStreak(S.logs, now, S.shielded), c = counts(S.logs, now), h = new Date(now).getHours();
+  const now = Date.now(), day = S.care[dkey(now)] || {}, st = currentStreak(S.logs, now, keptDays(S)), c = counts(S.logs, now), h = new Date(now).getHours();
   const L = ['i like it here with you' + (S.name ? ', ' + S.name : ''), 'boop me. i dare you.', 'what are we doing today?'];
   if ((day.water || 0) < 4 && h >= 12) L.push('thirsty... ' + (day.water || 0) + '/8 glasses', 'glug glug? please?');
   if ((day.fibre || 0) < 2 && h >= 15) L.push('craving broccoli. weird, right?');
@@ -2048,13 +2141,16 @@ function chatter() {
   if (health.state === 'hard') L.push('feeling a bit... stuck.');
   if (h >= 23 || h < 5) L.push('*yawn* bedtime?');
   if (tummyAt(S.tummy, now) < 15) L.push("i'm hungry... snacks are in Play");
+  if (!(S.wishes || []).includes(dkey(now))) L.push('i wish for ' + wishFor(dkey(now)).text + '...');
+  const lv = bondOf(S).lv;                                   // closer friends, warmer lines
+  if (lv >= 2) L.push('you get me.'); if (lv >= 3) L.push("we're pals now, right?"); if (lv >= 5) L.push('best. human. ever.'); if (lv >= 6) L.push("you're family" + (S.name ? ', ' + S.name : '') + '.');
   return L;
 }
 setInterval(() => { if (current === 'today' && document.visibilityState === 'visible' && !P.today.line && !P.today.dark && $('#tour').hidden && Math.random() < 0.5) P.today.say(pick(chatter()), 2600); }, 25000);
 const TICK = '<svg width="12" height="12" viewBox="0 0 6 6" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><rect x="0" y="3" width="1" height="1"/><rect x="1" y="4" width="1" height="1"/><rect x="2" y="3" width="1" height="2"/><rect x="3" y="2" width="1" height="1"/><rect x="4" y="1" width="1" height="1"/><rect x="5" y="0" width="1" height="1"/></svg>';
 $('#quests').addEventListener('click', (e) => {
   if (!e.target.closest('#chest')) return;
-  const k = dkey(Date.now()); if ((S.chests || []).includes(k) || !questsFor(k).every((q) => q.done(S, k))) return;
+  const k = dkey(Date.now()); if ((S.chests || []).includes(k) || !questsFor(k, S.goal).every((q) => q.done(S, k))) return;
   // a mystery chest: 10-60 points, and 1 time in 5 a free piece of furniture he doesn't have yet
   const pts = 10 + Math.floor(Math.random() * 6) * 10, pool = ITEMS.decor.filter((it) => !it.season && it.price <= 200 && !S.owned['decor:' + it.id]), gift = pool.length && Math.random() < 0.2 ? pick(pool) : null;
   S.chests = (S.chests || []).concat(k); S.chestPts = Object.assign({}, S.chestPts, { [k]: pts });
@@ -2132,7 +2228,7 @@ for (const t of ['pointerup', 'pointercancel']) $('#clean-area').addEventListene
 $('#clear-sample').onclick = () => {
   S.logs = S.logs.filter((e) => !e.sample); S.sample = false;
   S.owned = Object.assign({}, STARTER); S.worn = fresh().worn;               // sample points were pretend, so their purchases go too
-  Object.assign(S, { room: {}, snackSpent: 0, chests: [], chestPts: {}, gifts: [], games: {}, shields: 0, shielded: [] });
+  Object.assign(S, { room: {}, snackSpent: 0, chests: [], chestPts: {}, gifts: [], games: {}, shields: 0, shielded: [], rest: [], wishes: [], swat: {}, saved: 0, deal: null });
   save(); applyLook(); renderToday();
   toast('Sample data cleared. The closet reset too, since those points were pretend.');
 };
@@ -2194,19 +2290,19 @@ $('#save').onclick = () => {
     if (form.tags.includes('blood')) setTimeout(openDoc, 500);
     return;
   }
-  const before = balanceOf(S), bonusBefore = streakBonus(S.logs.filter(pays), S.shielded);
+  const before = balanceOf(S), bonusBefore = streakBonus(S.logs.filter(pays), keptDays(S));
   const e = { id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), t, c: Date.now(), b: form.b, d: form.d, n: $('#note').value.trim().slice(0, 120) };
   if (form.tags.length) e.tags = form.tags.slice();
   S.logs.push(e); S.logs.sort((a, b) => b.t - a.t); S.started = true;
   save();
-  const bonus = streakBonus(S.logs.filter(pays), S.shielded) - bonusBefore;
-  showReward(e, balanceOf(S) - before - bonus, bonus, before, balanceOf(S));
+  const bonus = streakBonus(S.logs.filter(pays), keptDays(S)) - bonusBefore;
+  showReward(e, balanceOf(S) - before - bonus, bonus, before, balanceOf(S), currentStreak(S.logs, Date.now(), keptDays(S)));
   if (tagged(e, 'blood')) setTimeout(openDoc, 500);          // a red flag: Dr. Ploopy says so straight away
 };
 
 /* reward */
 let lastReward = null;
-function showReward(e, gain, bonus, before, after) { lastReward = { e, gain, bonus, before, after }; sfx(bonus ? 'fanfare' : 'coin'); go('reward'); }
+function showReward(e, gain, bonus, before, after, run) { lastReward = { e, gain, bonus, before, after, run, big: bonus > 0 && run % 7 === 0 }; sfx(lastReward.big ? 'fanfare' : 'coin'); go('reward'); }   // big: every 7th streak day is a party
 function renderReward() {
   if (!lastReward) { go('today'); return; }
   const r = lastReward, e = r.e, ideal = isIdeal(e.b);
@@ -2214,10 +2310,11 @@ function renderReward() {
   $('#r-time').textContent = fmtWhen(e.t);
   $('#r-gain').textContent = '+' + (r.gain + r.bonus);
   const row = (a, b, muted) => '<div' + (muted ? ' class="muted"' : '') + '><span>' + a + '</span><span class="pix" style="font-size:11px">' + b + '</span></div>';
-  $('#receipt').innerHTML = !r.gain ? row(pays(e) ? 'Logged! Only your first 3 logs a day earn points.' : 'Logged! Logs from over a week ago count for Plop, not points.', '') + '<div class="tot"><span>BALANCE</span><span>' + r.before + ' → ' + r.after + '</span></div>' : row('Logged it', '+10') +
-    (ideal ? row('Textbook bonus (type ' + e.b + ')', '+15') : row('Honest log. Rough days count too.', '')) +
+  $('#receipt').innerHTML = !r.gain ? row(pays(e) ? 'Logged! Only your first 3 logs a day earn points.' : 'Logged! Logs from over a week ago count for Plop, not points.', '') + '<div class="tot"><span>BALANCE</span><span>' + r.before + ' → ' + r.after + '</span></div>' : row('Logged it', '+25') +
+    (ideal ? row('Textbook! Type ' + e.b + '.', '') : row('Honest log. Rough days earn the same.', '')) +
     (e.n ? row('Added a note', '+5') : row('Add a note next time', '+5', true)) +
-    (r.bonus ? row('7-day streak!', '+' + r.bonus) : '') +
+    (r.gain < logPoints(e) ? row("Replaces today's check-in", String(r.gain - logPoints(e))) : '') +
+    (r.bonus ? row('Streak day ' + r.run, '+' + r.bonus) : '') +
     '<div class="tot"><span>BALANCE</span><span>' + r.before + ' → ' + r.after + '</span></div>';
   const u = nextUnlock(S.owned, r.after);
   $('#unlock').innerHTML = u.done
@@ -2225,20 +2322,32 @@ function renderReward() {
     : '<p class="pix" style="margin:0 0 8px;font-size:9px;line-height:1.6">NEXT UNLOCK</p><div style="display:flex;align-items:center;gap:10px"><div class="meter"><span style="width:' + Math.round(u.ratio * 100) + '%"></span></div><span class="pix" style="font-size:9px">' + u.item.name + ' ' + u.item.price + '</span></div>' +
       '<p style="margin:8px 0 0">' + (u.afford ? 'You can afford the ' + u.item.name.toLowerCase() + '. Plop has been asking about it.' : (u.item.price - Math.max(0, r.after)) + ' more points to go. About ' + Math.ceil((u.item.price - Math.max(0, r.after)) / 25) + ' good logs.') + '</p>';
   P.reward.mood = ideal ? 4 : 0;
-  P.reward.scene = r.bonus ? 'party' : 'bathroom';
-  P.reward.strike(r.bonus || ideal ? 'clap' : 'thumbs', 2600);
+  P.reward.scene = r.big ? 'party' : 'bathroom';
+  P.reward.strike(r.big || ideal ? 'clap' : 'thumbs', 2600);
   const prev = S.logs.find((x) => x.id !== e.id && x.t < e.t);
-  P.reward.setRest(r.bonus ? '7 DAYS!!' : ideal && prev && !isIdeal(prev.b) ? 'better than last time!!' : ideal ? 'TEXTBOOK!' : e.b <= 2 ? 'you did it!' : e.b === 7 ? 'hydrate, champ' : 'still counts!');
+  P.reward.setRest(r.big ? r.run + ' DAYS!!' : ideal && prev && !isIdeal(prev.b) ? 'better than last time!!' : ideal ? 'TEXTBOOK!' : e.b <= 2 ? 'you did it!' : e.b === 7 ? 'hydrate, champ' : 'still counts!');
 }
 
 /* closet */
 const closetUI = { cat: 'hats', prev: {}, bub: '', slot: 'rug' };
-const SLOTS = { rug: 'RUGS', seat: 'SEATS', side: 'BIG PIECES', wall: 'WALL', corner: 'CORNER' };
+const SLOTS = { rug: 'RUGS', seat: 'SEATS', side: 'BIG PIECES', wall: 'WALL', corner: 'CORNER', theme: 'COLOURS' };
+// today's deal is picked once a day and kept, used or not
+const dealNow = () => {
+  const k = dkey(Date.now()); if (!S.deal || S.deal.k !== k) { S.deal = { k, key: dealFor(k, S.owned) }; save(); }
+  return S.deal.key && !S.deal.used && !S.owned[S.deal.key] ? S.deal.key : null;
+};
+const costOf = (key) => (key === dealNow() ? dealPrice(key) : PRICE[key] || 0);
+$('#deal').onclick = () => {
+  const key = dealNow(); if (!key) return;
+  const [cat, id] = key.split(':'); closetUI.cat = cat; if (cat === 'decor') closetUI.slot = DECOR_BY[id].slot;
+  closetUI.prev = { [cat]: id }; closetUI.bub = 'a BARGAIN.'; renderCloset();
+};
 $('#c-slots').innerHTML = Object.keys(SLOTS).map((k) => '<button type="button" data-slot="' + k + '">' + SLOTS[k] + '</button>').join('');
 $('#c-slots').onclick = (e) => { const b = e.target.closest('button'); if (b) { closetUI.slot = b.dataset.slot; closetUI.prev = {}; closetUI.bub = ''; renderCloset(); } };
 const ICON_PAL = { k: '#2B1A10', w: '#FFF8EC', g: '#E0A32E', G: '#B07A18', t: '#2E7D72', T: '#1F5C54', p: '#E5576B', P: '#B83A4F', r: '#D9553B', R: '#A63F2A', c: '#6FB7D9', x: '#C9B79C', o: '#E07B24', O: '#A8541A', v: '#5E8C31' };
 const POOP = ['...bb...', '..blbb..', '.bbbbbb.', '.lbbbbd.', 'bbbbbbbd', '.dddddd.'];
 function iconHtml(it) {
+  if (it.tint) return '<span class="dico" style="width:40px;background:' + it.tint + ';border:3px solid var(--ink);box-sizing:border-box"></span>';
   if (it.slot) return DECOR.icons[it.i] ? '<img class="dico" alt="" src="' + DECOR.icons[it.i] + '">' : '<span class="dico"></span>';
   const pal = it.map ? ICON_PAL : Object.assign({}, ICON_PAL, { b: SKINS[it.id][0], l: SKINS[it.id][1], d: SKINS[it.id][2] });
   return '<span class="ico" aria-hidden="true">' + (it.map || POOP).join('').split('').map((ch) => '<span style="background:' + (ch === '.' ? 'transparent' : pal[ch]) + '"></span>').join('') + '</span>';
@@ -2257,18 +2366,21 @@ function renderCloset() {
   const have = (S.shields || 0) - (S.shielded || []).length;
   $('#shield-txt').textContent = 'STREAK SHIELD: covers 1 missed day so your streak survives. You have ' + have + '/2.';
   $('#shield-buy').disabled = have >= 2 || bal < SHIELD;
+  $('#shield-row').hidden = have <= 0 && currentStreak(S.logs, Date.now(), keptDays(S)) < 3;   // nothing to protect yet
+  const deal = dealNow(); $('#deal').hidden = !deal;
+  if (deal) { const [dc, di] = deal.split(':'); $('#deal-txt').textContent = "TODAY'S DEAL: " + ITEMS[dc].find((x) => x.id === di).name + ' ' + PRICE[deal] + ' → ' + dealPrice(deal); }
   for (const b of $$('#c-tabs button')) b.setAttribute('aria-selected', String(b.dataset.cat === cat));
   $('#c-grid').innerHTML = shown.map((it) => {
     const own = !!S.owned[cat + ':' + it.id], on = isOn(it);
-    const tag = on ? (cat === 'decor' ? 'IN ROOM' : 'WEARING') : own ? (it.price ? 'OWNED' : 'FREE') : it.price + ' PTS';
-    const col = on ? 'var(--teal)' : own ? 'var(--muted)' : bal >= it.price ? 'var(--ink)' : 'var(--red)';
+    const cost = costOf(cat + ':' + it.id), tag = on ? (cat === 'decor' ? 'IN ROOM' : 'WEARING') : own ? (it.price ? 'OWNED' : 'FREE') : cost + ' PTS' + (cost < it.price ? ' ★' : '');
+    const col = on ? 'var(--teal)' : own ? 'var(--muted)' : bal >= cost ? 'var(--ink)' : 'var(--red)';
     return '<button type="button" class="card" data-id="' + it.id + '" aria-pressed="' + (it.id === focus.id) + '" aria-label="' + it.name + ', ' + tag.toLowerCase() + '">' + iconHtml(it) + '<span class="nm">' + it.name + '</span><span class="tag" style="color:' + col + '">' + tag + '</span></button>';
   }).join('');
   const act = $('#c-act');
   if (has && isOn(focus)) { act.textContent = cat === 'decor' ? 'TAKE IT OUT' : 'WEARING IT'; act.className = cat === 'decor' ? 'btn' : 'btn off'; }
   else if (has) { act.textContent = cat === 'decor' ? 'PUT IT IN HIS ROOM' : 'WEAR IT'; act.className = 'btn'; }
-  else if (bal >= focus.price) { act.textContent = 'BUY FOR ' + focus.price; act.className = 'btn gold'; }
-  else { act.textContent = 'NEED ' + (focus.price - bal) + ' MORE'; act.className = 'btn off'; }
+  else if (bal >= costOf(cat + ':' + focus.id)) { act.textContent = 'BUY FOR ' + costOf(cat + ':' + focus.id); act.className = 'btn gold'; }
+  else { act.textContent = 'NEED ' + (costOf(cat + ':' + focus.id) - bal) + ' MORE'; act.className = 'btn off'; }
   P.closet.wear(Object.assign({}, S.worn, prev));
   P.closet.decor = prev.decor ? Object.assign({}, S.room, { [DECOR_BY[prev.decor].slot]: prev.decor }) : S.room;   // try decor before you buy
   P.closet.setRest(closetUI.bub || 'dress me up');
@@ -2288,7 +2400,7 @@ $('#c-grid').onclick = (e) => {
   renderCloset();
 };
 $('#c-act').onclick = () => {
-  const cat = closetUI.cat, id = closetUI.focus, key = cat + ':' + id, price = PRICE[key] || 0, bal = balanceOf(S), it = DECOR_BY[id];
+  const cat = closetUI.cat, id = closetUI.focus, key = cat + ':' + id, price = costOf(key), bal = balanceOf(S), it = DECOR_BY[id];
   if (cat === 'decor' && S.owned[key] && (S.room || {})[it.slot] === id) {   // decor already in his room: take it out
     S.room = Object.assign({}, S.room); delete S.room[it.slot]; save(); applyLook(); sfx('pop');
     P.closet.mood = 0; closetUI.bub = 'more room to roll around'; renderCloset(); return;
@@ -2297,6 +2409,7 @@ $('#c-act').onclick = () => {
   if (!S.owned[key] && bal < price) { P.closet.mood = 2; closetUI.bub = "we're broke :("; sfx('broke'); renderCloset(); return; }
   const bought = !S.owned[key];
   sfx(bought ? 'buy' : 'pop');
+  if (bought && price < (PRICE[key] || 0)) { S.saved = (S.saved || 0) + PRICE[key] - price; S.deal.used = true; }   // the discount is stored: the balance is worked out from full prices
   S.owned[key] = 1;
   if (cat === 'decor') S.room = Object.assign({}, S.room, { [it.slot]: id }); else S.worn[cat] = id;
   delete closetUI.prev[cat];
@@ -2324,6 +2437,10 @@ function renderStats() {
   const patHtml = PANEL + '<p class="label" style="margin-top:0">FOOD PATTERNS</p>' + (pats.length
     ? pats.map((x) => '<p style="margin:0 0 8px;font-size:15px"><b>' + esc(tagName(x.k)) + '</b>: ' + pc(x.with) + ' of those logs were outside type 3–4, against ' + pc(x.without) + ' of the rest.</p>').join('') + '<p class="muted" style="margin:0;font-size:13px">A pattern, not proof. Try a week without it and see.</p>'
     : '<p class="muted" style="margin:0;font-size:15px">' + (anyFood ? 'No food stands out yet. Keep tagging.' : 'Tag what you ate when you log (coffee, spicy, dairy, alcohol) and Plop looks for patterns.') + '</p>') + '</div>';
+  const habs = habitInsights(S.logs, S.care, now);
+  const habHtml = PANEL + '<p class="label" style="margin-top:0">YOUR HABITS · THE DAY AFTER</p>' + (habs.length
+    ? habs.map((x) => '<p style="margin:0 0 8px;font-size:15px"><b>' + x.label + '</b>: ' + pc(x.with) + ' of the next day\'s logs were type 3–4, against ' + pc(x.without) + ' after other days.</p>').join('') + '<p class="muted" style="margin:0;font-size:13px">A pattern in your own logs, not proof.</p>'
+    : '<p class="muted" style="margin:0;font-size:15px">Track water, fibre and moving on Today for a couple of weeks and Plop compares them with the next day\'s logs.</p>') + '</div>';
   const max = Math.max.apply(null, s.wd), DAYS = ['Mondays', 'Tuesdays', 'Wednesdays', 'Thursdays', 'Fridays', 'Saturdays', 'Sundays'];
   const busy = s.wd.map((c, i) => c === max ? DAYS[i] : null).filter(Boolean);
   const pct = Math.round(s.ideal * 100), segs = [];
@@ -2340,9 +2457,9 @@ function renderStats() {
     '<div class="panel" style="margin-top:14px;box-shadow:5px 5px 0 var(--ink)"><p class="label" style="margin-top:0">TYPE MIX</p>' +
       '<div class="mix">' + segs.map((b) => '<span style="width:' + (s.mix[b] / s.n * 100) + '%;background:' + COLOR[b] + '"></span>').join('') + '</div>' +
       '<div class="legend">' + segs.map((b) => '<span><i style="background:' + COLOR[b] + '"></i>' + b + ':' + Math.round(s.mix[b] / s.n * 100) + '%</span>').join('') + '</div></div>' +
-    '<div class="tiles two"><div class="tile"><b>' + pad(Math.floor(s.usual / 60)) + ':' + pad(s.usual % 60) + '</b><span>USUAL HOUR</span></div><div class="tile"><b>' + sitM + ':' + pad(sitS) + '</b><span>AVG SITTING</span></div><div class="tile"><b>' + counts(S.logs, now).perDay.toFixed(1) + '</b><span>PER DAY</span></div><div class="tile"><b>' + bestStreak(S.logs, S.shielded) + 'd</b><span>BEST STREAK</span></div></div>' +
+    '<div class="tiles two"><div class="tile"><b>' + pad(Math.floor(s.usual / 60)) + ':' + pad(s.usual % 60) + '</b><span>USUAL HOUR</span></div><div class="tile"><b>' + sitM + ':' + pad(sitS) + '</b><span>AVG SITTING</span></div><div class="tile"><b>' + counts(S.logs, now).perDay.toFixed(1) + '</b><span>PER DAY</span></div><div class="tile"><b>' + bestStreak(S.logs, keptDays(S)) + 'd</b><span>BEST STREAK</span></div></div>' +
     '<div class="panel gold" style="margin-top:14px;box-shadow:5px 5px 0 var(--ink)"><p class="pix" style="margin:0 0 9px;font-size:13px;line-height:1.4">' + pct + '% TYPE 3-4</p><p style="margin:0;font-size:15px">' + verdict + '</p></div>' +
-    trendHtml + patHtml + badgeHtml +
+    trendHtml + patHtml + habHtml + badgeHtml +
     '<p class="muted" style="margin:14px 0 0;font-size:14px">' + s.n + ' logs in the last 30 days. Not medical advice.</p>';
 }
 // Doctor report: the last 30 days as a printable page (open it, then Print, Save as PDF), to bring to an appointment.
@@ -2470,7 +2587,7 @@ function feedPlop(kind) {
   const v = v0 + SNACK_FILL[kind];
   S.tummy = { v: Math.min(130, v), t: Date.now() }; save();
   if (v > 100) { q.ache = performance.now() + 15000; TRICK.on('ache'); }   // over-stuffed: 15 seconds of tummy ache
-  paintTummy();
+  paintTummy(); wish('eat:' + kind);
 }
 setInterval(() => { if (current === 'play') paintTummy(); }, 3000);
 let drag = null;
@@ -2503,15 +2620,24 @@ function endDrag(e, cancel) {
 $('#food').addEventListener('pointerup', (e) => endDrag(e, false));
 $('#food').addEventListener('pointercancel', (e) => endDrag(e, true));
 $('#food').addEventListener('click', (e) => { const b = e.target.closest('.food'); if (b && e.detail === 0) feedPlop(b.dataset.food); });   // keyboard
-$('#act-dance').onclick = () => { P.play.perform('dance'); TRICK.on('dance'); };
-$('#act-bath').onclick = () => { P.play.perform('bath'); TRICK.on('bath'); };
+function wish(id) {                                          // did that grant today's wish?
+  const k = dkey(Date.now());
+  if (wishFor(k).id !== id || (S.wishes || []).includes(k)) return;
+  S.wishes = (S.wishes || []).concat(k); save(); sfx('fanfare');
+  if (S.wishes.length >= 3) TRICK.on('genie');
+  P.play.say('my wish came true!!', 2400); P.play.strike('love', 2400);
+  toast("Plop's wish granted: +15 PTS.");
+}
+$('#act-dance').onclick = () => { P.play.perform('dance'); TRICK.on('dance'); wish('dance'); };
+$('#act-bath').onclick = () => { P.play.perform('bath'); TRICK.on('bath'); wish('bath'); };
 $('#act-potty').onclick = () => { P.play.perform('potty'); TRICK.on('potty'); };
 function paintTricks() {
   const got = S.tricks || {}, n = TRICKS.filter((t) => got[t.id]).length, hints = S.since && Date.now() - S.since > 3 * DAY;   // hints unlock after 3 days
   $('#tricks-n').textContent = n + '/' + TRICKS.length;
   $('#tricks').innerHTML = TRICKS.map((t) => '<div class="badge' + (got[t.id] ? '' : ' locked') + '"><b>' + (got[t.id] ? t.name : '???') + '</b><span>' + (got[t.id] || hints ? t.how : 'A secret. Experiment!') + '</span></div>').join('');
-  const best = (S.games || {})[dkey(Date.now())] || 0;
-  $('#catch-btn').textContent = 'FIBRE CATCH · ' + (best ? "TODAY'S BEST " + best : 'UP TO +20 A DAY');
+  const wb = weekBest(S.games, Date.now()), ws = weekBest(S.swat, Date.now());
+  $('#catch-btn').textContent = 'FIBRE CATCH · ' + (wb ? 'WEEK BEST ' + wb : 'UP TO +20 A DAY');
+  $('#swat-btn').textContent = 'FLY SWAT · ' + (ws ? 'WEEK BEST ' + ws : 'UP TO +10 A DAY');
 }
 TRICK.on = (id) => {
   if (!TRICKS.some((t) => t.id === id) || (S.tricks || {})[id]) return;
@@ -2540,6 +2666,7 @@ function gameClose(done) {
   sfx(gain ? 'fanfare' : 'pop'); P.play.say(G.score >= 15 ? 'FIBRE KING!!' : G.score >= 5 ? 'crunchy!' : 'again! again!', 1600);
   paintTricks();
   toast('Fibre Catch: ' + G.score + ' points. ' + (gain ? '+' + gain + ' PTS' : best >= 20 ? "Today's 20 points are already yours." : 'Beat your best today (' + best + ') for more points.'), 'PLAY AGAIN', gameOpen);
+  setTimeout(() => wish('game'), 1800);
 }
 function gameStep(now) {
   const G = game; if (!G) return;
@@ -2580,6 +2707,47 @@ function gameStep(now) {
   requestAnimationFrame(gameStep);
 }
 $('#catch-btn').onclick = gameOpen;
+/* Fly Swat: 20 seconds, a fly every 450 ms that gets away after 1.3 s. Each day's best score is points, up to 10. */
+let swat = null;
+const swatInfo = () => { $('#swat-info').textContent = swat.score + ' · ' + Math.max(0, Math.ceil((swat.end - Date.now()) / 1000)) + 'S'; };
+function swatTick() {
+  if (!swat) return;
+  if (Date.now() >= swat.end) { swatClose(true); return; }
+  swatInfo();
+  const f = document.createElement('span'); f.className = 'fly2';
+  f.style.cssText = 'animation: none; transform: scale(1.5); left: ' + (6 + Math.random() * 78) + '%; top: ' + (6 + Math.random() * 78) + '%';
+  $('#swat-area').appendChild(f); setTimeout(() => f.remove(), 1300);
+}
+function swatOpen() { $('#swat-area').innerHTML = ''; $('#swat').hidden = false; sfx('page'); swat = { score: 0, end: Date.now() + 20000, timer: setInterval(swatTick, 450) }; swatTick(); }
+function swatClose(done) {
+  const G = swat; if (!G) return;
+  clearInterval(G.timer); swat = null; $('#swat').hidden = true;
+  if (!done) return;
+  const k = dkey(Date.now()), best = (S.swat || {})[k] || 0, gain = Math.max(0, Math.min(10, G.score) - Math.min(10, best));
+  if (G.score > best) { S.swat = Object.assign({}, S.swat, { [k]: G.score }); save(); }
+  sfx(gain ? 'fanfare' : 'pop'); P.play.say(G.score >= 25 ? 'FLY NINJA!!' : G.score >= 10 ? 'take THAT, flies' : 'they got away...', 1600);
+  paintTricks();
+  toast('Fly Swat: ' + G.score + ' flies. ' + (gain ? '+' + gain + ' PTS' : best >= 10 ? "Today's 10 points are already yours." : "Beat today's best (" + best + ') for more points.'), 'PLAY AGAIN', swatOpen);
+  setTimeout(() => wish('swat'), 1800);
+}
+$('#swat-btn').onclick = swatOpen;
+$('#swat-x').onclick = () => swatClose(false);
+$('#swat-area').addEventListener('pointerdown', (e) => { if (swat && e.target.classList.contains('fly2')) { e.target.remove(); swat.score++; sfx('swat'); swatInfo(); } });
+/* Photo: his room as a picture. The room is a CSS background behind the canvas, so both are drawn onto a new canvas. */
+$('#photo').onclick = () => {
+  const q = P.play, z = 2, out = document.createElement('canvas'), r = q.cv.getBoundingClientRect(), w = Math.round(r.width) * z, h = Math.round(r.height) * z, c = out.getContext('2d');
+  out.width = w; out.height = h; c.imageSmoothingEnabled = false;
+  c.fillStyle = '#F4E9D8'; c.fillRect(0, 0, w, h);
+  if (q.bgURL && SCENES.room) {                              // same placement as the CSS: cover, anchored to the bottom
+    const im = SCENES.room, sc = Math.max(w / im.width, h / im.height);
+    c.drawImage(im, (w - im.width * sc) / 2, h - im.height * sc, im.width * sc, im.height * sc);
+    if (q.bgTint) { c.globalCompositeOperation = 'multiply'; c.fillStyle = q.bgTint; c.fillRect(0, 0, w, h); c.globalCompositeOperation = 'source-over'; }
+  }
+  c.drawImage(q.cv, 0, 0, w, h);
+  c.font = '14px "Press Start 2P", monospace'; c.textAlign = 'right'; c.fillStyle = '#2B1A10'; c.fillText('PLOP', w - 10, h - 8); c.fillStyle = '#FFF8EC'; c.fillText('PLOP', w - 12, h - 10);
+  sfx('page'); q.say('cheese!!', 1400); q.strike('wave', 1400);
+  out.toBlob((b) => savePng(b, 'plop-room.png'));
+};
 $('#game-x').onclick = () => gameClose(false);
 const gameAim = (e) => { if (game) game.tx = Math.max(16, Math.min(game.W - 16, (e.clientX - game.cv.getBoundingClientRect().left) / game.z)); };
 $('#game-area').addEventListener('pointerdown', gameAim);
@@ -2674,11 +2842,11 @@ function updateDoc() {
   const got = badges(S).filter((b) => b.got), newB = got.filter((b) => !(S.badgesSeen || []).includes(b.id));
   if (S.badgesSeen && newB.length) { toast('New badge: ' + newB[0].name + (newB.length > 1 ? ' and ' + (newB.length - 1) + ' more' : '') + '!'); sfx('fanfare'); }
   if (!S.badgesSeen || newB.length) { S.badgesSeen = got.map((b) => b.id); save(); }   // the first time just takes note, so old saves aren't flooded
-  const tidy = S.cleaned.includes(dkey(Date.now())), stage = stageOf(bestStreak(S.logs, S.shielded));
+  const tidy = S.cleaned.includes(dkey(Date.now())), stage = stageOf(bestStreak(S.logs, keptDays(S)));
   // streak shield: missed yesterday after a 3+ day streak? a shield covers it, once
   const yk = dkey(midnight(Date.now(), 1)), avail = (S.shields || 0) - (S.shielded || []).length;
-  if (avail > 0 && S.started && !S.logs.some((e) => dkey(e.t) === yk) && !(S.shielded || []).includes(yk)) {
-    const run = currentStreak(S.logs, midnight(Date.now(), 1) + 1000, S.shielded);
+  if (avail > 0 && S.started && !S.logs.some((e) => dkey(e.t) === yk) && !keptDays(S).includes(yk)) {
+    const run = currentStreak(S.logs, midnight(Date.now(), 1) + 1000, keptDays(S));
     if (run >= 3) { S.shielded = (S.shielded || []).concat(yk); save(); toast('Streak shield used for yesterday. Your ' + run + '-day streak lives on!'); sfx('fanfare'); }
   }
   document.body.dataset.clean = tidy ? '1' : '';
@@ -2734,6 +2902,7 @@ function applyVolume() { SND.vol = S.vol; SND.mvol = S.mvol; if (SND.out) SND.ou
 $('#you').oninput = () => { S.name = $('#you').value.trim().slice(0, 20); save(); };
 function paintSettings() {
   $('#you').value = S.name || '';
+  for (const x of $$('.goal button')) x.setAttribute('aria-pressed', String(x.dataset.goal === (S.goal || 'curious')));
   $('#vol').value = Math.round(S.vol * 100); $('#mvol').value = Math.round(S.mvol * 100);
   for (const b of $$('#tracks button')) b.setAttribute('aria-pressed', String(+b.dataset.track === S.track));
 }
@@ -2899,7 +3068,7 @@ const TOUR = [
   { page: 'today', el: '#p-today', text: "Hello! Dr. Ploopy, PhD. This is Plop, your gut's mascot. His hearts below follow your last 7 days. Tap him to boop him!" },
   { page: 'today', el: '#s-today .btn[data-go="log"]', text: 'Been to the loo? Tap LOG IT and pick what it looked like, 1 to 7. Every log earns points, even the rough ones.' },
   { page: 'today', el: '#tq', text: 'Daily quests and his needs live here: water, fibre, moving. Finish all 3 quests to open a mystery chest.' },
-  { page: 'closet', el: '#c-tabs', text: 'Points buy hats, skins, and furniture for his room. Plop has opinions about interior design.' },
+  { page: 'closet', el: '#c-tabs', text: 'You start with 100 points. They buy hats, skins and furniture for his room. Plop has opinions about interior design.' },
   { page: 'play', el: '#p-play', text: 'Play time! Feed him, play Fibre Catch, and find his secret tricks. Some are... messy.' },
   { page: 'stats', el: '#s-stats [data-doc]', text: 'Your patterns live in Stats, and you can ask me anything about your gut. Replay this tour from here. Now go be regular!' }
 ];
@@ -3068,7 +3237,7 @@ function drawCard() {                                         // a 1080x1920 sto
     c.fillStyle = i < health.hearts ? '#E5576B' : '#D9CDBB';
     for (const [x, y, w] of [[0, 0, 2], [3, 0, 2], [0, 1, 5], [1, 2, 3], [2, 3, 1]]) c.fillRect(hx + x * 7, hy + y * 7, w * 7, 7);
   }
-  const tiles = [[week.length, 'LOGS'], [pct + '%', 'TEXTBOOK'], [currentStreak(S.logs, now, S.shielded) + 'd', 'STREAK']];
+  const tiles = [[week.length, 'LOGS'], [pct + '%', 'TEXTBOOK'], [currentStreak(S.logs, now, keptDays(S)) + 'd', 'STREAK']];
   tiles.forEach(([v, l], i) => {                               // stat stickers, slightly tilted
     const done2 = box(28 + i * 166, 626, 150, 104, '#FFF8EC', [-0.05, 0.03, -0.02][i]);
     text(String(v), 0, 4, 26, '#2B1A10', true); text(l, 0, 34, 10, '#6E5542', true); done2();
@@ -3094,10 +3263,11 @@ $('#card-btn').onclick = () => {
 // Saving: inside claude.ai the viewer's own save prompt (the downloads capability); opened as a plain file, an ordinary download link.
 let saver = null;
 if (window.claude && window.claude.use) window.claude.use('downloads').then((d) => { saver = d; }, () => {});
-$('#card-save').onclick = () => $('#card').toBlob((b) => {
-  if (saver) saver.save({ filename: 'plop-week.png', data: b }).then(() => toast('Card saved.'), (e) => { if (!e || e.code !== 'declined') toast("Couldn't save here. Long-press the card instead."); });
-  else { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'plop-week.png'; a.click(); }
-});
+const savePng = (b, name) => {
+  if (saver) saver.save({ filename: name, data: b }).then(() => toast('Picture saved.'), (e) => { if (!e || e.code !== 'declined') toast("Couldn't save here. Long-press the picture instead."); });
+  else { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = name; a.click(); }
+};
+$('#card-save').onclick = () => $('#card').toBlob((b) => savePng(b, 'plop-week.png'));
 $('#card-share').onclick = () => $('#card').toBlob((b) => navigator.share({ files: [new File([b], 'plop-week.png', { type: 'image/png' })], title: 'My Plop week' }).catch(() => {}));
 
 /* Plop's health: hearts on Today, and a sheet showing every state he can be in */

@@ -3,7 +3,7 @@
 const fs = require('fs'), path = require('path'), assert = require('assert');
 const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
 const src = html.split('// ==LOGIC==')[1].split('// ==UI==')[0].split('\n').slice(1).join('\n');
-const L = new Function(src + '; return { tagName, cleanTag, dkey, dayDiff, midnight, logPoints, streakBonus, earned, spent, balanceOf, currentStreak, counts, stats30, nextUnlock, sampleLogs, STARTER, doctorCheck, plopHealth, careEarned, bestStreak, stageOf, tummyAt, parseBackup, seasonOf, tagPatterns, weekTrend, questsFor, QUESTS, badges, chestEarned, gameEarned, TRICKS };')();
+const L = new Function(src + '; return { tagName, cleanTag, dkey, dayDiff, midnight, logPoints, streakBonus, keptDays, restEarned, wishFor, WISHES, dealFor, dealPrice, bondOf, habitInsights, weekBest, PRICE, earned, spent, balanceOf, currentStreak, counts, stats30, nextUnlock, sampleLogs, STARTER, doctorCheck, plopHealth, careEarned, bestStreak, stageOf, tummyAt, parseBackup, seasonOf, tagPatterns, weekTrend, questsFor, QUESTS, badges, chestEarned, gameEarned, TRICKS };')();
 
 const at = (y, m, d, h = 8) => new Date(y, m - 1, d, h).getTime();
 const log = (t, b = 4, n = '') => ({ t, b, n, d: 1 });
@@ -11,19 +11,19 @@ const log = (t, b = 4, n = '') => ({ t, b, n, d: 1 });
 // points per log: 10 always, +15 for type 3-4, +5 for a note
 assert.strictEqual(L.logPoints(log(0, 4)), 25);
 assert.strictEqual(L.logPoints(log(0, 3, 'coffee')), 30);
-assert.strictEqual(L.logPoints(log(0, 7, 'rough')), 15, 'a bad day still earns');
-assert.strictEqual(L.logPoints(log(0, 1, '   ')), 10, 'whitespace is not a note');
+assert.strictEqual(L.logPoints(log(0, 7, 'rough')), 30, 'a rough day earns the same as a textbook one');
+assert.strictEqual(L.logPoints(log(0, 1, '   ')), 25, 'whitespace is not a note');
 
-// streak bonus: +50 per 7 consecutive days; two logs on one day count once; a gap resets
+// streak bonus: +2 per streak day, up to +20 a day; two logs on one day count once; a gap resets
 const week = (start, n) => Array.from({ length: n }, (_, i) => log(at(2026, 10, start + i)));
-assert.strictEqual(L.streakBonus(week(1, 6)), 0);
-assert.strictEqual(L.streakBonus(week(1, 7)), 50);
-assert.strictEqual(L.streakBonus(week(1, 14)), 100);
-assert.strictEqual(L.streakBonus(week(1, 7).concat(log(at(2026, 10, 3, 20)))), 50, 'same-day double log');
-assert.strictEqual(L.streakBonus(week(1, 4).concat(week(6, 4))), 0, 'gap resets');
+assert.strictEqual(L.streakBonus(week(1, 6)), 42);
+assert.strictEqual(L.streakBonus(week(1, 7)), 56);
+assert.strictEqual(L.streakBonus(week(1, 14)), 190, 'capped at +20 a day from day 10');
+assert.strictEqual(L.streakBonus(week(1, 7).concat(log(at(2026, 10, 3, 20)))), 56, 'same-day double log');
+assert.strictEqual(L.streakBonus(week(1, 4).concat(week(6, 4))), 40, 'gap resets');
 // across a daylight-saving change (US: 8 Mar 2026, EU: 29 Mar 2026), days are still consecutive
-assert.strictEqual(L.streakBonus(Array.from({ length: 7 }, (_, i) => log(at(2026, 3, 5 + i)))), 50, 'US DST week');
-assert.strictEqual(L.streakBonus(Array.from({ length: 7 }, (_, i) => log(at(2026, 3, 26 + i)))), 50, 'EU DST week');
+assert.strictEqual(L.streakBonus(Array.from({ length: 7 }, (_, i) => log(at(2026, 3, 5 + i)))), 56, 'US DST week');
+assert.strictEqual(L.streakBonus(Array.from({ length: 7 }, (_, i) => log(at(2026, 3, 26 + i)))), 56, 'EU DST week');
 
 // current streak survives until today is over
 const now = at(2026, 10, 24, 12);
@@ -33,8 +33,8 @@ assert.strictEqual(L.currentStreak(week(15, 5), now), 0, 'broken two days ago');
 
 // balance = earned - spent; deleting a log takes its points with it
 const st = { logs: week(18, 7), owned: Object.assign({ 'hats:crown': 1 }, L.STARTER) };
-assert.strictEqual(L.earned(st.logs), 7 * 25 + 50);
-assert.strictEqual(L.balanceOf(st), 225 - 300, 'can go negative if logs are deleted after buying');
+assert.strictEqual(L.earned(st.logs), 7 * 25 + 56);
+assert.strictEqual(L.balanceOf(st), 231 - 300, 'can go negative if logs are deleted after buying');
 
 // counts and stats
 const c = L.counts(week(18, 7), now);
@@ -144,16 +144,16 @@ assert.deepStrictEqual([at(2026, 10, 19), at(2026, 10, 20), at(2026, 10, 31), at
 
 // QA #2: only the first 3 logs of a day earn; logs entered over a week late earn nothing (but still count for health)
 const spam = Array.from({ length: 20 }, (_, i) => ({ t: at(2026, 10, 20, 8) + i * 60e3, c: at(2026, 10, 20, 9), b: 4, d: 1, n: '' }));
-assert.strictEqual(L.earned(spam), 3 * 25, 'quick-log spam: 20 logs, 3 paid');
+assert.strictEqual(L.earned(spam), 3 * 25 + 2, 'quick-log spam: 20 logs, 3 paid (+2 streak day 1)');
 const late = { t: at(2026, 9, 1), c: at(2026, 10, 20), b: 4, d: 1, n: '' };
 assert.strictEqual(L.earned([late]), 0, 'backfilled 7 weeks later: no points');
-assert.strictEqual(L.earned([Object.assign({}, late, { c: at(2026, 9, 3) })]), 25, 'two days late is fine');
-assert.strictEqual(L.earned([{ t: at(2026, 9, 1), b: 4, d: 1, n: '' }]), 25, 'old saves without an entered-at time keep their points');
+assert.strictEqual(L.earned([Object.assign({}, late, { c: at(2026, 9, 3) })]), 27, 'two days late is fine');
+assert.strictEqual(L.earned([{ t: at(2026, 9, 1), b: 4, d: 1, n: '' }]), 27, 'old saves without an entered-at time keep their points');
 assert.strictEqual(L.plopHealth([Object.assign({}, late, { t: now - 3600e3 })], now).week, 1, 'unpaid logs still count for his health');
 
 // streak shields: a covered day keeps the streak (and its bonus) going; shields cost 150 each
 const gap = week(1, 3).concat(week(5, 4));                      // day 4 missed
-assert.strictEqual(L.streakBonus(gap), 0); assert.strictEqual(L.streakBonus(gap, ['2026-10-04']), 50, 'shielded day bridges the gap');
+assert.strictEqual(L.streakBonus(gap), 32); assert.strictEqual(L.streakBonus(gap, ['2026-10-04']), 64, 'shielded day bridges the gap, and pays nothing itself');
 assert.strictEqual(L.currentStreak(gap, at(2026, 10, 8, 12), ['2026-10-04']), 8, 'days 1-3, the shielded 4th, 5-8');
 assert.strictEqual(L.balanceOf({ logs: [], owned: L.STARTER, shields: 1 }), -150);
 
@@ -161,7 +161,28 @@ assert.strictEqual(L.balanceOf({ logs: [], owned: L.STARTER, shields: 1 }), -150
 assert.strictEqual(L.balanceOf({ logs: [], owned: L.STARTER, chests: ['a', 'b'], chestPts: { a: 60 } }), 90);
 assert.strictEqual(L.balanceOf({ logs: [], owned: Object.assign({ 'decor:fish': 1 }, L.STARTER), gifts: ['decor:fish'] }), 0, 'a won fish tank costs nothing');
 
-// all 10 tricks found: TRICKSTER badge
+// Round 2: check-ins, wishes, deals, bond, habits, goals
+const rest = { logs: week(1, 3).concat(week(5, 4)), owned: L.STARTER, rest: ['2026-10-04', '2026-10-05'] };
+assert.strictEqual(L.currentStreak(rest.logs, at(2026, 10, 8, 12), L.keptDays(rest)), 8, 'a "nothing today" check-in keeps the streak');
+assert.strictEqual(L.restEarned(rest), 10, 'a check-in earns 10, unless a log followed that day');
+assert.strictEqual(L.QUESTS[0].done({ logs: [], rest: ['2026-10-29'] }, '2026-10-29'), true, 'a check-in ticks the log quest');
+assert.strictEqual(L.balanceOf({ logs: [], owned: L.STARTER, gift: 100, wishes: ['a', 'b'], swat: { a: 31 }, saved: 9 }), 100 + 30 + 10 + 9);
+assert(L.WISHES.includes(L.wishFor('2026-11-15'))); assert.strictEqual(L.wishFor('2026-11-15'), L.wishFor('2026-11-15'));
+assert(new Set(Array.from({ length: 30 }, (_, i) => L.wishFor('2026-11-' + (i + 1)).id)).size > 4, 'wishes vary');
+const deal = L.dealFor('2026-11-15', L.STARTER);
+assert(L.PRICE[deal] > 0 && !L.STARTER[deal]); assert.strictEqual(L.dealPrice(deal), Math.round(L.PRICE[deal] * 0.7));
+assert.strictEqual(L.dealFor('2026-11-15', Object.fromEntries(Object.keys(L.PRICE).map((k) => [k, 1]))), null, 'nothing left to discount');
+assert.strictEqual(L.bondOf({ logs: [] }).lv, 1); assert.strictEqual(L.bondOf({ logs: week(1, 4) }).lv, 2, '4 days = 8 xp');
+assert.strictEqual(L.bondOf({ logs: week(1, 28), wishes: Array(70).fill('x') }).lv, 7); assert.strictEqual(L.bondOf({ logs: week(1, 28), wishes: Array(70).fill('x') }).next, null);
+// habits: 5 logs the day after 8 glasses (all type 4), 5 after dry days (all type 1)
+const hl = [], hc = {};
+for (let i = 0; i < 10; i++) { hl.push(log(at(2026, 10, 2 + i), i % 2 ? 4 : 1)); if (i % 2) hc[L.dkey(at(2026, 10, 1 + i))] = { water: 8 }; }
+const hi = L.habitInsights(hl, hc, at(2026, 10, 20));
+assert.strictEqual(hi.length, 1); assert.strictEqual(hi[0].k, 'water'); assert.strictEqual(hi[0].with, 1); assert.strictEqual(hi[0].without, 0);
+assert.strictEqual(L.habitInsights(hl.slice(0, 6), hc, at(2026, 10, 20)).length, 0, 'too few logs: no pattern claimed');
+assert(Array.from({ length: 30 }, (_, i) => L.questsFor('2026-11-' + (i + 1), 'problem')[1].id).every((id) => id === 'tag' || id === 'note'), 'goal picks the second quest');
+assert.strictEqual(L.weekBest({ '2026-11-08': 50, '2026-11-09': 7, '2026-11-12': 12 }, at(2026, 11, 15)), 12, 'Monday 9 Nov to Sunday 15 Nov');
+// every trick found: TRICKSTER badge
 assert(got({ logs: [], tricks: Object.fromEntries(L.TRICKS.map((t) => [t.id, 1])) }).includes('tricks'));
 assert(!got({ logs: [], tricks: { tickle: 1 } }).includes('tricks'));
 

@@ -46,28 +46,30 @@ Ranked inside each group by value for the effort. Ticked items are done (groups 
 - [x] A toast can sit on top of the pinned SAVE ENTRY button for a few seconds. Move toasts above it on the log screen.
 - [ ] The engine test failed once in 108 runs and never again; cause not found. Watch for it.
 
-# Round 2 (15 Nov 2026): senior app/game dev review. Nothing here is built yet.
+# Round 2 (15 Nov 2026): senior app/game dev review. All built in Version 33.
 
 ## A. Points feel too far away (measured)
 Shop: 35 items, 5,760 pts in total, median 120, dearest 450. A casual day earns about 20-40, so a sofa is 8-15 days and the full shop 5-9 months.
-- [ ] Same points for every honest log (25), whatever the type. Today a type 1 or 6 earns 10 and a type 4 earns 25: that pays for health, not for the habit.
-- [ ] Welcome gift of 100 pts so the first purchase happens in the first session.
-- [ ] Daily streak bonus (+2 per streak day, capped at +20) instead of +50 every 7th day.
-- [ ] "Next unlock" bar on Today (it only shows on the reward screen).
-- [ ] One discounted item a day (30% off) in the Closet.
+- [x] Same points for every honest log (25), whatever the type. Today a type 1 or 6 earns 10 and a type 4 earns 25: that pays for health, not for the habit.
+- [x] Welcome gift of 100 pts so the first purchase happens in the first session.
+- [x] Daily streak bonus (+2 per streak day, capped at +20) instead of +50 every 7th day.
+- [x] "Next unlock" bar on Today (it only shows on the reward screen).
+- [x] One discounted item a day (30% off) in the Closet.
 
 ## B. The tracker
-- [ ] "Nothing today" check-in that keeps the streak. Today a day without a poop breaks it, which punishes constipation.
-- [ ] Habit insights: how water, fibre and moving relate to the next day's type (the data is already saved).
-- [ ] Sunday recap: the weekly card offered automatically, with Plop's verdict.
-- [ ] Ask "what brings you here?" on first open and tune the quests to it.
+- [x] "Nothing today" check-in that keeps the streak. Today a day without a poop breaks it, which punishes constipation.
+- [x] Habit insights: how water, fibre and moving relate to the next day's type (the data is already saved).
+- [x] Sunday recap: the weekly card offered automatically, with Plop's verdict.
+- [x] Ask "what brings you here?" on first open and tune the quests to it.
 
 ## C. Plop and the game
-- [ ] Plop's wish of the day: he asks for one specific thing (a snack, a game, a bath) for a small bonus.
-- [ ] Bond level: a friendship meter that grows with care and unlocks new lines, poses and tricks.
-- [ ] Room themes: wallpaper and floor colours as a new thing to buy.
-- [ ] A second mini-game with a weekly best score.
-- [ ] Photo mode: save a picture of his room to share.
+- [x] Plop's wish of the day: he asks for one specific thing (a snack, a game, a bath) for a small bonus.
+- [x] Bond level: a friendship meter that grows with care and unlocks new lines, poses and tricks.
+- [x] Room themes: wallpaper and floor colours as a new thing to buy.
+- [x] A second mini-game with a weekly best score.
+- [x] Photo mode: save a picture of his room to share.
 
 ## D. Simplify
-- [ ] Today shows streak, points, stage, last, health, quests, needs: hide the streak shield and stage chip until they matter.
+- [x] Today shows streak, points, stage, last, health, quests, needs: hide the streak shield and stage chip until they matter.
+
+Not built, on purpose: no new engine trick animations (the two new tricks reuse the hug and love poses); rest days are not marked on the History calendar yet.

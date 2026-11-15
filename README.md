@@ -184,6 +184,14 @@ All sounds are synthesised in the browser with Web Audio, so there are no sound 
 - **Toasts sit above SAVE ENTRY** on the log screen.
 - Not changed: three floor pieces still crowd a phone-width room. That is the price of a full room; Plop keeps the middle.
 
+## Version 33: fair points, check-ins, wishes, bond
+
+- **Points:** every log earns 25 whatever the type (+5 for a note); the streak pays every day (+2 per streak day, up to +20) instead of +50 every 7th; 100 welcome points; one item 30% off each day in the Closet; a "next unlock" bar on Today.
+- **Tracker:** "Nothing today? Check in" keeps the streak (+10) from 15:00 when nothing is logged; Stats compares water, fibre and moving with the next day's logs (`habitInsights`); the weekly card is offered on Sundays; "what brings you here?" on the welcome screen (and in Settings) picks the second daily quest.
+- **Plop:** a wish of the day granted in Play (+15); a bond level (1-7) that unlocks warmer lines, a hug greeting and the BEST FRIEND HUG trick; wall colours in Closet > Decor > Colours; Fly Swat (up to +10 a day) with a weekly best for both games; a photo button on Play.
+- **Simpler Today:** the stage chip shows only when he is about to grow; the streak shield row shows once there is a 3-day streak.
+- New saved fields: `gift`, `rest`, `wishes`, `swat`, `saved`, `deal`, `goal`, `bondSeen`, `recap`.
+
 ## Tests
 - `node tests/app-check.js` and `node tests/plop-check.js` test the app (`index.html`). Run both after every change.
 - `node tests/buddy-check.js mockups-source/Buddy.dc.html` and `node tests/closet-check.js mockups-source/Closet.dc.html` test the early design mockups, not the app. They still pass; run them only if the mockups change.
