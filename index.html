@@ -284,6 +284,11 @@ body[data-clean="1"] .fly { display: none !important; }
 nav.tabs { position: fixed; left: 50%; bottom: 0; transform: translateX(-50%); width: min(100%, 430px); display: flex; background: var(--panel); border: 3px solid var(--ink); border-bottom: 0; padding-bottom: env(safe-area-inset-bottom, 0px); z-index: 10; }
 nav.tabs button { flex: 1; min-height: 64px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; border: 0; background: none; color: var(--muted); font: 10px var(--pix); cursor: pointer; }
 nav.tabs button + button { border-left: 3px solid var(--ink); }
+nav.tabs button { min-width: 0; }
+@media (max-width: 359px) { nav.tabs button { font-size: 8px; } }   /* 320 px phones: "HISTORY" at 10px pushed PLAY off-screen */
+/* phones held sideways: Plop is a portrait app (the Android build locks it), so ask for a turn instead of a squashed room */
+.turn { display: none; }
+@media (orientation: landscape) and (max-height: 500px) and (pointer: coarse) { .turn { display: flex; position: fixed; inset: 0; z-index: 99; flex-direction: column; align-items: center; justify-content: center; gap: 16px; background: var(--paper); color: var(--ink); font: 12px/1.8 var(--pix); text-align: center; padding: 24px; } }
 nav.tabs button[aria-current="page"] { background: var(--brown); color: var(--panel); }
 .toast { position: fixed; left: 50%; bottom: calc(84px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); width: min(calc(100% - 40px), 390px); display: flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--ink); color: var(--panel); padding: 12px 14px; font-size: 15px; z-index: 20; }
 .toast.high { bottom: calc(215px + env(safe-area-inset-bottom, 0px)); }
@@ -472,6 +477,7 @@ nav.tabs button[aria-current="page"] { background: var(--brown); color: var(--pa
 </div>
 
 <button class="btn gold flush" type="button" id="flush" hidden>FLUSH IT · OR SHAKE YOUR PHONE</button>
+<div class="turn" aria-hidden="true"><svg width="48" height="48" viewBox="0 0 8 8" shape-rendering="crispEdges" fill="currentColor"><rect x="2" y="0" width="4" height="1"/><rect x="2" y="7" width="4" height="1"/><rect x="2" y="1" width="1" height="6"/><rect x="5" y="1" width="1" height="6"/><rect x="3" y="6" width="2" height="1"/></svg>PLOP LIKES PORTRAIT.<br>TURN YOUR PHONE UPRIGHT.</div>
 <nav class="tabs" id="nav" hidden aria-label="Main">
   <button type="button" data-go="today"><svg width="18" height="18" viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><rect x="0" y="1" width="8" height="1"/><rect x="0" y="7" width="8" height="1"/><rect x="0" y="2" width="1" height="5"/><rect x="7" y="2" width="1" height="5"/><rect x="3" y="4" width="2" height="2"/></svg>TODAY</button>
   <button type="button" data-go="stats"><svg width="18" height="18" viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><rect x="0" y="5" width="2" height="3"/><rect x="3" y="2" width="2" height="6"/><rect x="6" y="0" width="2" height="8"/></svg>STATS</button>

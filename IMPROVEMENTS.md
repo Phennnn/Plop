@@ -73,3 +73,29 @@ Shop: 35 items, 5,760 pts in total, median 120, dearest 450. A casual day earns 
 - [x] Today shows streak, points, stage, last, health, quests, needs: hide the streak shield and stage chip until they matter.
 
 Not built, on purpose: no new engine trick animations (the two new tricks reuse the hug and love poses); rest days are not marked on the History calendar yet.
+
+# Round 3 (22 Nov 2026): QA pass and the road to an Android app
+
+## QA results (Version 34)
+- [x] Tests pass (logic and engine, engine run 3 times). No console errors on any screen.
+- [x] 375x812 portrait, 768x1024 tablet: fine.
+- [x] 320x568 small phone: the PLAY tab was cut off (the five labels need 342 px). Fixed: smaller tab font under 360 px.
+- [x] Landscape phone (812x375): worked, but Plop was hidden behind the tab bar and toasts. Fixed: touch phones held sideways see "turn your phone upright" (the Android app will lock portrait anyway).
+- [x] Performance: only the visible Plop draws; saved data is about 3 KB for 36 logs.
+
+## Before the Android build (in order)
+- [ ] Fonts work offline: they load from Google Fonts today, so an offline phone falls back to plain fonts. Embed them.
+- [ ] Android back button: the app changes screens without browser history, so Back would close the app. Map Back to the previous screen.
+- [ ] Split `index.html` (574 KB, half embedded sprites) into html, css, js and image files.
+- [ ] Storage that survives "clear cache": Capacitor Preferences or a file, plus import from the web version's backup.
+- [ ] Wrap with Capacitor (reuses this exact app): portrait lock, home-screen icon, splash, offline.
+
+## Phone-only features after the wrap
+- [ ] Real daily reminder notifications (local, no server).
+- [ ] Haptics on boop, log and chest.
+- [ ] App lock (PIN or fingerprint) and a discreet icon: this is health data.
+- [ ] Privacy policy and the Play Store "Data safety" form (needed to publish a health app).
+
+## Polish still open
+- [ ] Mark check-in days on the History calendar.
+- [ ] Listen to every sound on a real phone speaker.
