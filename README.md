@@ -192,6 +192,12 @@ All sounds are synthesised in the browser with Web Audio, so there are no sound 
 - **Simpler Today:** the stage chip shows only when he is about to grow; the streak shield row shows once there is a 3-day streak.
 - New saved fields: `gift`, `rest`, `wishes`, `swat`, `saved`, `deal`, `goal`, `bondSeen`, `recap`.
 
+## Version 35: ready for the phone
+
+- **Offline fonts:** both pixel fonts are embedded (about 33 KB), so the app no longer calls Google Fonts.
+- **Back button:** Android Back and browser Back close the top pop-up, then return to Today; on Today with nothing open, Back leaves the app (`armBack`, `backTop`).
+- **History:** check-in days are green and streak-shield days blue on the calendar, with a legend and a line in the day list.
+
 ## Tests
 - `node tests/app-check.js` and `node tests/plop-check.js` test the app (`index.html`). Run both after every change.
 - `node tests/buddy-check.js mockups-source/Buddy.dc.html` and `node tests/closet-check.js mockups-source/Closet.dc.html` test the early design mockups, not the app. They still pass; run them only if the mockups change.

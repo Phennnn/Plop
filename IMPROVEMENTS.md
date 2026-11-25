@@ -84,8 +84,8 @@ Not built, on purpose: no new engine trick animations (the two new tricks reuse 
 - [x] Performance: only the visible Plop draws; saved data is about 3 KB for 36 logs.
 
 ## Before the Android build (in order)
-- [ ] Fonts work offline: they load from Google Fonts today, so an offline phone falls back to plain fonts. Embed them.
-- [ ] Android back button: the app changes screens without browser history, so Back would close the app. Map Back to the previous screen.
+- [x] Fonts work offline: they load from Google Fonts today, so an offline phone falls back to plain fonts. Embed them.
+- [x] Android back button: the app changes screens without browser history, so Back would close the app. Map Back to the previous screen.
 - [ ] Split `index.html` (574 KB, half embedded sprites) into html, css, js and image files.
 - [ ] Storage that survives "clear cache": Capacitor Preferences or a file, plus import from the web version's backup.
 - [ ] Wrap with Capacitor (reuses this exact app): portrait lock, home-screen icon, splash, offline.
@@ -97,5 +97,5 @@ Not built, on purpose: no new engine trick animations (the two new tricks reuse 
 - [ ] Privacy policy and the Play Store "Data safety" form (needed to publish a health app).
 
 ## Polish still open
-- [ ] Mark check-in days on the History calendar.
+- [x] Mark check-in days on the History calendar.
 - [ ] Listen to every sound on a real phone speaker.
