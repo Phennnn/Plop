@@ -306,7 +306,7 @@ nav.tabs button[aria-current="page"] { background: var(--brown); color: var(--pa
 <section class="screen" id="s-welcome" hidden>
   <div class="frame" id="p-welcome"></div>
   <h1 style="margin-top: 26px; font-size: 32px; text-align: center">PLOP</h1>
-  <p style="margin: 10px 0 0; font-size: 18px; text-align: center" class="muted">Bowel movement tracking,<br>taken seriously.</p>
+  <p style="margin: 10px 0 0; font-size: 18px; text-align: center" class="muted">A poop tracker<br>with a pet poop.</p>
   <p class="label">BRISTOL SCALE 1-7</p>
   <div class="pick" aria-hidden="true" style="pointer-events: none">
     <span style="height: 24px; background: #6B3B18; border: 3px solid var(--ink)"></span><span style="height: 24px; background: #8A5C14; border: 3px solid var(--ink)"></span><span style="height: 24px; background: #4F6A24; border: 3px solid var(--ink)"></span><span style="height: 24px; background: #2E6F3C; border: 3px solid var(--ink)"></span><span style="height: 24px; background: #1F6F6A; border: 3px solid var(--ink)"></span><span style="height: 24px; background: #2A5F86; border: 3px solid var(--ink)"></span><span style="height: 24px; background: #3D4E95; border: 3px solid var(--ink)"></span>
@@ -318,7 +318,7 @@ nav.tabs button[aria-current="page"] { background: var(--brown); color: var(--pa
     <button class="btn" id="start-fresh" type="button">START FRESH</button>
     <button class="btn gold" id="start-sample" type="button">TRY WITH SAMPLE DATA</button>
   </div>
-  <p class="muted" style="margin: 18px 0 0; text-align: center; font-size: 14px">Everything stays on this device.<br>We are not interested in your data. Truly.</p>
+  <p class="muted" style="margin: 18px 0 0; text-align: center; font-size: 14px">Your logs stay on this device.<br>No account, no sign-up.</p>
 </section>
 
 <!-- ================= TODAY ================= -->
@@ -328,8 +328,7 @@ nav.tabs button[aria-current="page"] { background: var(--brown); color: var(--pa
   <button class="btn" type="button" data-go="log" style="margin-top: 14px; min-height: 66px; font-size: 15px">
     <svg width="16" height="16" viewBox="0 0 7 7" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><rect x="3" y="0" width="1" height="7"/><rect x="0" y="3" width="7" height="1"/></svg>LOG IT
   </button>
-  <button class="link" type="button" id="quick-log" hidden style="display: block; margin: 4px auto 0"></button>
-  <button class="link" type="button" id="rest-btn" hidden style="display: block; margin: 0 auto">Nothing today? Check in (+10 PTS)</button>
+  <div class="chips" style="justify-content: center; margin-top: 12px"><button class="chip" type="button" id="quick-log" hidden style="font-size: 9px"></button><button class="chip" type="button" id="rest-btn" style="font-size: 9px" hidden aria-label="Nothing today: check in for 10 points and keep the streak">NONE TODAY +10</button></div>
   <div class="chips">
     <span class="chip gold"><svg width="11" height="11" viewBox="0 0 7 7" shape-rendering="crispEdges" aria-hidden="true" fill="#2B1A10"><rect x="3" y="0" width="1" height="7"/><rect x="0" y="3" width="7" height="1"/><rect x="1" y="1" width="1" height="1"/><rect x="5" y="1" width="1" height="1"/><rect x="1" y="5" width="1" height="1"/><rect x="5" y="5" width="1" height="1"/></svg><span id="streak"></span></span>
     <button class="chip" type="button" data-go="closet"><svg width="12" height="12" viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true"><rect x="2" y="0" width="4" height="8" fill="#B07A18"/><rect x="0" y="2" width="8" height="4" fill="#B07A18"/><rect x="1" y="1" width="6" height="6" fill="#B07A18"/><rect x="2" y="1" width="4" height="6" fill="#E0A32E"/><rect x="1" y="2" width="6" height="4" fill="#E0A32E"/></svg><span id="pts"></span></button>
@@ -352,7 +351,7 @@ nav.tabs button[aria-current="page"] { background: var(--brown); color: var(--pa
 <section class="screen" id="s-log" hidden>
   <div class="top"><h1 id="log-title">LOG IT</h1><button class="square" type="button" data-go="today" aria-label="Close without saving"><svg width="14" height="14" viewBox="0 0 7 7" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><rect x="0" y="0" width="1" height="1"/><rect x="1" y="1" width="1" height="1"/><rect x="2" y="2" width="1" height="1"/><rect x="3" y="3" width="1" height="1"/><rect x="4" y="4" width="1" height="1"/><rect x="5" y="5" width="1" height="1"/><rect x="6" y="6" width="1" height="1"/><rect x="6" y="0" width="1" height="1"/><rect x="5" y="1" width="1" height="1"/><rect x="4" y="2" width="1" height="1"/><rect x="2" y="4" width="1" height="1"/><rect x="1" y="5" width="1" height="1"/><rect x="0" y="6" width="1" height="1"/></svg></button></div>
   <div class="frame" id="p-log"></div>
-  <p class="label">PICK YOUR TYPE · PLOP REACTS</p>
+  <p class="label">WHAT DID IT LOOK LIKE?</p>
   <div class="pick" id="picker" role="group" aria-label="Bristol stool scale, 1 hardest to 7 loosest">
     <button type="button" data-b="1" style="--c: #6B3B18" aria-label="Type 1, separate hard lumps"><svg width="30" height="15" viewBox="0 0 12 6" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><rect x="1" y="2" width="2" height="2"/><rect x="5" y="2" width="2" height="2"/><rect x="9" y="2" width="2" height="2"/></svg>1</button>
     <button type="button" data-b="2" style="--c: #8A5C14" aria-label="Type 2, lumpy sausage"><svg width="30" height="15" viewBox="0 0 12 6" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><rect x="1" y="2" width="10" height="3"/><rect x="3" y="1" width="2" height="1"/><rect x="7" y="1" width="2" height="1"/></svg>2</button>
@@ -371,7 +370,7 @@ nav.tabs button[aria-current="page"] { background: var(--brown); color: var(--pa
   <div class="seg" id="dur" role="group" aria-label="Time spent">
     <button type="button" data-d="0">&lt;1M</button><button type="button" data-d="1">1-5</button><button type="button" data-d="2">5-15</button><button type="button" data-d="3">15+</button>
   </div>
-  <p class="label">TAGS (OPTIONAL) · HOW IT FELT, WHAT YOU HAD</p>
+  <p class="label">TAGS (OPTIONAL)</p>
   <div class="tags" id="tags" role="group" aria-label="Tags"></div>
   <div class="tagadd" id="tag-add-row"><input id="tag-new" type="text" maxlength="12" placeholder="your own tag" aria-label="Add your own tag" autocomplete="off"><button type="button" class="chip" id="tag-add">ADD</button></div>
   <label class="label" for="when" style="display: block">WHEN</label>
@@ -401,15 +400,15 @@ nav.tabs button[aria-current="page"] { background: var(--brown); color: var(--pa
 <section class="screen" id="s-closet" hidden>
   <div class="top"><h1>CLOSET</h1><span class="chip gold" style="box-shadow: 4px 4px 0 var(--ink); font-size: 12px" id="c-bal"></span></div>
   <div class="frame" id="p-closet"></div>
-  <div class="banner" id="shield-row"><span id="shield-txt"></span><button type="button" id="shield-buy">BUY 150</button></div>
-  <button class="banner" type="button" id="deal" hidden style="width: 100%; cursor: pointer; text-align: left; color: var(--ink)"><span id="deal-txt"></span><b class="pix" style="font-size: 10px; background: var(--gold); border: 3px solid var(--ink); padding: 7px 8px">-30%</b></button>
   <div class="seg" role="tablist" aria-label="Item type" id="c-tabs" style="margin-top: 16px">
     <button type="button" role="tab" data-cat="hats">HATS</button><button type="button" role="tab" data-cat="skins">SKINS</button><button type="button" role="tab" data-cat="face">FACE</button><button type="button" role="tab" data-cat="decor">DECOR</button>
   </div>
   <div class="tags" id="c-slots" role="group" aria-label="Where it goes" style="margin-top: 12px" hidden></div>
   <div class="grid3" id="c-grid"></div>
   <button class="btn" type="button" id="c-act" style="margin-top: 16px"></button>
-  <p class="muted" style="margin: 14px 0 0; font-size: 15px">Earn: your first 3 logs a day (25 each, whatever the type, +5 for a note), a streak bonus every day (up to +20), check-ins, Plop's needs and wishes, scrubbing his house, quest chests and the two games. Spend: closet, decor, treats and streak shields. Deleting a log takes its points back.</p>
+  <div class="banner" id="shield-row"><span id="shield-txt"></span><button type="button" id="shield-buy">BUY 150</button></div>
+  <button class="banner" type="button" id="deal" hidden style="width: 100%; cursor: pointer; text-align: left; color: var(--ink)"><span id="deal-txt"></span><b class="pix" style="font-size: 10px; background: var(--gold); border: 3px solid var(--ink); padding: 7px 8px">-30%</b></button>
+  <details class="fold" style="margin-top: 8px"><summary class="label">HOW POINTS WORK +</summary><p class="muted" style="margin: 0; font-size: 15px">Earn: your first 3 logs a day (25 each, whatever the type, +5 for a note), a streak bonus every day (up to +20), check-ins, Plop's needs and wishes, scrubbing his house, quest chests and the two games. Spend: closet, decor, treats and streak shields. Deleting a log takes its points back.</p></details>
 </section>
 
 <!-- ================= STATS ================= -->
@@ -474,7 +473,7 @@ nav.tabs button[aria-current="page"] { background: var(--brown); color: var(--pa
   <button class="btn gold" type="button" id="swat-btn" style="margin-top: 10px">FLY SWAT</button>
   <details class="fold"><summary class="label">TRICKS <span id="tricks-n"></span> · TAP TO SHOW</summary>
   <div class="badges" id="tricks"></div></details>
-  <p class="muted" style="margin: 14px 0 0; font-size: 15px">Healthy snacks are free. Treats cost a few points and fill him up fast: too many and his tummy hurts. Tap his furniture, pick him up, and experiment: he has 12 secret tricks.</p>
+  <p class="muted" style="margin: 14px 0 0; font-size: 15px">Healthy snacks are free. Treats cost points, and too many upset his tummy. Poke around the room: some tricks are hidden.</p>
 </section>
 
 </div>
@@ -563,7 +562,7 @@ nav.tabs button[aria-current="page"] { background: var(--brown); color: var(--pa
   <span class="sp-twinkle" style="left: 90%; top: 62%; animation-delay: 0.7s"><svg width="15" height="15" viewBox="0 0 3 3" shape-rendering="crispEdges" fill="#E0A32E"><rect x="1" y="0" width="1" height="3"/><rect x="0" y="1" width="3" height="1"/></svg></span>
   <canvas class="sp-cv" id="sp-cv" width="96" height="96"></canvas>
   <h1 class="sp-logo"><span style="animation-delay: 6.3s">P</span><span style="animation-delay: 6.4s">L</span><span style="animation-delay: 6.5s">O</span><span style="animation-delay: 6.6s">P</span></h1>
-  <p class="sp-tag">Bowel movement tracking,<br>taken seriously.</p>
+  <p class="sp-tag">A poop tracker<br>with a pet poop.</p>
   <div class="sp-load"><div class="meter"><span></span></div><p class="sp-msg" id="sp-msg">WARMING UP THE SEAT...</p></div>
   <p class="sp-skip" id="sp-skip">TAP TO SKIP</p>
 </div>
@@ -790,8 +789,8 @@ function badges(st) {
   return [
     { id: 'first', name: 'FIRST FLUSH', how: 'Log your first poop', got: st.logs.length > 0 },
     { id: 'textbook', name: 'TEXTBOOK WEEK', how: '7 days in a row of only type 3-4', got: best >= 7 },
-    { id: 'hydro', name: 'HYDRATION HERO', how: '8 glasses of water on 7 days', got: n((d) => d.water >= 8) >= 7 },
-    { id: 'fibre', name: 'FIBRE FIEND', how: '5 a day on 7 days', got: n((d) => d.fibre >= 5) >= 7 },
+    { id: 'hydro', name: 'WELL WATERED', how: '8 glasses of water on 7 days', got: n((d) => d.water >= 8) >= 7 },
+    { id: 'fibre', name: 'ROUGHAGE', how: '5 a day on 7 days', got: n((d) => d.fibre >= 5) >= 7 },
     { id: 'back', name: 'COMEBACK KID', how: 'Log again after 3+ days away', got: back },
     { id: 'clean', name: 'CLEAN FREAK', how: "Scrub Plop's house 5 times", got: (st.cleaned || []).length >= 5 },
     { id: 'quest', name: 'QUEST HUNTER', how: 'Open 7 quest chests', got: (st.chests || []).length >= 7 },
@@ -2063,7 +2062,7 @@ for (const ev of ['click', 'keyup']) document.addEventListener(ev, () => setTime
 
 /* welcome */
 $('#start-fresh').onclick = () => { S.started = true; S.since = S.since || Date.now(); S.seen33 = 1; S.goal = $('.goal [aria-pressed="true"]').dataset.goal; save(); go('today'); if (!S.toured) startTour(); };
-$('#start-sample').onclick = () => { S.started = true; S.since = S.since || Date.now(); S.seen33 = 1; S.goal = $('.goal [aria-pressed="true"]').dataset.goal; S.sample = true; S.logs = sampleLogs(Date.now()).concat(S.logs); save(); go('today'); if (!S.toured) startTour(); };
+$('#start-sample').onclick = () => { S.started = true; S.since = S.since || Date.now(); S.seen33 = 1; S.goal = $('.goal [aria-pressed="true"]').dataset.goal; S.sample = true; S.logs = sampleLogs(Date.now()).concat(S.logs); S.bondSeen = bondOf(S).lv; save(); go('today'); if (!S.toured) startTour(); };
 
 // "what brings you here?": asked on the welcome screen, changed in Settings
 for (const g of $$('.goal')) g.onclick = (e) => {
@@ -2089,13 +2088,13 @@ function renderToday() {
   P.today.bond = P.play.bond = bd.lv;
   $('#bond').textContent = 'BOND LV ' + bd.lv;
   $('#stage').hidden = !((best >= 3 && best < 7) || (best >= 20 && best < 30));   // only when he is about to grow
-  $('#next').hidden = !!u.done;
+  $('#next').hidden = true;   // ponytail: kept for now, delete with nextUnlock if nobody misses it
   if (!u.done) { $('#next-bar').style.width = Math.round(u.ratio * 100) + '%'; $('#next-txt').textContent = u.afford ? 'BUY: ' + u.item.name : u.item.name + ' · ' + (u.item.price - Math.max(0, bal)) + ' TO GO'; }
   $('#wish').hidden = granted; $('#wish-txt').textContent = "Plop's wish today: " + wishFor(tk).text + '. Grant it in Play.';
   $('#rest-btn').hidden = !!c.today || rested || hr < 15;      // from mid-afternoon, when "nothing today" starts to be true
   $('#stage').textContent = stage === 'king' ? 'KING PLOP' : stage === 'adult' ? 'GROWN UP · KING AT 30' : 'BABY PLOP · GROWS AT 7 (' + best + '/7)';
   const hrs = S.logs.length ? (now - S.logs[0].t) / 36e5 : -1;
-  $('#last').hidden = hrs < 0; $('#last').style.color = hrs >= 72 ? 'var(--red)' : '';
+  $('#last').hidden = hrs < 24; $('#last').style.color = hrs >= 72 ? 'var(--red)' : '';
   $('#last').textContent = 'LAST: ' + (hrs < 1 ? 'JUST NOW' : hrs < 48 ? Math.floor(hrs) + 'H AGO' : Math.floor(hrs / 24) + ' DAYS AGO');
   const day = S.care[dkey(now)] || {};
   $('#needs').innerHTML = NEEDS.map((n) => {
@@ -2107,11 +2106,11 @@ function renderToday() {
   $('#event-txt').textContent = seasonOf(now) === 'xmas' ? 'CHRISTMAS! A snowy mini tree for his room is in the Closet (Decor) all December.' : 'HALLOWEEN! A pumpkin hat, a ghost skin, a jack-o-lantern and a ghost lantern are in the Closet until 2 Nov.';
   const qk = dkey(now), qs = questsFor(qk, S.goal), qn = qs.filter((q) => q.done(S, qk)).length, opened = (S.chests || []).includes(qk);
   $('#quests').innerHTML = qs.map((q) => '<div class="quest' + (q.done(S, qk) ? ' ok' : '') + '"><span class="box" aria-hidden="true">' + (q.done(S, qk) ? TICK : '') + '</span><span>' + q.name + (q.done(S, qk) ? '<span class="sr"> (done)</span>' : '') + '</span></div>').join('') +
-    '<button type="button" class="btn' + (qn === 3 && !opened ? ' gold' : ' off') + '" id="chest"' + (qn < 3 || opened ? ' disabled' : '') + '>' + (opened ? 'CHEST OPENED · NEW QUESTS TOMORROW' : qn === 3 ? 'OPEN THE MYSTERY CHEST' : 'DO ALL 3 FOR A MYSTERY CHEST') + '</button>';
+    (qn === 3 && !opened ? '<button type="button" class="btn gold" id="chest">OPEN THE MYSTERY CHEST</button>' : '<p class="muted" style="margin: 4px 0 0; font-size: 14px">' + (opened ? 'Chest opened. New quests tomorrow.' : 'Finish all 3 to open a mystery chest.') + '</p>');
   P.today.setRest(P.today.night ? 'zzz...' : ill ? (ill.sick ? 'i think i need a doctor...' : ill.kind === 'loose' ? 'tummy is NOT ok.' : 'feeling... backed up.') : P.today.glow && c.today ? 'feeling AMAZING. thank you.' : rested && !c.today ? 'no poop today. noted!' : gap >= 2 ? "it's been " + gap + ' days...' : c.today === 0 ? 'nothing yet today.' : c.today === 1 ? 'one down today!' : c.today + ' today. busy!');
   const last = S.logs[0];
   $('#quick-log').hidden = !last;
-  if (last) $('#quick-log').textContent = 'Quick log: type ' + last.b + ' again (' + DUR[last.d === undefined ? 1 : last.d] + ')';
+  if (last) { $('#quick-log').textContent = 'AGAIN: TYPE ' + last.b; $('#quick-log').setAttribute('aria-label', 'Log type ' + last.b + ' again, ' + DUR[last.d === undefined ? 1 : last.d]); }
   const nd = NEEDS.filter((n) => (day[n.k] || 0) >= CARE[n.k].goal).length;
   $('#tq [data-tq="quests"]').textContent = 'QUESTS ' + qn + '/3'; $('#tq [data-tq="needs"]').textContent = 'NEEDS ' + nd + '/3';
   showTQ(tqTab || (qn === 3 ? 'needs' : 'quests'));
@@ -2198,7 +2197,7 @@ function nudge(now, c) {
   if (c.today || st.n < 5 || S.nudged === dkey(now) || mins < st.usual + 120) return;
   S.nudged = dkey(now); save();
   P.today.say('you usually go around ' + pad(Math.floor(st.usual / 60)) + ':' + pad(st.usual % 60) + '. all ok?', 4500);
-  toast("You haven't logged today. No pressure: Plop just misses you.", 'LOG IT', () => go('log'));
+  toast("You haven't logged today. Plop misses you.", 'LOG IT', () => go('log'));
 }
 /* Plop's needs */
 const NEEDS = [
@@ -2253,7 +2252,7 @@ for (const t of ['pointerup', 'pointercancel']) $('#clean-area').addEventListene
 $('#clear-sample').onclick = () => {
   S.logs = S.logs.filter((e) => !e.sample); S.sample = false;
   S.owned = Object.assign({}, STARTER); S.worn = fresh().worn;               // sample points were pretend, so their purchases go too
-  Object.assign(S, { room: {}, snackSpent: 0, chests: [], chestPts: {}, gifts: [], games: {}, shields: 0, shielded: [], rest: [], wishes: [], swat: {}, saved: 0, deal: null });
+  Object.assign(S, { room: {}, snackSpent: 0, chests: [], chestPts: {}, gifts: [], games: {}, shields: 0, shielded: [], rest: [], wishes: [], swat: {}, saved: 0, deal: null, bondSeen: 1 });
   save(); applyLook(); renderToday();
   toast('Sample data cleared. The closet reset too, since those points were pretend.');
 };
@@ -2263,7 +2262,7 @@ const TYPES = [null,
   ['TYPE 1', 'Separate hard lumps, passed with difficulty.', 'Rabbit-adjacent. Drink some water.'],
   ['TYPE 2', 'Lumpy sausage. Mildly constipated.', 'A committee that never reached consensus.'],
   ['TYPE 3', 'Sausage with cracks. Normal range.', 'Perfectly respectable. Nobody is complaining.'],
-  ['TYPE 4', 'Smooth soft sausage. The clinical ideal.', 'TEXTBOOK. Genuinely, well done.'],
+  ['TYPE 4', 'Smooth soft sausage. The clinical ideal.', 'TEXTBOOK. Frame it.'],
   ['TYPE 5', 'Soft blobs with clear edges. Often low fibre.', 'A bit casual about the whole thing.'],
   ['TYPE 6', 'Mushy, ragged edges. Mild diarrhoea.', 'Something you ate has opinions.'],
   ['TYPE 7', 'Entirely liquid. See someone if it persists.', 'We are sorry. Hydrate.']];
@@ -2402,7 +2401,8 @@ function renderCloset() {
     return '<button type="button" class="card" data-id="' + it.id + '" aria-pressed="' + (it.id === focus.id) + '" aria-label="' + it.name + ', ' + tag.toLowerCase() + '">' + iconHtml(it) + '<span class="nm">' + it.name + '</span><span class="tag" style="color:' + col + '">' + tag + '</span></button>';
   }).join('');
   const act = $('#c-act');
-  if (has && isOn(focus)) { act.textContent = cat === 'decor' ? 'TAKE IT OUT' : 'WEARING IT'; act.className = cat === 'decor' ? 'btn' : 'btn off'; }
+  act.hidden = has && isOn(focus) && cat !== 'decor';   // the tile already says WEARING
+  if (has && isOn(focus)) { act.textContent = 'TAKE IT OUT'; act.className = 'btn'; }
   else if (has) { act.textContent = cat === 'decor' ? 'PUT IT IN HIS ROOM' : 'WEAR IT'; act.className = 'btn'; }
   else if (bal >= costOf(cat + ':' + focus.id)) { act.textContent = 'BUY FOR ' + costOf(cat + ':' + focus.id); act.className = 'btn gold'; }
   else { act.textContent = 'NEED ' + (costOf(cat + ':' + focus.id) - bal) + ' MORE'; act.className = 'btn off'; }
@@ -2453,7 +2453,7 @@ function renderStats() {
   if (!s.n) { P.stats.setRest('log a few first!'); P.stats.strike('think', 2500);
     body.innerHTML = '<div class="panel empty" style="margin-top:18px">Log a few and your patterns show up here.</div>' + badgeHtml; return; }
   const tr = weekTrend(S.logs, now), pc = (x) => (x === null ? '-' : Math.round(x * 100) + '%'), d = tr.now.ideal !== null && tr.last.ideal !== null ? tr.now.ideal - tr.last.ideal : null;
-  const trendHtml = PANEL + '<p class="label" style="margin-top:0">THIS WEEK (LAST WEEK)</p><div class="tiles two" style="margin-top:0"><div class="tile"><b>' + tr.now.n + ' <small>(' + tr.last.n + ')</small></b><span>LOGS</span></div><div class="tile"><b>' + pc(tr.now.ideal) + ' <small>(' + pc(tr.last.ideal) + ')</small></b><span>TYPE 3-4</span></div></div>' +
+  const trendHtml = PANEL + '<p class="label" style="margin-top:0">THIS WEEK</p><div class="tiles two" style="margin-top:0"><div class="tile"><b>' + tr.now.n + '</b><span>LOGS · LAST WEEK ' + tr.last.n + '</span></div><div class="tile"><b>' + pc(tr.now.ideal) + '</b><span>TYPE 3-4 · LAST WEEK ' + pc(tr.last.ideal) + '</span></div></div>' +
     '<p class="muted" style="margin:12px 0 0;font-size:15px">' + (!tr.last.n ? 'Nothing logged last week to compare with yet.' : d === null ? 'No logs yet this week.' : d >= 0.1 ? 'More type 3–4 than last week. Nice work.' : d <= -0.1 ? 'Fewer type 3–4 than last week. Water, fibre and a walk are the usual fixes.' : 'About the same as last week. Steady.') + '</p></div>';
   // Plop reads your month out: his line and pose follow the same numbers as the panels below
   const [sLine, sPose] = d !== null && d >= 0.1 ? ['up on last week!!', 'clap'] : s.ideal >= 0.7 ? ['mostly textbook!', 'proud'] : s.ideal >= 0.4 ? ['decent! more water?', 'thumbs'] : ['rough month. hugs.', 'hug'];

@@ -198,6 +198,13 @@ All sounds are synthesised in the browser with Web Audio, so there are no sound 
 - **Back button:** Android Back and browser Back close the top pop-up, then return to Today; on Today with nothing open, Back leaves the app (`armBack`, `backTop`).
 - **History:** check-in days are green and streak-shield days blue on the calendar, with a legend and a line in the day list.
 
+## Version 36: less clutter, one voice
+
+- **Today:** the two underlined links are now small buttons in one row (AGAIN: TYPE 4, NONE TODAY +10); the "next unlock" bar is gone; LAST shows only after 24 hours; no greyed-out chest button, just a line until the chest is ready.
+- **Closet:** items come first, shield and deal below; no "WEARING IT" button; the points rules fold under HOW POINTS WORK.
+- **Words:** one tone across welcome, splash, log, Play and Stats ("A poop tracker with a pet poop."); THIS WEEK tiles say "last week" instead of brackets; two stock badge names replaced (WELL WATERED, ROUGHAGE).
+- **Sample data:** no "bond level 4!" toast the moment you start it.
+
 ## Tests
 - `node tests/app-check.js` and `node tests/plop-check.js` test the app (`index.html`). Run both after every change.
 - `node tests/buddy-check.js mockups-source/Buddy.dc.html` and `node tests/closet-check.js mockups-source/Closet.dc.html` test the early design mockups, not the app. They still pass; run them only if the mockups change.
