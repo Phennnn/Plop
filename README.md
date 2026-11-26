@@ -204,6 +204,7 @@ All sounds are synthesised in the browser with Web Audio, so there are no sound 
 - **Closet:** items come first, shield and deal below; no "WEARING IT" button; the points rules fold under HOW POINTS WORK.
 - **Words:** one tone across welcome, splash, log, Play and Stats ("A poop tracker with a pet poop."); THIS WEEK tiles say "last week" instead of brackets; two stock badge names replaced (WELL WATERED, ROUGHAGE).
 - **Sample data:** no "bond level 4!" toast the moment you start it.
+- **Fixes:** Plop's speech bubble no longer pokes out of the top of small frames (Log); a friendlier note hint.
 
 ## Tests
 - `node tests/app-check.js` and `node tests/plop-check.js` test the app (`index.html`). Run both after every change.

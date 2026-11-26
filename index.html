@@ -376,7 +376,7 @@ nav.tabs button[aria-current="page"] { background: var(--brown); color: var(--pa
   <label class="label" for="when" style="display: block">WHEN</label>
   <input type="datetime-local" id="when">
   <label class="label" for="note" style="display: block">NOTE (+5 PTS)</label>
-  <input type="text" id="note" maxlength="120" placeholder="what did you do" autocomplete="off">
+  <input type="text" id="note" maxlength="120" placeholder="big curry? stressed? travelling?" autocomplete="off">
   <button class="btn" type="button" id="save" style="margin-top: 26px">SAVE ENTRY</button>
 </section>
 
@@ -1175,7 +1175,7 @@ class Plop {
   paint() { const text = this.line || this.rest; this.bub.textContent = text; this.bub.hidden = !text; }
   placeBubble(g) {
     const s = this.s, sh = this.decor && this.decor.wall && !this.big ? 12 : 0, left = Math.max(18, Math.min(82, s.x / g.W * 100 + sh));   // sh: shifted right, off the wall picture
-    const bottom = Math.round((g.H - g.head + 4 + (this.lift || 0)) * (this.ch / g.H));
+    const bottom = Math.min(Math.round((g.H - g.head + 4 + (this.lift || 0)) * (this.ch / g.H)), this.ch - (this.bub.offsetHeight || 30) - 4);   // never above the frame's top edge
     const key = left.toFixed(1) + '|' + bottom + '|' + g.ms;
     if (key === s.bubKey) return;
     s.bubKey = key;
